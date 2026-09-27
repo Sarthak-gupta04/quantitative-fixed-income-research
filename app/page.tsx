@@ -6,9 +6,14 @@ import ExecutiveOverview from "@/components/ExecutiveOverview";
 import StrategyOverview from "@/components/StrategyOverview";
 import PerformanceSection from "@/components/PerformanceSection";
 import RiskAnalysis from "@/components/RiskAnalysis";
+import SignalGeneration from "@/components/SignalGeneration";
 import PortfolioImplementation from "@/components/PortfolioImplementation";
+import RegimeAnalysis from "@/components/RegimeAnalysis";
+import ParameterSensitivity from "@/components/ParameterSensitivity";
+import ResearcherView from "@/components/ResearcherView";
 import DataMethodology from "@/components/DataMethodology";
 import Limitations from "@/components/Limitations";
+import References from "@/components/References";
 
 // Load all JSON data at build time / server render
 async function loadData(): Promise<DashboardData> {
@@ -19,7 +24,7 @@ async function loadData(): Promise<DashboardData> {
     return JSON.parse(content) as T;
   }
 
-  const [summary, nav, annualReturns, monthlyReturns, rollingMetrics, signals, weights, rebalanceLog, volatility, meta] =
+  const [summary, nav, annualReturns, monthlyReturns, rollingMetrics, signals, weights, rebalanceLog, volatility, meta, sensitivity, regimeAnalysis, researcherView, references] =
     await Promise.all([
       readJson("summary_stats.json"),
       readJson("nav_series.json"),
@@ -31,6 +36,10 @@ async function loadData(): Promise<DashboardData> {
       readJson("rebalance_log.json"),
       readJson("volatility.json"),
       readJson("meta.json"),
+      readJson("sensitivity.json"),
+      readJson("regime_analysis.json"),
+      readJson("researcher_view.json"),
+      readJson("references.json"),
     ]);
 
   return {
@@ -44,6 +53,10 @@ async function loadData(): Promise<DashboardData> {
     rebalanceLog: rebalanceLog as DashboardData["rebalanceLog"],
     volatility: volatility as DashboardData["volatility"],
     meta: meta as DashboardData["meta"],
+    sensitivity: sensitivity as DashboardData["sensitivity"],
+    regimeAnalysis: regimeAnalysis as DashboardData["regimeAnalysis"],
+    researcherView: researcherView as DashboardData["researcherView"],
+    references: references as DashboardData["references"],
   };
 }
 
@@ -62,12 +75,7 @@ export default async function DashboardPage() {
           </p>
           <p className="text-slate-500 text-sm mb-4">Run the analytics pipeline first:</p>
           <pre className="bg-slate-900 rounded p-4 text-xs text-slate-300 overflow-x-auto">
-{`python analytics/download_data.py
-python analytics/clean_data.py
-python analytics/signals.py
-python analytics/backtest.py
-python analytics/metrics.py
-python analytics/generate_outputs.py`}
+{`python run_pipeline.py`}
           </pre>
           <p className="text-slate-600 text-xs mt-4">
             Error: {err instanceof Error ? err.message : String(err)}
@@ -99,6 +107,13 @@ python analytics/generate_outputs.py`}
       {/* 05 — Risk Analysis */}
       <RiskAnalysis rollingMetrics={data.rollingMetrics} />
 
+      {/* 06 — Signal Generation */}
+      <SignalGeneration
+        signals={data.signals}
+        rebalanceLog={data.rebalanceLog}
+        researcherView={data.researcherView}
+      />
+
       {/* 07 — Portfolio Implementation */}
       <PortfolioImplementation
         signals={data.signals}
@@ -106,11 +121,23 @@ python analytics/generate_outputs.py`}
         rebalanceLog={data.rebalanceLog}
       />
 
-      {/* 08 — Data & Methodology */}
+      {/* 08 — Market Regime Analysis */}
+      <RegimeAnalysis data={data.regimeAnalysis} />
+
+      {/* 09 — Parameter Sensitivity */}
+      <ParameterSensitivity data={data.sensitivity} />
+
+      {/* 10 — Researcher's View */}
+      <ResearcherView data={data.researcherView} />
+
+      {/* 11 — Data & Methodology */}
       <DataMethodology meta={data.meta} />
 
-      {/* 09 — Limitations */}
+      {/* 12 — Limitations */}
       <Limitations />
+
+      {/* 13 — References */}
+      <References data={data.references} />
     </div>
   );
 }

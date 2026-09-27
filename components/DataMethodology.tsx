@@ -12,7 +12,7 @@ export default function DataMethodology({ meta }: Props) {
     <section id="methodology" className="py-16 px-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">08</span>
+          <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">11</span>
           <span className="text-xs text-slate-500 uppercase tracking-widest">Data & Methodology</span>
         </div>
         <h2 className="text-2xl font-semibold text-slate-100">Data & Methodology</h2>
@@ -36,7 +36,7 @@ export default function DataMethodology({ meta }: Props) {
                   ["Frequency", "Daily"],
                   ["Price Field", "Adj Close (dividends reinvested, splits adjusted)"],
                   ["Trading Days", meta.trading_days.toLocaleString()],
-                  ["Last Refresh", meta.generated_at_utc?.slice(0, 10) ?? "—"],
+                  ["Data through", meta.end_date],
                 ].map(([k, v]) => (
                   <tr key={k}>
                     <td className="py-2 pr-4 text-slate-500 w-40">{k}</td>
@@ -83,7 +83,9 @@ export default function DataMethodology({ meta }: Props) {
                   ["Annualization Factor", `${meta.annualization_factor} (trading days/year)`],
                   ["Rebalance Frequency", "Monthly (last trading day)"],
                   ["Signal-to-Weight Lag", "1 trading day"],
-                  ["Transaction Cost", `${meta.transaction_cost_bps} bps one-way`],
+                  ["Eligibility", "IEF and TLT require positive 60-day momentum"],
+                  ["Sizing", "Inverse volatility across eligible assets"],
+                  ["Transaction Cost", `${meta.transaction_cost_bps} bps × trading notional (Σ|Δw|)`],
                   ["Risk-Free Rate", `${meta.risk_free_rate_annual * 100}% annual (Sharpe)`],
                   ["Defensive Asset", "SHY (always eligible)"],
                 ].map(([k, v]) => (
@@ -94,6 +96,15 @@ export default function DataMethodology({ meta }: Props) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-slate-200 mb-3">Parameter Sensitivity</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Six pre-specified momentum and volatility window combinations are evaluated on a common
+              investable period. This is a descriptive robustness check, not parameter optimisation;
+              the 60-day momentum and 20-day volatility configuration remains the baseline.
+            </p>
           </div>
 
           <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5">

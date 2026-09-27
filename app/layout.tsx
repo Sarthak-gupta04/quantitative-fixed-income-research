@@ -41,14 +41,18 @@ export default function RootLayout({
                 QFI Research Dashboard
               </span>
             </div>
-            <nav className="hidden md:flex items-center gap-6 text-xs text-slate-400">
+            <nav className="hidden xl:flex items-center gap-5 text-xs text-slate-400">
               {[
                 ["#executive-overview", "Overview"],
                 ["#strategy", "Strategy"],
                 ["#performance", "Performance"],
                 ["#risk-analysis", "Risk"],
+                ["#signals", "Signals"],
                 ["#portfolio", "Portfolio"],
+                ["#regime-analysis", "Regimes"],
+                ["#sensitivity", "Sensitivity"],
                 ["#methodology", "Methodology"],
+                ["#references", "References"],
               ].map(([href, label]) => (
                 <a
                   key={href}
@@ -59,7 +63,7 @@ export default function RootLayout({
                 </a>
               ))}
             </nav>
-            <div className="text-xs text-slate-500 hidden md:block">
+            <div className="text-xs text-slate-500 hidden sm:block">
               Educational Project — Not Investment Advice
             </div>
           </div>

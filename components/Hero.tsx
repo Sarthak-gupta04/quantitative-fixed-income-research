@@ -2,21 +2,12 @@
 
 import React from "react";
 import type { MetaData } from "@/types/data";
-import { fmtDate } from "@/lib/formatters";
 
 interface Props {
   meta: MetaData;
 }
 
 export default function Hero({ meta }: Props) {
-  const refreshDate = meta.download_meta?.downloaded_at_utc
-    ? new Date(meta.download_meta.downloaded_at_utc).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "—";
-
   return (
     <section
       id="hero"
@@ -58,7 +49,7 @@ export default function Hero({ meta }: Props) {
             { label: "Universe", value: "SHY · IEF · TLT" },
             { label: "Benchmark", value: "AGG" },
             { label: "Period", value: `${meta.start_date} → ${meta.end_date}` },
-            { label: "Last Refresh", value: refreshDate },
+            { label: "Data Through", value: meta.end_date },
           ].map((item) => (
             <div
               key={item.label}
@@ -87,9 +78,13 @@ export default function Hero({ meta }: Props) {
             ["#strategy", "Strategy"],
             ["#performance", "Performance"],
             ["#risk-analysis", "Risk"],
+            ["#signals", "Signals"],
             ["#portfolio", "Portfolio"],
+            ["#regime-analysis", "Regimes"],
+            ["#sensitivity", "Sensitivity"],
             ["#methodology", "Methodology"],
             ["#limitations", "Limitations"],
+            ["#references", "References"],
           ].map(([href, label]) => (
             <a
               key={href}

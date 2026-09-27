@@ -21,7 +21,7 @@ const limitations = [
   },
   {
     title: "Transaction Cost Estimate",
-    body: "2 bps one-way is a conservative estimate for liquid ETFs. Actual costs depend on broker, trade size, and market conditions. Real institutional costs differ significantly.",
+    body: "The model applies 2 bps to traded notional (Σ|Δw|). Actual costs depend on broker, trade size, and market conditions. Real institutional costs differ significantly.",
   },
   {
     title: "Bond Bull Market Context",
@@ -50,7 +50,7 @@ export default function Limitations() {
     <section id="limitations" className="py-16 px-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">09</span>
+          <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">12</span>
           <span className="text-xs text-slate-500 uppercase tracking-widest">Limitations</span>
         </div>
         <h2 className="text-2xl font-semibold text-slate-100">Limitations & Honest Assessment</h2>

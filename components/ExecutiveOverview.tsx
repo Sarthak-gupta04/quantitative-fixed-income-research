@@ -81,7 +81,7 @@ export default function ExecutiveOverview({ summary, meta }: Props) {
           <strong className="text-slate-300">
             These are backtested results, not live performance.
           </strong>{" "}
-          Strategy (Net) reflects 2 bps one-way transaction costs.
+          Strategy (Net) reflects a 2 bps cost applied to traded notional.
           Benchmark is AGG (buy-and-hold, no costs).
         </p>
         <div className="mt-3 text-xs text-slate-500">
@@ -118,7 +118,7 @@ export default function ExecutiveOverview({ summary, meta }: Props) {
           stratVal={s.sharpe_ratio}
           benchVal={b.sharpe_ratio}
           format="number"
-          description="Ann. return / ann. volatility. Risk-free rate = 0% (documented assumption)"
+          description="Mean daily excess return / daily standard deviation × √252. Risk-free rate = 0%"
         />
         <KpiCard
           label="Max Drawdown"

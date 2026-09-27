@@ -164,6 +164,121 @@ export interface MetaData {
   };
 }
 
+export interface SensitivityResult {
+  configuration_id: string;
+  is_baseline: boolean;
+  parameters: {
+    momentum_window_days: number;
+    volatility_window_days: number;
+    signal_to_weight_lag_days: number;
+    transaction_cost_rate: number;
+  };
+  native_first_investable_date: string;
+  evaluation_start_date: string;
+  evaluation_end_date: string;
+  metrics: {
+    cumulative_return: number;
+    cagr: number;
+    annualized_volatility: number;
+    sharpe_ratio: number;
+    maximum_drawdown: number;
+    monthly_win_rate: number;
+    total_trading_notional: number;
+    total_one_way_turnover: number;
+    number_of_rebalances: number;
+  };
+}
+
+export interface SensitivityData {
+  analysis_timestamp_utc: string;
+  methodology: {
+    purpose: string;
+    common_evaluation_start_date: string;
+    common_evaluation_end_date: string;
+    baseline_configuration_id: string;
+    common_window_note: string;
+  };
+  results: SensitivityResult[];
+  interpretation: {
+    summary: string;
+  };
+}
+
+export interface RegimePeriod {
+  id: string;
+  label: string;
+  actual_start_date: string;
+  actual_end_date: string;
+  trading_days: number;
+  strategy_return: number;
+  benchmark_return: number;
+  strategy_annualized_volatility: number;
+  benchmark_annualized_volatility: number;
+  strategy_maximum_drawdown: number;
+  average_allocation: Record<string, number>;
+  beginning_allocation: Record<string, number>;
+  ending_allocation: Record<string, number>;
+  number_of_rebalances: number;
+  defensive_shy_allocation: {
+    average_weight: number;
+    fully_defensive_trading_days: number;
+    fully_defensive_fraction: number;
+  };
+}
+
+export interface RegimeAnalysisData {
+  methodology: {
+    period_definition: string;
+    return_convention: string;
+    naming_note: string;
+  };
+  periods: RegimePeriod[];
+}
+
+export interface ResearcherViewData {
+  latest_signal: {
+    signal_date: string;
+    momentum: Record<string, number | null>;
+    realized_volatility: Record<string, number | null>;
+    target_weights: Record<string, number | null>;
+    eligibility: Record<string, boolean>;
+    is_fully_defensive: boolean;
+  };
+  latest_effective_allocation: {
+    date: string;
+    weights: Record<string, number | null>;
+  };
+  latest_observable_rebalance: {
+    signal_date: string;
+    effective_date: string;
+    weights: Record<string, number | null>;
+    trading_notional: number;
+    one_way_turnover: number;
+    transaction_cost: number;
+  } | null;
+  recent_realized_risk: {
+    date: string;
+    strategy_rolling_volatility: number;
+    benchmark_rolling_volatility: number;
+    strategy_drawdown: number;
+    benchmark_drawdown: number;
+  };
+  summary: string;
+}
+
+export interface ReferenceItem {
+  id: string;
+  category: string;
+  title: string;
+  publisher: string;
+  url: string;
+  use: string;
+}
+
+export interface ReferencesData {
+  references: ReferenceItem[];
+}
+
 
 export interface DashboardData {
   summary: SummaryStats;
@@ -176,4 +291,8 @@ export interface DashboardData {
   rebalanceLog: RebalanceEvent[];
   volatility: VolatilityPoint[];
   meta: MetaData;
+  sensitivity: SensitivityData;
+  regimeAnalysis: RegimeAnalysisData;
+  researcherView: ResearcherViewData;
+  references: ReferencesData;
 }

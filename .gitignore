@@ -17,6 +17,7 @@ build/
 venv/
 env/
 ENV/
+virtualenv/
 .pytest_cache/
 .test-deps/
 data/raw/.yfinance_cache/

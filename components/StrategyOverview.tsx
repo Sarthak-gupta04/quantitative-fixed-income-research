@@ -133,7 +133,7 @@ export default function StrategyOverview({ meta }: Props) {
               </p>
               <p>
                 <strong className="text-slate-300">Transaction costs:</strong> {meta.transaction_cost_bps} bps
-                one-way per unit of absolute weight change.
+                applied to traded notional (the sum of absolute weight changes).
               </p>
               <Formula>
                 Trading Notional(t) = Σ_i |w(i, t) − w(i, t−1)|{"\n"}
