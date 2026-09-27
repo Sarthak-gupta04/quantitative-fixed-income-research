@@ -6,6 +6,7 @@ All strategy parameters, data parameters, and file paths are defined here.
 Edit this file to adjust the strategy without touching analytics logic.
 """
 
+from dataclasses import dataclass
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -62,9 +63,43 @@ RISK_FREE_RATE_ANNUAL = 0.0
 REBALANCE_FREQUENCY = "month-end"
 
 # Number of trading days to shift weights forward relative to signal date
-# 1 = signals computed at close of day t, weights effective from close of t
-# (i.e., returns on day t+1 use weights determined at close of t).
+# 1 = signals computed at the close of day t; weights first apply to the
+# close-to-close return observed on the next available trading date.
 SIGNAL_TO_WEIGHT_LAG = 1
+
+# Annualized volatility at or below this threshold is treated as not
+# estimable for inverse-volatility sizing.  It avoids manufacturing an
+# effectively infinite inverse-volatility weight from a zero-variance window.
+MIN_REALIZED_VOLATILITY = 1e-6
+
+
+@dataclass(frozen=True)
+class StrategyParameters:
+    """Inputs for one reproducible strategy run.
+
+    The analytics engine accepts this object so a later sensitivity analysis
+    can run the identical implementation for pre-specified parameter sets.
+    It does not select or optimise a parameter combination.
+    """
+
+    momentum_window: int = MOMENTUM_WINDOW
+    volatility_window: int = VOLATILITY_WINDOW
+    annualization_factor: int = ANNUALIZATION_FACTOR
+    transaction_cost_rate: float = TRANSACTION_COST_RATE
+    signal_to_weight_lag: int = SIGNAL_TO_WEIGHT_LAG
+    min_realized_volatility: float = MIN_REALIZED_VOLATILITY
+
+
+DEFAULT_STRATEGY_PARAMETERS = StrategyParameters()
+
+# Architecture-only grid for a future descriptive sensitivity report.  These
+# combinations are deliberately pre-specified and are not used to choose a
+# "best" strategy configuration.
+SENSITIVITY_PARAMETER_GRID = tuple(
+    StrategyParameters(momentum_window=momentum, volatility_window=volatility)
+    for momentum in (40, 60, 90)
+    for volatility in (20, 40)
+)
 
 # ---------------------------------------------------------------------------
 # Validation thresholds

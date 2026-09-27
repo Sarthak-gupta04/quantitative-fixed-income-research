@@ -1,40 +1,32 @@
 """
 analytics/backtest.py
 ======================
-Implements the portfolio backtesting engine.
-
-CRITICAL: Look-ahead bias prevention is the top priority.
+Implements the portfolio backtesting engine with explicit event timing.
 
 Timeline:
 ---------
-  Day t-1 (last day of month M):
-    → Compute signals using data through close of t-1
-    → Determine target weights
+  Signal date t (month-end close): compute momentum, realized volatility, and
+  target weights using information available through t.
 
-  Day t (first day of month M+1):
-    → Weights become effective (SIGNAL_TO_WEIGHT_LAG = 1)
-    → Strategy earns r(t) × w(i, t-1)
+  Effective date t+1 (next available trading date): target weights first apply
+  to that date's close-to-close return.  The benchmark begins on the same
+  first investable return date; indicator warm-up is never recorded as a
+  zero-return strategy period in comparative metrics.
 
-This is implemented by shifting the weight series forward by 1 trading day.
+NAV convention:
+---------------
+  NAV_0 = 1.0 on the trading date immediately before the first investable
+  return.  Each subsequent row applies exactly one daily return.
 
-Key outputs:
-------------
-  - strategy_nav:    daily NAV series (gross)
-  - strategy_nav_net: daily NAV series (net of transaction costs)
-  - benchmark_nav:   AGG buy-and-hold NAV
-  - weights_active:  weights that were actually in use on each day
-  - turnover:        absolute weight change per rebalance date
-  - rebalance_log:   detailed log of each rebalance event
+Trading convention:
+-------------------
+  Trading notional(t) = Σ_i |w_new(i) - w_old(i)|
+  Transaction cost(t) = trading notional(t) × 0.0002
+  One-way turnover(t) = 0.5 × trading notional(t)
 
-Transaction costs:
-------------------
-  TC(t) = Σ_i |w_new(i) - w_old(i)| × TC_rate / 2
-  (TC_rate split between entry and exit for round-trip representation,
-   but applied as a one-way cost per unit of absolute change)
-
-  Actually we implement: TC(t) = Σ_i |Δw(i)| × TC_rate
-  where TC_rate = 0.0002 (2 basis points one-way per unit of weight change).
-  This is applied as a cost on the rebalance date.
+The saved rebalance audit contains signal date, effective date, first return
+date, next signal date, target/effective weights, trading notional, turnover,
+and transaction cost for every observable event.
 
 Usage:
     python analytics/backtest.py
@@ -43,7 +35,7 @@ Usage:
 import json
 import logging
 import sys
-from datetime import datetime, timezone
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -53,10 +45,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from analytics.config import (
     BENCHMARK,
     DATA_PROCESSED_DIR,
-    DEFENSIVE_ASSET,
-    SIGNAL_TO_WEIGHT_LAG,
+    DEFAULT_STRATEGY_PARAMETERS,
+    StrategyParameters,
     TICKERS,
-    TRANSACTION_COST_RATE,
 )
 from analytics.signals import (
     compute_eligibility,
@@ -65,7 +56,6 @@ from analytics.signals import (
     compute_weights,
     get_rebalance_dates,
     load_processed,
-    compute_monthly_signals,
 )
 
 logging.basicConfig(
@@ -76,6 +66,47 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
+@dataclass
+class BacktestRun:
+    """Complete in-memory result for one pre-specified parameter configuration."""
+
+    momentum: pd.DataFrame
+    realized_volatility: pd.DataFrame
+    target_weights: pd.DataFrame
+    active_weights: pd.DataFrame
+    evaluation_weights: pd.DataFrame
+    trading_notional: pd.Series
+    one_way_turnover: pd.Series
+    transaction_costs: pd.Series
+    gross_daily_returns: pd.Series
+    net_daily_returns: pd.Series
+    benchmark_daily_returns: pd.Series
+    gross_nav: pd.Series
+    net_nav: pd.Series
+    benchmark_nav: pd.Series
+    rebalance_audit: pd.DataFrame
+    first_investable_date: pd.Timestamp
+    nav_base_date: pd.Timestamp
+    raw_return_start_date: pd.Timestamp
+    indicator_warmup_trading_days: int
+
+
+def _is_fully_invested(weights: pd.Series) -> bool:
+    """Whether a finite, long-only target vector sums to one."""
+    return bool(
+        weights.notna().all()
+        and np.isfinite(weights.to_numpy(dtype=float)).all()
+        and (weights >= -1e-10).all()
+        and np.isclose(float(weights.sum()), 1.0, atol=1e-8)
+    )
+
+
+def _next_trading_date(date: pd.Timestamp, dates: pd.DatetimeIndex) -> pd.Timestamp | None:
+    """Return the first available trading date strictly after ``date``."""
+    position = dates.searchsorted(date, side="right")
+    return dates[position] if position < len(dates) else None
+
+
 # ---------------------------------------------------------------------------
 # Build active weights (with lag and monthly rebalancing)
 # ---------------------------------------------------------------------------
@@ -84,6 +115,7 @@ def build_active_weights(
     weights_daily: pd.DataFrame,
     rebalance_dates: pd.DatetimeIndex,
     all_dates: pd.DatetimeIndex,
+    signal_to_weight_lag: int = DEFAULT_STRATEGY_PARAMETERS.signal_to_weight_lag,
 ) -> pd.DataFrame:
     """
     Construct the daily active weight series with:
@@ -99,12 +131,15 @@ def build_active_weights(
     The shift means: weight computed at close of rebalance date t
     is first applied to the return on day t+1.
     """
-    # Initialize with NaN; we'll fill on rebalance dates only
+    # Initialize with NaN; only fully-invested target weights are scheduled.
+    # Warm-up rows remain zero and are excluded from comparative metrics later.
     rebalance_weights = pd.DataFrame(np.nan, index=all_dates, columns=TICKERS)
 
     for rdate in rebalance_dates:
         if rdate in weights_daily.index:
-            rebalance_weights.loc[rdate] = weights_daily.loc[rdate].values
+            target = weights_daily.loc[rdate]
+            if _is_fully_invested(target):
+                rebalance_weights.loc[rdate] = target.values
 
     # Forward-fill: hold weights between rebalances
     active = rebalance_weights.ffill()
@@ -115,7 +150,7 @@ def build_active_weights(
 
     # Apply look-ahead lag: shift weights forward by 1 day
     # This means the weight determined at end of day t is used for day t+1 return.
-    active = active.shift(SIGNAL_TO_WEIGHT_LAG)
+    active = active.shift(signal_to_weight_lag)
     active = active.fillna(0.0)  # First row after shift becomes NaN → fill with 0
 
     # Validation: weights should sum to 0 (pre-start) or ~1 (once active)
@@ -141,29 +176,17 @@ def build_active_weights(
 # Turnover calculation
 # ---------------------------------------------------------------------------
 
-def compute_turnover(active_weights: pd.DataFrame, rebalance_dates: pd.DatetimeIndex) -> pd.Series:
-    """
-    Compute one-way portfolio turnover on each rebalance date.
-    Turnover(t) = Σ_i |w(i,t) - w(i,t_prev)| / 2
-    (divide by 2 for one-way; standard convention)
-    Actually returning full Σ|Δw| and labelling correctly.
+def compute_trading_notional(active_weights: pd.DataFrame) -> pd.Series:
+    """Traded notional: Σ|w_t - w_(t-1)|, including the initial entry trade."""
+    changes = active_weights.diff()
+    if not active_weights.empty:
+        changes.iloc[0] = active_weights.iloc[0]
+    return changes.abs().sum(axis=1).rename("trading_notional")
 
-    Note: we compare weight BEFORE shift (i.e., before look-ahead lag)
-    because the shift is a mechanical operation, not an economic change.
-    """
-    weight_changes = active_weights.diff().abs()
 
-    # Turnover only meaningful on rebalance dates (where weights actually change)
-    turnover = pd.Series(np.nan, index=rebalance_dates)
-    for rdate in rebalance_dates:
-        if rdate in active_weights.index:
-            # Find the next trading day (the day weights become effective)
-            date_pos = active_weights.index.get_loc(rdate)
-            next_pos = date_pos + SIGNAL_TO_WEIGHT_LAG
-            if next_pos < len(active_weights):
-                next_date = active_weights.index[next_pos]
-                turnover[rdate] = weight_changes.loc[next_date].sum()
-    return turnover.dropna()
+def compute_one_way_turnover(trading_notional: pd.Series) -> pd.Series:
+    """Conventional one-way turnover: 0.5 × traded notional."""
+    return (0.5 * trading_notional).rename("one_way_turnover")
 
 
 # ---------------------------------------------------------------------------
@@ -172,7 +195,7 @@ def compute_turnover(active_weights: pd.DataFrame, rebalance_dates: pd.DatetimeI
 
 def compute_transaction_costs(
     active_weights: pd.DataFrame,
-    tc_rate: float = TRANSACTION_COST_RATE,
+    tc_rate: float = DEFAULT_STRATEGY_PARAMETERS.transaction_cost_rate,
 ) -> pd.Series:
     """
     Compute daily transaction cost series.
@@ -180,9 +203,7 @@ def compute_transaction_costs(
 
     TC(t) = Σ_i |w(i,t) - w(i,t-1)| × tc_rate
     """
-    weight_changes = active_weights.diff().abs().sum(axis=1)
-    tc_series = weight_changes * tc_rate
-    return tc_series
+    return (compute_trading_notional(active_weights) * tc_rate).rename("transaction_cost")
 
 
 # ---------------------------------------------------------------------------
@@ -193,15 +214,19 @@ def compute_nav(
     returns: pd.DataFrame,
     active_weights: pd.DataFrame,
     tc_series: pd.Series,
+    nav_base_date: pd.Timestamp,
     start_value: float = 1.0,
-) -> tuple[pd.Series, pd.Series]:
+) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
     """
     Compute gross and net NAV time series.
 
     Gross:  r_port(t) = Σ_i w(i,t) × r(i,t)
     Net:    r_port_net(t) = r_port(t) - TC(t)
 
-    Starting NAV = 1.0 (normalized).
+    NAV has an explicit base observation of 1.0 on ``nav_base_date``.  The
+    first supplied daily return is then applied on its own date.  This makes
+    the NAV convention consistent for cumulative return, CAGR, drawdown, and
+    charting.
 
     The active weights are already shifted, so weight[t] applies to return[t].
     We only compute from the first date where active weights > 0.
@@ -221,9 +246,13 @@ def compute_nav(
     # Net of transaction costs
     net_daily = gross_daily - tc_aligned
 
-    # Compute NAV
-    gross_nav = (1 + gross_daily).cumprod() * start_value
-    net_nav = (1 + net_daily).cumprod() * start_value
+    def nav_from_returns(daily_returns: pd.Series, name: str) -> pd.Series:
+        values = np.concatenate(([start_value], start_value * (1 + daily_returns).cumprod().to_numpy()))
+        index = pd.DatetimeIndex([nav_base_date, *daily_returns.index])
+        return pd.Series(values, index=index, name=name)
+
+    gross_nav = nav_from_returns(gross_daily, "strategy_gross")
+    net_nav = nav_from_returns(net_daily, "strategy_net")
 
     log.info(
         "NAV computed: %d days, gross cumulative: %.4f, net cumulative: %.4f",
@@ -233,54 +262,60 @@ def compute_nav(
 
 
 def compute_benchmark_nav(
-    returns: pd.DataFrame,
-    benchmark: str = BENCHMARK,
+    benchmark_returns: pd.Series,
+    nav_base_date: pd.Timestamp,
     start_value: float = 1.0,
-) -> tuple[pd.Series, pd.Series]:
+) -> pd.Series:
     """
     Buy-and-hold benchmark NAV (AGG).
     100% invested in benchmark on day 1, no transaction costs, no rebalancing.
     """
-    bench_ret = returns[benchmark]
-    bench_nav = (1 + bench_ret).cumprod() * start_value
-    return bench_nav, bench_ret
+    values = np.concatenate(([start_value], start_value * (1 + benchmark_returns).cumprod().to_numpy()))
+    index = pd.DatetimeIndex([nav_base_date, *benchmark_returns.index])
+    return pd.Series(values, index=index, name="benchmark")
 
 
 # ---------------------------------------------------------------------------
 # Rebalance log
 # ---------------------------------------------------------------------------
 
-def build_rebalance_log(
+def build_rebalance_audit(
+    target_weights: pd.DataFrame,
     active_weights: pd.DataFrame,
     rebalance_dates: pd.DatetimeIndex,
-    turnover: pd.Series,
+    returns_index: pd.DatetimeIndex,
+    trading_notional: pd.Series,
+    one_way_turnover: pd.Series,
     tc_series: pd.Series,
 ) -> pd.DataFrame:
-    """
-    Build a human-readable log of each rebalance event.
-    """
+    """Build a human-readable signal-to-return timing audit table."""
+    valid_signal_dates = [
+        date for date in rebalance_dates
+        if date in target_weights.index and _is_fully_invested(target_weights.loc[date])
+    ]
     records = []
-    for i, rdate in enumerate(rebalance_dates):
-        # The weights become effective 1 day after rdate
-        date_pos = active_weights.index.get_loc(rdate) if rdate in active_weights.index else None
-        if date_pos is None:
+    for position, signal_date in enumerate(valid_signal_dates):
+        effective_date = _next_trading_date(signal_date, returns_index)
+        if effective_date is None:
             continue
-        eff_pos = date_pos + SIGNAL_TO_WEIGHT_LAG
-        if eff_pos >= len(active_weights):
-            continue
-        eff_date = active_weights.index[eff_pos]
-        w = active_weights.loc[eff_date]
-        to = turnover.get(rdate, np.nan)
-        tc = tc_series.iloc[eff_pos] if eff_pos < len(tc_series) else np.nan
+        target = target_weights.loc[signal_date]
+        effective = active_weights.loc[effective_date]
+        next_signal = valid_signal_dates[position + 1] if position + 1 < len(valid_signal_dates) else pd.NaT
         records.append({
-            "signal_date": rdate.date(),
-            "effective_date": eff_date.date(),
-            "weight_SHY": round(w.get("SHY", 0), 6),
-            "weight_IEF": round(w.get("IEF", 0), 6),
-            "weight_TLT": round(w.get("TLT", 0), 6),
-            "weight_sum": round(w.sum(), 6),
-            "turnover_oneway": round(to, 6) if not np.isnan(to) else np.nan,
-            "tc_cost": round(tc, 8) if not np.isnan(tc) else np.nan,
+            "signal_date": signal_date,
+            "effective_date": effective_date,
+            "first_return_date": effective_date,
+            "next_signal_date": next_signal,
+            "target_weight_SHY": target["SHY"],
+            "target_weight_IEF": target["IEF"],
+            "target_weight_TLT": target["TLT"],
+            "weight_SHY": effective["SHY"],
+            "weight_IEF": effective["IEF"],
+            "weight_TLT": effective["TLT"],
+            "weight_sum": effective.sum(),
+            "trading_notional": trading_notional.loc[effective_date],
+            "one_way_turnover": one_way_turnover.loc[effective_date],
+            "transaction_cost": tc_series.loc[effective_date],
         })
     return pd.DataFrame(records)
 
@@ -290,99 +325,224 @@ def build_rebalance_log(
 # ---------------------------------------------------------------------------
 
 def assert_no_lookahead(
+    target_weights: pd.DataFrame,
     active_weights: pd.DataFrame,
     momentum: pd.DataFrame,
+    realized_volatility: pd.DataFrame,
     rebalance_dates: pd.DatetimeIndex,
+    returns_index: pd.DatetimeIndex,
+    signal_to_weight_lag: int = DEFAULT_STRATEGY_PARAMETERS.signal_to_weight_lag,
 ) -> None:
     """
-    Programmatic check: for each rebalance date r, verify that the weights
-    effective at r+1 are consistent with momentum values at r (not r+1 or later).
-
-    Specifically: if momentum at r+1 > 0 but momentum at r ≤ 0, yet we are
-    holding a non-defensive weight, that would indicate look-ahead bias.
-
-    This test checks the structure rather than exhaustively checking every date.
+    For every valid rebalance, assert that the next trading date is the first
+    effective return date, its weights equal the signal-date target, and those
+    weights remain unchanged until the next effective rebalance.  This prevents
+    a later target from changing an earlier holding period.
     """
-    errors = []
-    for rdate in rebalance_dates:
-        if rdate not in momentum.index:
+    if signal_to_weight_lag != 1:
+        raise NotImplementedError("The timing audit currently supports a one-trading-day execution lag only.")
+    valid_signal_dates = [
+        date for date in rebalance_dates
+        if date in target_weights.index and _is_fully_invested(target_weights.loc[date])
+    ]
+    for position, signal_date in enumerate(valid_signal_dates):
+        effective_date = _next_trading_date(signal_date, returns_index)
+        if effective_date is None:
             continue
-        rdate_pos = active_weights.index.get_loc(rdate) if rdate in active_weights.index else None
-        if rdate_pos is None:
-            continue
-        eff_pos = rdate_pos + SIGNAL_TO_WEIGHT_LAG
-        if eff_pos >= len(active_weights):
-            continue
-        eff_date = active_weights.index[eff_pos]
+        target = target_weights.loc[signal_date, TICKERS]
+        if not momentum.loc[signal_date, TICKERS].notna().all():
+            raise AssertionError(f"Missing momentum at {signal_date.date()}")
+        if not realized_volatility.loc[signal_date, TICKERS].notna().all():
+            raise AssertionError(f"Missing realized volatility at {signal_date.date()}")
+        if not np.allclose(active_weights.loc[effective_date, TICKERS], target, atol=1e-10):
+            raise AssertionError(f"Weights at {effective_date.date()} do not equal {signal_date.date()} target")
 
-        # Weight at effective date
-        eff_weight = active_weights.loc[eff_date]
-
-        # Signal date momentum
-        signal_mom = momentum.loc[rdate]
-
-        # For non-defensive tickers, check: if signal_mom ≤ 0 but weight > 0
-        for t in [tkr for tkr in TICKERS if tkr != DEFENSIVE_ASSET]:
-            if signal_mom[t] <= 0 and eff_weight[t] > 1e-8:
-                errors.append(
-                    f"Possible look-ahead on rebalance {rdate.date()}: "
-                    f"{t} has mom={signal_mom[t]:.4f} ≤ 0 but effective weight={eff_weight[t]:.4f}"
-                )
-
-    if errors:
-        for e in errors[:5]:
-            log.error("LOOK-AHEAD CHECK FAILED: %s", e)
-        raise AssertionError(
-            f"Look-ahead bias checks failed on {len(errors)} rebalance dates. See logs."
-        )
-    log.info("Look-ahead bias assertion: PASSED (%d rebalance dates checked)", len(rebalance_dates))
+        next_signal = valid_signal_dates[position + 1] if position + 1 < len(valid_signal_dates) else None
+        next_effective = _next_trading_date(next_signal, returns_index) if next_signal is not None else None
+        holding_dates = returns_index[returns_index >= effective_date]
+        if next_effective is not None:
+            holding_dates = holding_dates[holding_dates < next_effective]
+        expected = np.tile(target.to_numpy(), (len(holding_dates), 1))
+        if len(holding_dates) and not np.allclose(active_weights.loc[holding_dates, TICKERS], expected, atol=1e-10):
+            raise AssertionError(f"Future rebalance altered holdings before it became effective after {signal_date.date()}")
+    log.info("Look-ahead timing assertion: PASSED (%d valid rebalance dates checked)", len(valid_signal_dates))
 
 
 # ---------------------------------------------------------------------------
 # Save
 # ---------------------------------------------------------------------------
 
-def save_backtest(
-    gross_nav: pd.Series,
-    net_nav: pd.Series,
-    bench_nav: pd.Series,
-    gross_daily: pd.Series,
-    net_daily: pd.Series,
-    bench_daily: pd.Series,
-    active_weights: pd.DataFrame,
-    tc_series: pd.Series,
-    rebalance_log: pd.DataFrame,
-    turnover: pd.Series,
-) -> None:
+def run_backtest(
+    prices: pd.DataFrame,
+    returns: pd.DataFrame,
+    parameters: StrategyParameters = DEFAULT_STRATEGY_PARAMETERS,
+) -> BacktestRun:
+    """Run one reusable, pre-specified parameter configuration.
+
+    Future sensitivity analysis can call this exact function with parameter
+    objects from ``SENSITIVITY_PARAMETER_GRID``; no parameter selection occurs
+    inside the engine.
+    """
+    momentum = compute_momentum(prices, window=parameters.momentum_window)
+    rvol = compute_realized_vol(returns, window=parameters.volatility_window)
+    eligibility = compute_eligibility(momentum)
+    target_weights = compute_weights(
+        eligibility,
+        rvol,
+        min_realized_volatility=parameters.min_realized_volatility,
+    )
+    rebalance_dates = get_rebalance_dates(prices.index)
+    active_weights = build_active_weights(
+        target_weights,
+        rebalance_dates,
+        returns.index,
+        signal_to_weight_lag=parameters.signal_to_weight_lag,
+    )
+
+    first_investable_date = determine_investable_start(
+        target_weights, rebalance_dates, returns, momentum, rvol
+    )
+    first_position = returns.index.get_loc(first_investable_date)
+    if first_position == 0:
+        raise ValueError("A trading-day NAV base before the first investable return is required.")
+    nav_base_date = returns.index[first_position - 1]
+    evaluation_returns = returns.loc[first_investable_date:]
+    evaluation_weights = active_weights.loc[first_investable_date:]
+
+    all_trading_notional = compute_trading_notional(active_weights)
+    all_transaction_costs = compute_transaction_costs(
+        active_weights, tc_rate=parameters.transaction_cost_rate
+    )
+    trading_notional = all_trading_notional.loc[first_investable_date:]
+    one_way_turnover = compute_one_way_turnover(trading_notional)
+    transaction_costs = all_transaction_costs.loc[first_investable_date:]
+    gross_nav, net_daily, gross_daily, net_nav = compute_nav(
+        evaluation_returns, evaluation_weights, transaction_costs, nav_base_date
+    )
+    benchmark_daily = evaluation_returns[BENCHMARK].rename("benchmark")
+    benchmark_nav = compute_benchmark_nav(benchmark_daily, nav_base_date)
+
+    assert_no_lookahead(
+        target_weights,
+        active_weights,
+        momentum,
+        rvol,
+        rebalance_dates,
+        returns.index,
+        signal_to_weight_lag=parameters.signal_to_weight_lag,
+    )
+    audit = build_rebalance_audit(
+        target_weights,
+        active_weights,
+        rebalance_dates,
+        returns.index,
+        all_trading_notional,
+        compute_one_way_turnover(all_trading_notional),
+        all_transaction_costs,
+    )
+    audit = audit[audit["effective_date"] >= first_investable_date].copy()
+
+    return BacktestRun(
+        momentum=momentum,
+        realized_volatility=rvol,
+        target_weights=target_weights,
+        active_weights=active_weights,
+        evaluation_weights=evaluation_weights,
+        trading_notional=trading_notional,
+        one_way_turnover=one_way_turnover,
+        transaction_costs=transaction_costs,
+        gross_daily_returns=gross_daily,
+        net_daily_returns=net_daily,
+        benchmark_daily_returns=benchmark_daily,
+        gross_nav=gross_nav,
+        net_nav=net_nav,
+        benchmark_nav=benchmark_nav,
+        rebalance_audit=audit,
+        first_investable_date=first_investable_date,
+        nav_base_date=nav_base_date,
+        raw_return_start_date=returns.index[0],
+        indicator_warmup_trading_days=first_position,
+    )
+
+
+def determine_investable_start(
+    target_weights: pd.DataFrame,
+    rebalance_dates: pd.DatetimeIndex,
+    returns: pd.DataFrame,
+    momentum: pd.DataFrame,
+    realized_volatility: pd.DataFrame,
+) -> pd.Timestamp:
+    """Return the first common date that can receive an invested return."""
+    for signal_date in rebalance_dates:
+        if signal_date not in target_weights.index:
+            continue
+        effective_date = _next_trading_date(signal_date, returns.index)
+        if effective_date is None:
+            continue
+        valid_inputs = (
+            _is_fully_invested(target_weights.loc[signal_date])
+            and momentum.loc[signal_date, TICKERS].notna().all()
+            and realized_volatility.loc[signal_date, TICKERS].notna().all()
+            and returns.loc[effective_date, TICKERS + [BENCHMARK]].notna().all()
+        )
+        if valid_inputs:
+            return effective_date
+    raise ValueError("No date has complete signal, weight, and benchmark inputs for a common evaluation period.")
+
+
+def save_backtest(run: BacktestRun, raw_price_start_date: pd.Timestamp) -> None:
     DATA_PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
     # NAV
     nav_df = pd.DataFrame({
-        "strategy_gross": gross_nav,
-        "strategy_net": net_nav,
-        "benchmark": bench_nav,
+        "strategy_gross": run.gross_nav,
+        "strategy_net": run.net_nav,
+        "benchmark": run.benchmark_nav,
     })
     nav_df.to_csv(DATA_PROCESSED_DIR / "nav.csv", date_format="%Y-%m-%d")
 
     # Daily returns
     ret_df = pd.DataFrame({
-        "strategy_gross": gross_daily,
-        "strategy_net": net_daily,
-        "benchmark": bench_daily,
+        "strategy_gross": run.gross_daily_returns,
+        "strategy_net": run.net_daily_returns,
+        "benchmark": run.benchmark_daily_returns,
     })
     ret_df.to_csv(DATA_PROCESSED_DIR / "portfolio_returns.csv", date_format="%Y-%m-%d")
 
     # Active weights
-    active_weights.to_csv(DATA_PROCESSED_DIR / "active_weights.csv", date_format="%Y-%m-%d")
+    run.evaluation_weights.to_csv(DATA_PROCESSED_DIR / "active_weights.csv", date_format="%Y-%m-%d")
 
     # TC
-    tc_series.to_csv(DATA_PROCESSED_DIR / "transaction_costs.csv", date_format="%Y-%m-%d", header=True)
+    pd.DataFrame({
+        "trading_notional": run.trading_notional,
+        "one_way_turnover": run.one_way_turnover,
+        "transaction_cost": run.transaction_costs,
+    }).to_csv(DATA_PROCESSED_DIR / "transaction_costs.csv", date_format="%Y-%m-%d")
 
     # Rebalance log
-    rebalance_log.to_csv(DATA_PROCESSED_DIR / "rebalance_log.csv", index=False)
+    run.rebalance_audit.to_csv(DATA_PROCESSED_DIR / "rebalance_log.csv", index=False, date_format="%Y-%m-%d")
 
     # Turnover
-    turnover.to_csv(DATA_PROCESSED_DIR / "turnover.csv", date_format="%Y-%m-%d", header=True)
+    pd.DataFrame({
+        "trading_notional": run.trading_notional,
+        "one_way_turnover": run.one_way_turnover,
+    }).to_csv(DATA_PROCESSED_DIR / "turnover.csv", date_format="%Y-%m-%d")
+
+    metadata = {
+        "raw_price_start_date": str(raw_price_start_date.date()),
+        "raw_return_start_date": str(run.raw_return_start_date.date()),
+        "first_investable_date": str(run.first_investable_date.date()),
+        "nav_base_date": str(run.nav_base_date.date()),
+        "indicator_warmup_trading_days": run.indicator_warmup_trading_days,
+        "evaluation_trading_days": len(run.net_daily_returns),
+        "notes": (
+            "Indicators retain warm-up history; comparative strategy and benchmark returns begin together "
+            "on first_investable_date. NAV is 1.0 on nav_base_date and applies the first return on "
+            "first_investable_date."
+        ),
+    }
+    with open(DATA_PROCESSED_DIR / "backtest_metadata.json", "w") as file:
+        json.dump(metadata, file, indent=2)
 
     log.info("Saved backtest outputs to %s", DATA_PROCESSED_DIR)
 
@@ -393,55 +553,13 @@ def save_backtest(
 
 if __name__ == "__main__":
     prices, returns = load_processed()
-
-    # Compute signals
-    momentum = compute_momentum(prices)
-    rvol = compute_realized_vol(returns)
-    eligible = compute_eligibility(momentum)
-    weights_daily = compute_weights(eligible, rvol)
-    rebalance_dates = get_rebalance_dates(prices.index)
-
-    # Build active weight series (with monthly rebalancing + 1-day lag)
-    active_weights = build_active_weights(weights_daily, rebalance_dates, returns.index)
-
-    # Look-ahead bias assertion
-    assert_no_lookahead(active_weights, momentum, rebalance_dates)
-
-    # Transaction costs
-    tc_series = compute_transaction_costs(active_weights)
-
-    # NAV
-    gross_nav, net_daily, gross_daily, net_nav = compute_nav(
-        returns, active_weights, tc_series
-    )
-    bench_nav, bench_daily = compute_benchmark_nav(returns)
-
-    # Align all series to common index
-    common_idx = gross_nav.index.intersection(bench_nav.index)
-    gross_nav = gross_nav.loc[common_idx]
-    net_nav = net_nav.loc[common_idx]
-    bench_nav = bench_nav.loc[common_idx]
-    gross_daily = gross_daily.loc[common_idx]
-    net_daily = net_daily.loc[common_idx]
-    bench_daily = bench_daily.loc[common_idx]
-
-    # Turnover & rebalance log
-    turnover = compute_turnover(active_weights, rebalance_dates)
-    rebalance_log = build_rebalance_log(active_weights, rebalance_dates, turnover, tc_series)
-
-    # Save
-    save_backtest(
-        gross_nav, net_nav, bench_nav,
-        gross_daily, net_daily, bench_daily,
-        active_weights, tc_series,
-        rebalance_log, turnover,
-    )
-
+    run = run_backtest(prices, returns)
+    save_backtest(run, prices.index[0])
     print("\n✓ Backtest complete.")
-    print(f"  Period           : {gross_nav.index[0].date()} → {gross_nav.index[-1].date()}")
-    print(f"  Days             : {len(gross_nav)}")
-    print(f"  Gross final NAV  : {gross_nav.iloc[-1]:.4f}")
-    print(f"  Net final NAV    : {net_nav.iloc[-1]:.4f}")
-    print(f"  Benchmark final  : {bench_nav.iloc[-1]:.4f}")
-    print(f"  Rebalances       : {len(rebalance_log)}")
-    print(f"  Avg turnover     : {turnover.mean():.4f}")
+    print(f"  Raw price start      : {prices.index[0].date()}")
+    print(f"  First investable date: {run.first_investable_date.date()}")
+    print(f"  NAV base date        : {run.nav_base_date.date()}")
+    print(f"  Evaluation days      : {len(run.net_daily_returns)}")
+    print(f"  Net final NAV        : {run.net_nav.iloc[-1]:.4f}")
+    print(f"  Benchmark final NAV  : {run.benchmark_nav.iloc[-1]:.4f}")
+    print(f"  Audited rebalances   : {len(run.rebalance_audit)}")

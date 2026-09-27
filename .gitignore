@@ -18,6 +18,7 @@ venv/
 env/
 ENV/
 .pytest_cache/
+.test-deps/
 .mypy_cache/
 .hypothesis/
 *.cover

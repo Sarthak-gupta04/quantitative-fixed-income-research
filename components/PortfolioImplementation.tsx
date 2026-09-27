@@ -173,7 +173,7 @@ function RebalanceTable({ log }: { log: RebalanceEvent[] }) {
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b border-slate-700/50">
-              {["Signal Date", "Eff. Date", "SHY", "IEF", "TLT", "Turnover", "TC Cost"].map((h) => (
+              {["Signal Date", "Eff. Date", "SHY", "IEF", "TLT", "Trading Notional", "One-Way Turnover", "TC Cost"].map((h) => (
                 <th key={h} className="text-left text-slate-500 pb-2 pr-4 font-medium">
                   {h}
                 </th>
@@ -195,10 +195,13 @@ function RebalanceTable({ log }: { log: RebalanceEvent[] }) {
                   {fmtPct(row.weight_TLT)}
                 </td>
                 <td className="py-2 pr-4 tabular-nums text-slate-300">
-                  {fmtPct(row.turnover_oneway)}
+                  {fmtPct(row.trading_notional)}
                 </td>
                 <td className="py-2 pr-4 tabular-nums text-slate-400">
-                  {row.tc_cost != null ? `${(row.tc_cost * 10000).toFixed(3)} bps` : "—"}
+                  {fmtPct(row.one_way_turnover)}
+                </td>
+                <td className="py-2 pr-4 tabular-nums text-slate-400">
+                  {row.transaction_cost != null ? `${(row.transaction_cost * 10000).toFixed(3)} bps` : "—"}
                 </td>
               </tr>
             ))}
@@ -219,8 +222,9 @@ export default function PortfolioImplementation({ signals, weights, rebalanceLog
         </div>
         <h2 className="text-2xl font-semibold text-slate-100">Portfolio Implementation</h2>
         <p className="text-slate-400 mt-2 text-sm max-w-2xl">
-          Monthly rebalancing with a 1-day look-ahead lag. Weights determined by inverse-volatility
-          sizing among momentum-eligible assets.
+          Monthly rebalancing with a 1-day execution lag. Weights determined by inverse-volatility
+          sizing among momentum-eligible assets. Trading notional is Σ|Δw|; conventional one-way
+          turnover is half of that amount.
         </p>
       </div>
 

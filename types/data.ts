@@ -42,6 +42,11 @@ export interface SummaryStats {
     trading_days: number;
     risk_free_rate_annual: number;
     transaction_cost_bps: number;
+    raw_price_start_date?: string;
+    raw_return_start_date?: string;
+    first_investable_date?: string;
+    nav_base_date?: string;
+    indicator_warmup_trading_days?: number;
   };
   strategy_net: SummaryStatsSection;
   strategy_gross: SummaryStatsGross;
@@ -108,12 +113,15 @@ export interface WeightPoint {
 export interface RebalanceEvent {
   signal_date: string;
   effective_date: string;
+  first_return_date?: string;
+  next_signal_date?: string;
   weight_SHY: number | null;
   weight_IEF: number | null;
   weight_TLT: number | null;
   weight_sum: number | null;
-  turnover_oneway: number | null;
-  tc_cost: number | null;
+  trading_notional: number | null;
+  one_way_turnover: number | null;
+  transaction_cost: number | null;
 }
 
 export interface VolatilityPoint {
@@ -138,6 +146,11 @@ export interface MetaData {
   annualization_factor: number;
   transaction_cost_bps: number;
   risk_free_rate_annual: number;
+  raw_price_start_date?: string;
+  raw_return_start_date?: string;
+  first_investable_date?: string;
+  nav_base_date?: string;
+  indicator_warmup_trading_days?: number;
   disclaimer: string;
   download_meta?: {
     downloaded_at_utc?: string;

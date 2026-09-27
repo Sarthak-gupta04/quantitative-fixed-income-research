@@ -93,10 +93,13 @@ def cumulative_return(nav: pd.Series) -> float:
 
 def annualized_return(nav: pd.Series) -> float:
     """
-    CAGR = (final_NAV / initial_NAV)^(252/N) - 1
-    where N = number of trading days.
+    CAGR = (final_NAV / initial_NAV)^(252/N) - 1, where N is the number of
+    realized daily returns.  NAV includes one explicit base row, so N equals
+    len(nav) - 1 rather than len(nav).
     """
-    n = len(nav)
+    n = len(nav) - 1
+    if n <= 0:
+        return np.nan
     return float((nav.iloc[-1] / nav.iloc[0]) ** (ANNUALIZATION_FACTOR / n) - 1)
 
 
@@ -110,14 +113,16 @@ def annualized_volatility(daily_returns: pd.Series) -> float:
 
 def sharpe_ratio(daily_returns: pd.Series) -> float:
     """
-    Sharpe = (Ann. Return - Rf) / Ann. Vol
+    Sharpe = mean(daily excess return) / std(daily excess return) × sqrt(252).
     Rf = 0% annual (documented assumption).
-    Computed from daily excess returns then annualized.
     """
     excess = daily_returns - RF_DAILY
-    if excess.std(ddof=1) == 0:
+    volatility = excess.std(ddof=1)
+    # A mathematically constant series can retain a tiny IEEE-754 residual;
+    # treat that as zero rather than reporting a meaningless near-infinite ratio.
+    if np.isclose(volatility, 0.0, atol=1e-15):
         return np.nan
-    return float(excess.mean() / excess.std(ddof=1) * np.sqrt(ANNUALIZATION_FACTOR))
+    return float(excess.mean() / volatility * np.sqrt(ANNUALIZATION_FACTOR))
 
 
 def max_drawdown(nav: pd.Series) -> float:
@@ -229,6 +234,7 @@ def compute_summary(
     rets: pd.DataFrame,
     label_strategy: str = "Strategy (Net)",
     label_benchmark: str = "Benchmark (AGG)",
+    backtest_metadata: dict | None = None,
 ) -> dict:
     """
     Compute all summary statistics for strategy (net) and benchmark.
@@ -246,6 +252,7 @@ def compute_summary(
             "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             "start_date": str(s_ret.index[0].date()),
             "end_date": str(s_ret.index[-1].date()),
+            "nav_base_date": str(nav.index[0].date()),
             "trading_days": len(s_ret),
             "risk_free_rate_annual": RISK_FREE_RATE_ANNUAL,
             "transaction_cost_bps": TRANSACTION_COST_BPS,
@@ -291,10 +298,23 @@ def compute_summary(
             "tracking_error": tracking_error(s_ret, b_ret),
             "information_ratio": information_ratio(s_ret, b_ret),
             "cumulative_active_return": cumulative_return(s_nav) - cumulative_return(b_nav),
-            "annualized_active_return": annualized_return(s_nav) - annualized_return(b_nav),
+            # This arithmetic annualized active return is intentionally the
+            # same numerator used by the information ratio.
+            "annualized_active_return": float(active_return(s_ret, b_ret).mean() * ANNUALIZATION_FACTOR),
         },
     }
+    if backtest_metadata:
+        summary["metadata"].update(backtest_metadata)
     return summary
+
+
+def load_backtest_metadata() -> dict:
+    """Load evaluation-window metadata written by the backtest when present."""
+    path = DATA_PROCESSED_DIR / "backtest_metadata.json"
+    if not path.exists():
+        return {}
+    with open(path) as file:
+        return json.load(file)
 
 
 # ---------------------------------------------------------------------------
@@ -361,7 +381,7 @@ def save_metrics(summary: dict, rolling: pd.DataFrame, nav: pd.DataFrame, rets: 
 
 if __name__ == "__main__":
     nav, rets = load_backtest()
-    summary = compute_summary(nav, rets)
+    summary = compute_summary(nav, rets, backtest_metadata=load_backtest_metadata())
     rolling = compute_rolling_metrics(nav, rets)
     save_metrics(summary, rolling, nav, rets)
 

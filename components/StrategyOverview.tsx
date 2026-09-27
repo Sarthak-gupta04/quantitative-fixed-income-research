@@ -128,15 +128,17 @@ export default function StrategyOverview({ meta }: Props) {
               </p>
               <p>
                 <strong className="text-slate-300">Look-ahead lag:</strong> Signals computed at
-                close of rebalance date t → weights effective from close of day t+1.
-                Returns on day t+1 use weights computed at t.
+                close of rebalance date t → weights first apply on the next available trading date.
+                The return on that effective date uses only the earlier signal-date information.
               </p>
               <p>
                 <strong className="text-slate-300">Transaction costs:</strong> {meta.transaction_cost_bps} bps
                 one-way per unit of absolute weight change.
               </p>
               <Formula>
-                TC(t) = Σ_i |w(i, t) − w(i, t−1)| × {meta.transaction_cost_bps / 10000}
+                Trading Notional(t) = Σ_i |w(i, t) − w(i, t−1)|{"\n"}
+                TC(t) = Trading Notional(t) × {meta.transaction_cost_bps / 10000}{"\n"}
+                One-Way Turnover(t) = 0.5 × Trading Notional(t)
               </Formula>
             </div>
           </Section>
@@ -148,6 +150,7 @@ export default function StrategyOverview({ meta }: Props) {
               <li>• Fractional shares allowed (standard in academic backtests)</li>
               <li>• No taxes or fund-level costs beyond transaction cost assumption</li>
               <li>• No leverage; weights always sum to 1.0</li>
+              <li>• Missing, zero, or effectively-zero realized volatility is excluded from inverse-volatility sizing; SHY is the documented all-invalid-volatility fallback</li>
               <li>• Data source: Yahoo Finance via yfinance</li>
             </ul>
           </Section>

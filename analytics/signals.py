@@ -53,6 +53,7 @@ from analytics.config import (
     TICKERS,
     VOLATILITY_WINDOW,
     ANNUALIZATION_FACTOR,
+    MIN_REALIZED_VOLATILITY,
 )
 
 logging.basicConfig(
@@ -184,6 +185,7 @@ def compute_defensive_flag(eligible: pd.DataFrame) -> pd.Series:
 def compute_weights(
     eligible: pd.DataFrame,
     rvol: pd.DataFrame,
+    min_realized_volatility: float = MIN_REALIZED_VOLATILITY,
 ) -> pd.DataFrame:
     """
     Compute inverse-volatility portfolio weights among eligible assets.
@@ -194,9 +196,13 @@ def compute_weights(
       3. w(i,t) = InvVol(i,t) / Σ_{j ∈ E(t)} InvVol(j,t)
       4. If only SHY eligible → w(SHY) = 1.0, others = 0
 
-    Handles edge cases:
-      - Zero volatility (extremely rare for bond ETFs) → weight = 0 for safety.
-      - NaN volatility → asset treated as ineligible for sizing.
+    Volatility edge-case policy:
+      - Missing, zero, or effectively-zero volatility (<= min_realized_volatility)
+        is excluded from inverse-volatility sizing.  It is never clipped into
+        an artificial near-infinite inverse-volatility weight.
+      - If no eligible asset has estimable volatility, SHY receives 100% as a
+        documented defensive fallback.  This is a fallback allocation, not an
+        inverse-volatility allocation.
 
     Returns wide DataFrame of weights with same index as eligible.
     NaN rows (warm-up) → all-zero weights.
@@ -210,27 +216,35 @@ def compute_weights(
             # but guard anyway: zero weights → cash-like day
             continue
 
-        # Get volatilities for eligible tickers
+        # Do not transform a zero-volatility estimate into an artificial
+        # near-infinite inverse-volatility weight.  Such observations are
+        # excluded from sizing instead.
         vols = rvol.loc[date, elig_tickers]
+        valid_vols = vols[vols.notna() & (vols > min_realized_volatility)]
 
-        # Drop NaN volatilities (can happen at warm-up boundary)
-        vols = vols.dropna()
-        if vols.empty:
-            # Fallback: equal weight among eligible
-            for t in elig_tickers:
-                weights.loc[date, t] = 1.0 / len(elig_tickers)
+        if valid_vols.empty:
+            # Preserve SHY as the strategy's deterministic defensive asset
+            # when no eligible asset can be sized from a valid volatility
+            # estimate.  This is deliberately visible in logs and tests.
+            weights.loc[date, DEFENSIVE_ASSET] = 1.0
+            log.warning(
+                "%s: no estimable eligible volatility; applying 100%% SHY defensive fallback.",
+                date.date(),
+            )
             continue
 
-        # Guard against zero volatility
-        vols = vols.clip(lower=1e-10)
-
-        inv_vol = 1.0 / vols
+        inv_vol = 1.0 / valid_vols
         total_inv_vol = inv_vol.sum()
-        for t in vols.index:
+        for t in valid_vols.index:
             weights.loc[date, t] = inv_vol[t] / total_inv_vol
 
-        # If any eligible ticker had NaN vol, it was excluded from sizing;
-        # redistribute its allocation to others (already handled by dropping NaN above).
+        excluded = [t for t in elig_tickers if t not in valid_vols.index]
+        if excluded:
+            log.warning(
+                "%s: excluded from inverse-volatility sizing due to missing or effectively-zero volatility: %s",
+                date.date(),
+                ", ".join(excluded),
+            )
 
     # --- Validation ---
     weight_sums = weights.sum(axis=1)

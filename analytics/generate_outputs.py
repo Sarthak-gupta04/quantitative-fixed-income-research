@@ -269,12 +269,15 @@ def gen_rebalance_log(data: dict) -> list[dict]:
         records.append({
             "signal_date": str(row.get("signal_date", "")),
             "effective_date": str(row.get("effective_date", "")),
+            "first_return_date": str(row.get("first_return_date", "")),
+            "next_signal_date": str(row.get("next_signal_date", "")),
             "weight_SHY": clean_float(row.get("weight_SHY")),
             "weight_IEF": clean_float(row.get("weight_IEF")),
             "weight_TLT": clean_float(row.get("weight_TLT")),
             "weight_sum": clean_float(row.get("weight_sum")),
-            "turnover_oneway": clean_float(row.get("turnover_oneway")),
-            "tc_cost": clean_float(row.get("tc_cost")),
+            "trading_notional": clean_float(row.get("trading_notional")),
+            "one_way_turnover": clean_float(row.get("one_way_turnover")),
+            "transaction_cost": clean_float(row.get("transaction_cost")),
         })
     return records
 
@@ -317,6 +320,11 @@ def gen_meta(data: dict) -> dict:
         "annualization_factor": ANNUALIZATION_FACTOR,
         "transaction_cost_bps": TRANSACTION_COST_BPS,
         "risk_free_rate_annual": 0.0,
+        "raw_price_start_date": summary_meta.get("raw_price_start_date"),
+        "raw_return_start_date": summary_meta.get("raw_return_start_date"),
+        "first_investable_date": summary_meta.get("first_investable_date"),
+        "nav_base_date": summary_meta.get("nav_base_date"),
+        "indicator_warmup_trading_days": summary_meta.get("indicator_warmup_trading_days"),
         "download_meta": dl_meta,
         "disclaimer": (
             "This project is an educational quantitative research exercise based on "

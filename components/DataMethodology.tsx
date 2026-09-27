@@ -28,7 +28,11 @@ export default function DataMethodology({ meta }: Props) {
                   ["Source", "Yahoo Finance (yfinance)"],
                   ["Tickers", meta.tickers.join(", ")],
                   ["Benchmark", meta.benchmark],
-                  ["Period", `${meta.start_date} → ${meta.end_date}`],
+                  ["Raw price start", meta.raw_price_start_date ?? "—"],
+                  ["Indicator warm-up", meta.indicator_warmup_trading_days != null ? `${meta.indicator_warmup_trading_days} trading days` : "—"],
+                  ["Comparative return start", meta.first_investable_date ?? meta.start_date],
+                  ["NAV base date", meta.nav_base_date ?? "—"],
+                  ["Evaluation end", meta.end_date],
                   ["Frequency", "Daily"],
                   ["Price Field", "Adj Close (dividends reinvested, splits adjusted)"],
                   ["Trading Days", meta.trading_days.toLocaleString()],
@@ -53,8 +57,8 @@ export default function DataMethodology({ meta }: Props) {
               <ul className="space-y-2 list-none">
                 {[
                   "Signals computed exclusively from data available through end-of-day on the rebalance date",
-                  "1-day forward shift: weights computed at t → applied to returns at t+1",
-                  "Programmatic assertion (assert_no_lookahead) run after every backtest execution",
+                  "1-day execution lag: weights computed at t → first applied to the next available trading-date return",
+                  "Programmatic event-level audit verifies every signal date, effective date, target weight, and holding period",
                   "Monthly rebalancing avoids daily signal look-ahead from return correlations",
                   "No forward-filling of returns (only forward-filling of prices for isolated gaps)",
                 ].map((item, i) => (
@@ -96,13 +100,13 @@ export default function DataMethodology({ meta }: Props) {
             <h3 className="text-sm font-semibold text-slate-200 mb-4">Risk Metrics Formulas</h3>
             <div className="space-y-3 text-xs">
               {[
-                ["Cumulative Return", "NAV_final / NAV_initial − 1"],
-                ["CAGR", "(NAV_final / NAV_initial)^(252/N) − 1"],
+                ["Cumulative Return", "NAV_final / NAV_0 − 1, where NAV_0 = 1.0"],
+                ["CAGR", "(NAV_final / NAV_0)^(252/N) − 1"],
                 ["Ann. Volatility", "σ(daily returns) × √252"],
-                ["Sharpe Ratio", "CAGR / Ann. Volatility  (Rf = 0)"],
+                ["Sharpe Ratio", "mean(daily excess return) / σ(daily excess return) × √252  (Rf = 0)"],
                 ["Max Drawdown", "min_t [ NAV(t) / max(NAV(0..t)) − 1 ]"],
                 ["Tracking Error", "σ(strategy daily ret − benchmark daily ret) × √252"],
-                ["Information Ratio", "Ann. Active Return / Tracking Error"],
+                ["Information Ratio", "mean(strategy − benchmark daily return) × 252 / Tracking Error"],
                 ["VaR 95%", "5th percentile of daily return distribution"],
                 ["CVaR 95%", "Mean of returns below VaR threshold"],
               ].map(([name, formula]) => (

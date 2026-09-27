@@ -57,7 +57,13 @@ from analytics.signals import (
 )
 from analytics.backtest import (
     build_active_weights,
+    compute_benchmark_nav,
     compute_transaction_costs,
+    compute_nav,
+    compute_one_way_turnover,
+    compute_trading_notional,
+    determine_investable_start,
+    run_backtest,
     assert_no_lookahead,
 )
 
@@ -144,10 +150,10 @@ class TestReturnCalculations:
         assert abs(cumulative_return(nav) - 0.20) < 1e-10
 
     def test_annualized_return_one_year(self):
-        """Flat 10% cumulative over 252 days → ~10% CAGR."""
+        """A base NAV plus 252 return observations compounds to the stated CAGR."""
         nav = pd.Series(
-            [1.0] + [1.10] * (ANNUALIZATION_FACTOR - 1),
-            index=pd.bdate_range("2010-01-01", periods=ANNUALIZATION_FACTOR),
+            [1.0] + [1.10] * ANNUALIZATION_FACTOR,
+            index=pd.bdate_range("2010-01-01", periods=ANNUALIZATION_FACTOR + 1),
         )
         cagr = annualized_return(nav)
         assert abs(cagr - 0.10) < 0.001  # within 10bps
@@ -444,15 +450,15 @@ class TestDrawdown:
 
 class TestSharpeRatio:
 
-    def test_positive_sharpe_for_positive_mean_return(self):
-        """Consistently positive returns → positive Sharpe."""
+    def test_sharpe_is_undefined_for_zero_volatility(self):
+        """A zero denominator produces an undefined, rather than infinite, Sharpe."""
         returns = pd.Series([0.001] * 300)
-        assert sharpe_ratio(returns) > 0
+        assert np.isnan(sharpe_ratio(returns))
 
-    def test_negative_sharpe_for_negative_mean_return(self):
-        """Consistently negative returns → negative Sharpe."""
+    def test_negative_constant_return_sharpe_is_also_undefined(self):
+        """The documented daily-excess-return formula requires non-zero volatility."""
         returns = pd.Series([-0.001] * 300)
-        assert sharpe_ratio(returns) < 0
+        assert np.isnan(sharpe_ratio(returns))
 
     def test_sharpe_formula(self):
         """Manual Sharpe = mean/std * sqrt(252), with Rf=0."""
@@ -523,7 +529,14 @@ class TestLookAheadBias:
 
         # Should not raise
         try:
-            assert_no_lookahead(active, mom, rebalance_dates)
+            assert_no_lookahead(
+                weights_daily,
+                active,
+                mom,
+                rvol,
+                rebalance_dates,
+                rets.index,
+            )
         except AssertionError as e:
             pytest.fail(f"assert_no_lookahead raised: {e}")
 
@@ -590,3 +603,178 @@ class TestRiskMetrics:
         """All negative returns → win rate = 0.0."""
         returns = pd.Series([-0.001] * 100)
         assert win_rate(returns) == 0.0
+
+
+# ===========================================================================
+# Backtest evaluation window, NAV, timing, and edge-case tests
+# ===========================================================================
+
+def make_full_price_df(n: int = 340) -> pd.DataFrame:
+    """Deterministic complete universe for end-to-end backtest tests."""
+    prices = make_price_df(n)
+    dates = prices.index
+    rng = np.random.default_rng(123)
+    prices["AGG"] = 100 * np.cumprod(1 + rng.normal(0.00015, 0.003, n))
+    return prices
+
+
+class TestNavConvention:
+
+    def test_nav_has_explicit_base_and_includes_first_return(self):
+        dates = pd.bdate_range("2020-01-02", periods=2)
+        base_date = pd.Timestamp("2020-01-01")
+        returns = pd.DataFrame({
+            "SHY": [0.10, -0.05],
+            "IEF": [0.00, 0.00],
+            "TLT": [0.00, 0.00],
+        }, index=dates)
+        weights = pd.DataFrame({"SHY": [1.0, 1.0], "IEF": [0.0, 0.0], "TLT": [0.0, 0.0]}, index=dates)
+        costs = pd.Series([0.0, 0.0], index=dates)
+
+        gross_nav, net_returns, gross_returns, net_nav = compute_nav(
+            returns, weights, costs, nav_base_date=base_date
+        )
+
+        assert gross_nav.index.tolist() == [base_date, *dates]
+        assert gross_nav.iloc[0] == 1.0
+        assert gross_nav.iloc[1] == pytest.approx(1.10)
+        assert gross_nav.iloc[-1] == pytest.approx(1.045)
+        assert cumulative_return(net_nav) == pytest.approx(0.045)
+        assert net_returns.index.equals(gross_returns.index)
+
+    def test_benchmark_uses_the_same_base_convention(self):
+        dates = pd.bdate_range("2020-01-02", periods=2)
+        nav = compute_benchmark_nav(pd.Series([0.10, -0.05], index=dates), pd.Timestamp("2020-01-01"))
+        assert nav.iloc[0] == 1.0
+        assert nav.iloc[-1] == pytest.approx(1.045)
+        assert cumulative_return(nav) == pytest.approx(0.045)
+
+
+class TestVolatilityEdgeCases:
+
+    @staticmethod
+    def _weights(eligible_values: dict, volatility_values: dict) -> pd.Series:
+        date = pd.Timestamp("2020-01-31")
+        eligible = pd.DataFrame([eligible_values], index=[date])
+        volatility = pd.DataFrame([volatility_values], index=[date])
+        return compute_weights(eligible, volatility).iloc[0]
+
+    def test_no_risk_assets_eligible_means_all_shy(self):
+        weights = self._weights(
+            {"SHY": True, "IEF": False, "TLT": False},
+            {"SHY": 0.10, "IEF": 0.20, "TLT": 0.30},
+        )
+        assert weights.to_dict() == {"SHY": 1.0, "IEF": 0.0, "TLT": 0.0}
+
+    def test_inverse_volatility_weights_for_eligible_assets(self):
+        weights = self._weights(
+            {"SHY": True, "IEF": True, "TLT": True},
+            {"SHY": 0.10, "IEF": 0.20, "TLT": 0.40},
+        )
+        assert weights["SHY"] == pytest.approx(4 / 7)
+        assert weights["IEF"] == pytest.approx(2 / 7)
+        assert weights["TLT"] == pytest.approx(1 / 7)
+
+    def test_only_ief_or_tlt_is_sized_with_shy_when_eligible(self):
+        ief_case = self._weights(
+            {"SHY": True, "IEF": True, "TLT": False},
+            {"SHY": 0.10, "IEF": 0.20, "TLT": 0.40},
+        )
+        tlt_case = self._weights(
+            {"SHY": True, "IEF": False, "TLT": True},
+            {"SHY": 0.10, "IEF": 0.20, "TLT": 0.40},
+        )
+        assert ief_case.to_dict() == pytest.approx({"SHY": 2 / 3, "IEF": 1 / 3, "TLT": 0.0})
+        assert tlt_case.to_dict() == pytest.approx({"SHY": 0.8, "IEF": 0.0, "TLT": 0.2})
+
+    def test_missing_zero_and_near_zero_volatility_are_excluded(self):
+        for invalid_volatility in (np.nan, 0.0, 5e-7):
+            weights = self._weights(
+                {"SHY": True, "IEF": True, "TLT": True},
+                {"SHY": 0.10, "IEF": invalid_volatility, "TLT": 0.40},
+            )
+            assert weights["IEF"] == 0.0
+            assert weights["SHY"] == pytest.approx(0.8)
+            assert weights["TLT"] == pytest.approx(0.2)
+
+    def test_all_invalid_volatility_uses_explicit_shy_fallback(self):
+        weights = self._weights(
+            {"SHY": True, "IEF": True, "TLT": True},
+            {"SHY": 0.0, "IEF": np.nan, "TLT": 5e-7},
+        )
+        assert weights.to_dict() == {"SHY": 1.0, "IEF": 0.0, "TLT": 0.0}
+
+
+class TestTurnoverDefinitions:
+
+    def test_traded_notional_cost_and_one_way_turnover_are_distinct(self):
+        dates = pd.bdate_range("2020-01-02", periods=2)
+        active = pd.DataFrame(
+            {"SHY": [1.0, 0.0], "IEF": [0.0, 1.0], "TLT": [0.0, 0.0]}, index=dates
+        )
+        notional = compute_trading_notional(active)
+        turnover = compute_one_way_turnover(notional)
+        costs = compute_transaction_costs(active, tc_rate=0.0002)
+        assert notional.tolist() == pytest.approx([1.0, 2.0])
+        assert turnover.tolist() == pytest.approx([0.5, 1.0])
+        assert costs.tolist() == pytest.approx([0.0002, 0.0004])
+
+
+class TestEndToEndTimingAndAlignment:
+
+    def test_comparative_returns_start_only_when_the_strategy_is_investable(self):
+        prices = make_full_price_df()
+        returns = prices.pct_change().iloc[1:]
+        run = run_backtest(prices, returns)
+        assert run.first_investable_date == run.net_daily_returns.index[0]
+        assert run.net_daily_returns.index.equals(run.benchmark_daily_returns.index)
+        assert run.evaluation_weights.index.equals(run.net_daily_returns.index)
+        assert np.allclose(run.evaluation_weights.sum(axis=1), 1.0)
+        assert run.first_investable_date > returns.index[0]
+        assert run.nav_base_date == returns.index[returns.index.get_loc(run.first_investable_date) - 1]
+        assert run.net_nav.index[0] == run.nav_base_date
+        assert run.net_nav.index[1] == run.first_investable_date
+
+    def test_every_audited_rebalance_has_next_day_effective_weights_and_return(self):
+        prices = make_full_price_df()
+        returns = prices.pct_change().iloc[1:]
+        run = run_backtest(prices, returns)
+        assert not run.rebalance_audit.empty
+        for event in run.rebalance_audit.itertuples():
+            assert event.effective_date in run.net_daily_returns.index
+            assert event.first_return_date == event.effective_date
+            expected_effective = returns.index[returns.index.get_loc(event.signal_date) + 1]
+            assert event.effective_date == expected_effective
+            assert run.evaluation_weights.loc[event.effective_date, "SHY"] == pytest.approx(event.target_weight_SHY)
+            assert run.evaluation_weights.loc[event.effective_date, "IEF"] == pytest.approx(event.target_weight_IEF)
+            assert run.evaluation_weights.loc[event.effective_date, "TLT"] == pytest.approx(event.target_weight_TLT)
+
+    def test_future_price_or_effective_date_return_cannot_change_prior_signal(self):
+        prices = make_full_price_df(180)
+        returns = prices.pct_change().iloc[1:]
+        signal_date = get_rebalance_dates(prices.index)[4]
+        effective_date = returns.index[returns.index.get_loc(signal_date) + 1]
+
+        original_momentum = compute_momentum(prices)
+        original_volatility = compute_realized_vol(returns)
+        original_weights = compute_weights(compute_eligibility(original_momentum), original_volatility)
+
+        future_prices = prices.copy()
+        future_prices.loc[effective_date, "TLT"] *= 1.50
+        future_returns = future_prices.pct_change().iloc[1:]
+        future_momentum = compute_momentum(future_prices)
+        future_volatility = compute_realized_vol(future_returns)
+        future_weights = compute_weights(compute_eligibility(future_momentum), future_volatility)
+
+        pd.testing.assert_series_equal(original_momentum.loc[signal_date], future_momentum.loc[signal_date])
+        pd.testing.assert_series_equal(original_volatility.loc[signal_date], future_volatility.loc[signal_date])
+        pd.testing.assert_series_equal(original_weights.loc[signal_date], future_weights.loc[signal_date])
+
+    def test_relevant_historical_price_changes_the_signal(self):
+        prices = make_full_price_df(180)
+        signal_date = prices.index[100]
+        original = compute_momentum(prices)
+        changed = prices.copy()
+        changed.loc[prices.index[40], "IEF"] *= 0.50  # exactly 60 observations before signal_date
+        recomputed = compute_momentum(changed)
+        assert original.loc[signal_date, "IEF"] != recomputed.loc[signal_date, "IEF"]
