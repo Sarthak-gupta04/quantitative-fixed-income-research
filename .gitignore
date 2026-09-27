@@ -1,0 +1,58 @@
+# =============================================================================
+# quantitative-fixed-income-research — .gitignore
+# =============================================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
+*.cover
+.coverage
+htmlcov/
+
+# --- Raw data (large, reproducible via download_data.py) ---
+data/raw/
+data/processed/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Generated output data (reproducible via pipeline) ---
+# Keep public/data/ tracked so the site can be inspected without re-running Python.
+# Remove the line below if you prefer to exclude it:
+# public/data/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo

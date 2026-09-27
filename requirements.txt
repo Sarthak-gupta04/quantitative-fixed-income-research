@@ -1,0 +1,16 @@
+# =============================================================================
+# quantitative-fixed-income-research — Python requirements
+# =============================================================================
+
+# Data acquisition
+yfinance>=0.2.54
+
+# Data manipulation & numerics
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Testing
+pytest>=7.4.0
+
+# Utilities
+python-dateutil>=2.8.2
