@@ -91,6 +91,25 @@ class BacktestRun:
     indicator_warmup_trading_days: int
 
 
+@dataclass
+class EvaluationWindow:
+    """A common subperiod extracted from an already validated backtest run."""
+
+    start_date: pd.Timestamp
+    nav_base_date: pd.Timestamp
+    gross_daily_returns: pd.Series
+    net_daily_returns: pd.Series
+    benchmark_daily_returns: pd.Series
+    weights: pd.DataFrame
+    trading_notional: pd.Series
+    one_way_turnover: pd.Series
+    transaction_costs: pd.Series
+    gross_nav: pd.Series
+    net_nav: pd.Series
+    benchmark_nav: pd.Series
+    rebalance_audit: pd.DataFrame
+
+
 def _is_fully_invested(weights: pd.Series) -> bool:
     """Whether a finite, long-only target vector sums to one."""
     return bool(
@@ -273,6 +292,61 @@ def compute_benchmark_nav(
     values = np.concatenate(([start_value], start_value * (1 + benchmark_returns).cumprod().to_numpy()))
     index = pd.DatetimeIndex([nav_base_date, *benchmark_returns.index])
     return pd.Series(values, index=index, name="benchmark")
+
+
+def build_nav_from_daily_returns(
+    daily_returns: pd.Series,
+    nav_base_date: pd.Timestamp,
+    name: str,
+    start_value: float = 1.0,
+) -> pd.Series:
+    """Build a base-NAV series from an already aligned daily return series."""
+    values = np.concatenate(([start_value], start_value * (1 + daily_returns).cumprod().to_numpy()))
+    index = pd.DatetimeIndex([nav_base_date, *daily_returns.index])
+    return pd.Series(values, index=index, name=name)
+
+
+def evaluate_from_date(run: BacktestRun, start_date: pd.Timestamp) -> EvaluationWindow:
+    """Rebase a validated run to a later common evaluation date.
+
+    This does not recompute signals, weights, or costs.  It only expresses an
+    existing run over a common subperiod, allowing parameter configurations
+    with different indicator warm-ups to be compared fairly.
+    """
+    start_date = pd.Timestamp(start_date)
+    if start_date < run.first_investable_date:
+        raise ValueError("Evaluation start cannot precede the run's first investable date.")
+    if start_date not in run.net_daily_returns.index:
+        raise KeyError(f"Evaluation start {start_date.date()} is not a realized return date.")
+    position = run.net_daily_returns.index.get_loc(start_date)
+    if position == 0:
+        base_date = run.nav_base_date
+    else:
+        base_date = run.net_daily_returns.index[position - 1]
+
+    gross = run.gross_daily_returns.loc[start_date:]
+    net = run.net_daily_returns.loc[start_date:]
+    benchmark = run.benchmark_daily_returns.loc[start_date:]
+    weights = run.evaluation_weights.loc[start_date:]
+    notional = run.trading_notional.loc[start_date:]
+    one_way = run.one_way_turnover.loc[start_date:]
+    costs = run.transaction_costs.loc[start_date:]
+    audit = run.rebalance_audit[run.rebalance_audit["effective_date"] >= start_date].copy()
+    return EvaluationWindow(
+        start_date=start_date,
+        nav_base_date=base_date,
+        gross_daily_returns=gross,
+        net_daily_returns=net,
+        benchmark_daily_returns=benchmark,
+        weights=weights,
+        trading_notional=notional,
+        one_way_turnover=one_way,
+        transaction_costs=costs,
+        gross_nav=build_nav_from_daily_returns(gross, base_date, "strategy_gross"),
+        net_nav=build_nav_from_daily_returns(net, base_date, "strategy_net"),
+        benchmark_nav=build_nav_from_daily_returns(benchmark, base_date, "benchmark"),
+        rebalance_audit=audit,
+    )
 
 
 # ---------------------------------------------------------------------------

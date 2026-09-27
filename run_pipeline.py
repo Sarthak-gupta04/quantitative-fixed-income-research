@@ -12,7 +12,10 @@ Steps:
     3. Compute signals (momentum, volatility, weights)
     4. Run backtest
     5. Compute metrics
-    6. Generate JSON outputs for frontend
+    6. Run pre-specified sensitivity analysis
+    7. Generate neutral historical-period analysis
+    8. Generate researcher-state and reproducibility outputs
+    9. Generate baseline JSON outputs for the existing frontend
 
 All outputs are written to data/processed/ and public/data/.
 """
@@ -28,6 +31,10 @@ SCRIPTS = [
     ROOT / "analytics" / "signals.py",
     ROOT / "analytics" / "backtest.py",
     ROOT / "analytics" / "metrics.py",
+    ROOT / "analytics" / "sensitivity.py",
+    ROOT / "analytics" / "regime_analysis.py",
+    ROOT / "analytics" / "researcher_view.py",
+    ROOT / "analytics" / "research_metadata.py",
     ROOT / "analytics" / "generate_outputs.py",
 ]
 

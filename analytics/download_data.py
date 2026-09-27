@@ -42,6 +42,12 @@ from analytics.config import (
     TICKER_NAMES,
 )
 
+# Keep the data-provider cache within the project rather than a protected
+# user-profile location.  It is an operational download cache only; raw input
+# snapshots remain the CSV files recorded in download metadata.
+DATA_PROVIDER_CACHE_DIR = DATA_RAW_DIR / ".yfinance_cache"
+yf.cache.set_cache_location(DATA_PROVIDER_CACHE_DIR)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -191,7 +197,10 @@ def download_prices(
         auto_adjust=False,   # Keep raw OHLCV + Adj Close columns explicitly
         actions=False,       # We don't need dividends/splits separately
         progress=False,
-        threads=True,
+        # A single request sequence avoids a cache-initialisation race in
+        # current yfinance releases on Windows.  It does not change prices,
+        # fields, dates, or portfolio methodology.
+        threads=False,
     )
 
     if raw is None or raw.empty:

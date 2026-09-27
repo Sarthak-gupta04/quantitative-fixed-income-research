@@ -1,0 +1,190 @@
+{
+  "analysis_timestamp_utc": "2026-09-27T20:01:51.103462+00:00",
+  "methodology": {
+    "purpose": "Pre-specified descriptive sensitivity analysis; no configuration is selected or optimised.",
+    "common_evaluation_start_date": "2004-03-01",
+    "common_evaluation_end_date": "2026-09-25",
+    "baseline_configuration_id": "mom_60_vol_20",
+    "baseline_parameters": {
+      "momentum_window_days": 60,
+      "volatility_window_days": 20,
+      "signal_to_weight_lag_days": 1,
+      "transaction_cost_rate": 0.0002
+    },
+    "transaction_cost_definition": "Trading notional \u00d7 transaction_cost_rate, where trading notional = sum(abs(weight change)).",
+    "one_way_turnover_definition": "0.5 \u00d7 trading notional.",
+    "timing": "Month-end signals become effective on the next available trading date using the shared validated backtest engine.",
+    "common_window_note": "The 90-day momentum configuration becomes investable later than the baseline. All six rows are therefore reported over the latest first-investable date across the fixed grid, so differences do not reflect unequal warm-up periods."
+  },
+  "results": [
+    {
+      "configuration_id": "mom_40_vol_20",
+      "is_baseline": false,
+      "parameters": {
+        "momentum_window_days": 40,
+        "volatility_window_days": 20,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2003-12-01",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.5919973611441602,
+        "cagr": 0.020844078201714744,
+        "annualized_volatility": 0.025123933516710484,
+        "sharpe_ratio": 0.8337115294250527,
+        "maximum_drawdown": -0.06920866842395146,
+        "monthly_win_rate": 0.6125461254612546,
+        "total_trading_notional": 49.607546164175396,
+        "total_one_way_turnover": 24.803773082087698,
+        "number_of_rebalances": 271
+      }
+    },
+    {
+      "configuration_id": "mom_40_vol_40",
+      "is_baseline": false,
+      "parameters": {
+        "momentum_window_days": 40,
+        "volatility_window_days": 40,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2003-12-01",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.6081730857224341,
+        "cagr": 0.02130204431496141,
+        "annualized_volatility": 0.025080456112048982,
+        "sharpe_ratio": 0.8529979981852148,
+        "maximum_drawdown": -0.0697343786641974,
+        "monthly_win_rate": 0.6162361623616236,
+        "total_trading_notional": 46.63409405022338,
+        "total_one_way_turnover": 23.31704702511169,
+        "number_of_rebalances": 271
+      }
+    },
+    {
+      "configuration_id": "mom_60_vol_20",
+      "is_baseline": true,
+      "parameters": {
+        "momentum_window_days": 60,
+        "volatility_window_days": 20,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2004-01-02",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.6401284117781301,
+        "cagr": 0.02219396637010962,
+        "annualized_volatility": 0.025340509063724603,
+        "sharpe_ratio": 0.8789530678435016,
+        "maximum_drawdown": -0.0707580370793025,
+        "monthly_win_rate": 0.6125461254612546,
+        "total_trading_notional": 40.561654400926955,
+        "total_one_way_turnover": 20.280827200463477,
+        "number_of_rebalances": 271
+      }
+    },
+    {
+      "configuration_id": "mom_60_vol_40",
+      "is_baseline": false,
+      "parameters": {
+        "momentum_window_days": 60,
+        "volatility_window_days": 40,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2004-01-02",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.6604641780113938,
+        "cagr": 0.022752961921577386,
+        "annualized_volatility": 0.025280243429816274,
+        "sharpe_ratio": 0.9026157817628335,
+        "maximum_drawdown": -0.07114171151096849,
+        "monthly_win_rate": 0.6162361623616236,
+        "total_trading_notional": 36.12944453715357,
+        "total_one_way_turnover": 18.064722268576784,
+        "number_of_rebalances": 271
+      }
+    },
+    {
+      "configuration_id": "mom_90_vol_20",
+      "is_baseline": false,
+      "parameters": {
+        "momentum_window_days": 90,
+        "volatility_window_days": 20,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2004-03-01",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.5769470840030257,
+        "cagr": 0.020413964532846496,
+        "annualized_volatility": 0.02591670370620028,
+        "sharpe_ratio": 0.7927259159056215,
+        "maximum_drawdown": -0.06333195573444761,
+        "monthly_win_rate": 0.6014760147601476,
+        "total_trading_notional": 40.09826960261469,
+        "total_one_way_turnover": 20.049134801307346,
+        "number_of_rebalances": 271
+      }
+    },
+    {
+      "configuration_id": "mom_90_vol_40",
+      "is_baseline": false,
+      "parameters": {
+        "momentum_window_days": 90,
+        "volatility_window_days": 40,
+        "signal_to_weight_lag_days": 1,
+        "transaction_cost_rate": 0.0002
+      },
+      "native_first_investable_date": "2004-03-01",
+      "evaluation_start_date": "2004-03-01",
+      "evaluation_end_date": "2026-09-25",
+      "metrics": {
+        "cumulative_return": 0.5905951914132648,
+        "cagr": 0.020804170869245908,
+        "annualized_volatility": 0.025889953683739027,
+        "sharpe_ratio": 0.8082867302898197,
+        "maximum_drawdown": -0.06237281363770031,
+        "monthly_win_rate": 0.6051660516605166,
+        "total_trading_notional": 36.10180600036506,
+        "total_one_way_turnover": 18.05090300018253,
+        "number_of_rebalances": 271
+      }
+    }
+  ],
+  "interpretation": {
+    "metric_ranges": {
+      "cagr": {
+        "minimum": 0.020413964532846496,
+        "maximum": 0.022752961921577386
+      },
+      "annualized_volatility": {
+        "minimum": 0.025080456112048982,
+        "maximum": 0.02591670370620028
+      },
+      "sharpe_ratio": {
+        "minimum": 0.7927259159056215,
+        "maximum": 0.9026157817628335
+      },
+      "maximum_drawdown": {
+        "minimum": -0.07114171151096849,
+        "maximum": -0.06237281363770031
+      },
+      "monthly_win_rate": {
+        "minimum": 0.6014760147601476,
+        "maximum": 0.6162361623616236
+      }
+    },
+    "summary": "Across the six pre-specified configurations, CAGR ranged from 2.04% to 2.28%, annualized volatility from 2.51% to 2.59%, and maximum drawdown from -7.11% to -6.24%. The baseline is reported as one row within these ranges. Results varied across reasonable parameter choices; this descriptive table does not identify, select, or optimise a winning configuration."
+  }
+}

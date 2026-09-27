@@ -19,6 +19,7 @@ env/
 ENV/
 .pytest_cache/
 .test-deps/
+data/raw/.yfinance_cache/
 .mypy_cache/
 .hypothesis/
 *.cover

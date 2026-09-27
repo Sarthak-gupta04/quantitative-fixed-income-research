@@ -204,6 +204,12 @@ def monthly_returns(daily_returns: pd.Series) -> pd.DataFrame:
     return monthly.unstack("month")
 
 
+def monthly_win_rate(daily_returns: pd.Series) -> float:
+    """Fraction of calendar months with a positive compounded return."""
+    monthly = (1 + daily_returns).groupby(daily_returns.index.to_period("M")).prod() - 1
+    return float((monthly > 0).mean()) if not monthly.empty else np.nan
+
+
 def active_return(strategy: pd.Series, benchmark: pd.Series) -> pd.Series:
     """Daily active (excess) return: strategy - benchmark."""
     return (strategy - benchmark).rename("active_return")

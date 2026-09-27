@@ -1,0 +1,60 @@
+{
+  "analysis_timestamp_utc": "2026-09-27T19:58:45.198691+00:00",
+  "methodology": {
+    "scope": "Factual summary of the latest saved signal, effective allocation, and realised risk measurements.",
+    "not_investment_advice": true,
+    "no_forecast": true
+  },
+  "latest_signal": {
+    "signal_date": "2026-09-25",
+    "momentum": {
+      "SHY": -0.0016765718775795,
+      "IEF": -0.0361222904809509,
+      "TLT": -0.0651929873588422
+    },
+    "realized_volatility": {
+      "SHY": 0.0178187408127299,
+      "IEF": 0.0616392363607527,
+      "TLT": 0.1011009013715693
+    },
+    "target_weights": {
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    "eligibility": {
+      "SHY": true,
+      "IEF": false,
+      "TLT": false
+    },
+    "is_fully_defensive": true
+  },
+  "latest_effective_allocation": {
+    "date": "2026-09-25",
+    "weights": {
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    }
+  },
+  "latest_observable_rebalance": {
+    "signal_date": "2026-08-31",
+    "effective_date": "2026-09-01",
+    "weights": {
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    "trading_notional": 0.0,
+    "one_way_turnover": 0.0,
+    "transaction_cost": 0.0
+  },
+  "recent_realized_risk": {
+    "date": "2026-09-25",
+    "strategy_rolling_volatility": 0.0178187408127299,
+    "benchmark_rolling_volatility": 0.051343646278282,
+    "strategy_drawdown": -0.0198707345853491,
+    "benchmark_drawdown": -0.0451977561218138
+  },
+  "summary": "As of the latest target signal (2026-09-25), IEF and TLT were both ineligible under the documented momentum rule. The latest available effective allocation is dated 2026-09-25. This describes calculated historical inputs and portfolio state only; it is not an investment recommendation or forecast."
+}

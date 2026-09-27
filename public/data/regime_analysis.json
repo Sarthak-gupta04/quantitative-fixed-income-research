@@ -1,0 +1,151 @@
+{
+  "analysis_timestamp_utc": "2026-09-27T19:58:44.315054+00:00",
+  "methodology": {
+    "period_definition": "Calendar-date intervals, included only when the common strategy/benchmark evaluation data covers the full interval.",
+    "return_convention": "Compounded daily net strategy and benchmark returns, each rebased to NAV 1.0 immediately before the period's first return.",
+    "allocation_convention": "Average and endpoint active portfolio weights over the realised daily return dates.",
+    "naming_note": "Period labels are neutral calendar-period descriptions and do not assert a market-regime explanation."
+  },
+  "periods": [
+    {
+      "id": "2007_2009",
+      "label": "2007-2009 period",
+      "start_date": "2007-01-01",
+      "end_date": "2009-12-31",
+      "actual_start_date": "2007-01-03",
+      "actual_end_date": "2009-12-31",
+      "trading_days": 756,
+      "strategy_return": 0.16607314374661852,
+      "benchmark_return": 0.184309890169841,
+      "strategy_annualized_volatility": 0.03903375126092913,
+      "benchmark_annualized_volatility": 0.08067745117314176,
+      "strategy_maximum_drawdown": -0.03342616949664989,
+      "average_allocation": {
+        "SHY": 0.8029876435888269,
+        "IEF": 0.1324969493821709,
+        "TLT": 0.06451540702900214
+      },
+      "beginning_allocation": {
+        "SHY": 1.0,
+        "IEF": 0.0,
+        "TLT": 0.0
+      },
+      "ending_allocation": {
+        "SHY": 0.811254598610849,
+        "IEF": 0.1274349135073914,
+        "TLT": 0.0613104878817596
+      },
+      "number_of_rebalances": 36,
+      "defensive_shy_allocation": {
+        "average_weight": 0.8029876435888269,
+        "fully_defensive_trading_days": 252,
+        "fully_defensive_fraction": 0.3333333333333333
+      }
+    },
+    {
+      "id": "2020",
+      "label": "2020 period",
+      "start_date": "2020-01-01",
+      "end_date": "2020-12-31",
+      "actual_start_date": "2020-01-02",
+      "actual_end_date": "2020-12-31",
+      "trading_days": 253,
+      "strategy_return": 0.043712037871970866,
+      "benchmark_return": 0.0747613705970287,
+      "strategy_annualized_volatility": 0.03279481397556157,
+      "benchmark_annualized_volatility": 0.08356888952198409,
+      "strategy_maximum_drawdown": -0.026874072615667655,
+      "average_allocation": {
+        "SHY": 0.8842604759955033,
+        "IEF": 0.09044575358147396,
+        "TLT": 0.02529377042302278
+      },
+      "beginning_allocation": {
+        "SHY": 1.0,
+        "IEF": 0.0,
+        "TLT": 0.0
+      },
+      "ending_allocation": {
+        "SHY": 1.0,
+        "IEF": 0.0,
+        "TLT": 0.0
+      },
+      "number_of_rebalances": 12,
+      "defensive_shy_allocation": {
+        "average_weight": 0.8842604759955033,
+        "fully_defensive_trading_days": 63,
+        "fully_defensive_fraction": 0.2490118577075099
+      }
+    },
+    {
+      "id": "2022",
+      "label": "2022 period",
+      "start_date": "2022-01-01",
+      "end_date": "2022-12-31",
+      "actual_start_date": "2022-01-03",
+      "actual_end_date": "2022-12-30",
+      "trading_days": 251,
+      "strategy_return": -0.048227885846391816,
+      "benchmark_return": -0.1302159920983329,
+      "strategy_annualized_volatility": 0.02583306966604505,
+      "benchmark_annualized_volatility": 0.08013755242506,
+      "strategy_maximum_drawdown": -0.05904413045852874,
+      "average_allocation": {
+        "SHY": 0.9672320385351604,
+        "IEF": 0.028832359443232577,
+        "TLT": 0.003935602021607092
+      },
+      "beginning_allocation": {
+        "SHY": 0.8112798975333301,
+        "IEF": 0.1393282970955009,
+        "TLT": 0.049391805371169
+      },
+      "ending_allocation": {
+        "SHY": 1.0,
+        "IEF": 0.0,
+        "TLT": 0.0
+      },
+      "number_of_rebalances": 12,
+      "defensive_shy_allocation": {
+        "average_weight": 0.9672320385351604,
+        "fully_defensive_trading_days": 208,
+        "fully_defensive_fraction": 0.8286852589641435
+      }
+    },
+    {
+      "id": "2025",
+      "label": "2025 period (most recent completed calendar year)",
+      "start_date": "2025-01-01",
+      "end_date": "2025-12-31",
+      "actual_start_date": "2025-01-02",
+      "actual_end_date": "2025-12-31",
+      "trading_days": 250,
+      "strategy_return": 0.047662392321970115,
+      "benchmark_return": 0.07191763570154297,
+      "strategy_annualized_volatility": 0.02421081301576695,
+      "benchmark_annualized_volatility": 0.04550724857320733,
+      "strategy_maximum_drawdown": -0.01344726376643679,
+      "average_allocation": {
+        "SHY": 0.7925339129218316,
+        "IEF": 0.15811623508628506,
+        "TLT": 0.049349851991883235
+      },
+      "beginning_allocation": {
+        "SHY": 1.0,
+        "IEF": 0.0,
+        "TLT": 0.0
+      },
+      "ending_allocation": {
+        "SHY": 0.7420075458063813,
+        "IEF": 0.175705623815201,
+        "TLT": 0.0822868303784176
+      },
+      "number_of_rebalances": 12,
+      "defensive_shy_allocation": {
+        "average_weight": 0.7925339129218316,
+        "fully_defensive_trading_days": 39,
+        "fully_defensive_fraction": 0.156
+      }
+    }
+  ]
+}
