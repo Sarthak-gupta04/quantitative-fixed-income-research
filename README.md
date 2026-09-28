@@ -8,7 +8,7 @@ An educational quantitative investment research project demonstrating a rules-ba
 
 ## Project Overview
 
-This project implements and backtests a quantitative fixed-income strategy across three U.S. Treasury ETFs (SHY, IEF, TLT), benchmarked against the U.S. Aggregate Bond Index (AGG). The project demonstrates:
+This project implements and backtests a quantitative fixed-income strategy across three U.S. Treasury ETFs (SHY, IEF, TLT), benchmarked against the AGG U.S. aggregate bond ETF. The project demonstrates:
 
 - Rules-based signal generation (60-day momentum)
 - Volatility-aware position sizing (inverse realized volatility)
@@ -152,6 +152,63 @@ snapshot and will update when the pipeline is re-run.
 
 ---
 
+## Supplemental fixed-income research (separate from the baseline)
+
+The editorial site also reads five independently generated analytical layers.
+None changes the SHY/IEF/TLT signal, portfolio weights, cost rule, benchmark,
+or validated baseline result.
+
+- **Treasury curve:** The official U.S. Treasury daily par-yield feed supplies
+  2-, 5-, and 10-year constant-maturity yields (the Treasury counterparts to
+  FRED DGS2/DGS5/DGS10). The saved sample runs from 2003-01-02 through
+  2026-09-25. Yields are percentage points. Level = 10Y, 2s10s = 10Y − 2Y,
+  5s10s = 10Y − 5Y, and butterfly curvature = 2×5Y − 2Y − 10Y. Rows missing
+  any required tenor are excluded; no tenor or date is fabricated. Curve and
+  model allocation are joined on exact dates only. The relationship is
+  descriptive, not a causal or forecasting model. Yearly source URLs,
+  retrieval timestamps, row counts, date ranges, and SHA-256 hashes are
+  recorded in `public/data/yield_curve.json`; cached XML is under ignored
+  `data/raw/treasury_curve/`.
+- **Holdout:** A fixed-parameter, full-history backtest is evaluated over
+  full/development/holdout windows. Development ends 2019-12-31; holdout
+  starts on the first investable trading date in 2020. Historical data before
+  the split are retained for indicator warm-up. Period NAVs are rebased at the
+  preceding trading date. No parameters are fitted or chosen using either
+  window, so this is not presented as optimized out-of-sample testing.
+- **Rate shock:** Issuer-published effective durations as of 2026-09-25 are
+  SHY 1.79, IEF 6.86, and TLT 14.84 years. Fund-page source URLs are in
+  `public/data/rate_shock.json`. Each hypothetical parallel shift uses
+  approximate price return `−duration × (basis points / 10,000)`, then weights
+  the three impacts by current target or latest effective model allocation.
+  This illustrative price-only sensitivity is **not a forecast**; it omits
+  convexity, income, spreads, changing duration, transaction costs, and
+  subsequent rebalancing. Current issuer durations are not historical values.
+- **Decision trace:** Material changes are effective rebalances with at least
+  1% gross traded notional. The output includes prior/new weights, dated
+  momentum, eligibility, realized volatility, effective date, notional, cost,
+  and explanations formed only from explicit predicates. It cannot establish
+  a unique causal contribution of each input to a weight change.
+- **Pressure periods:** Peak-to-trough drawdowns, recovery dates (or an open
+  episode), worst compounded calendar months and quarters, and the five lowest
+  overlapping 63-trading-day strategy-minus-AGG windows are reported. These
+  windows can describe the same event and should not be counted as independent
+  episodes. Allocation and signal state are observed, not asserted as causes.
+
+Regenerate these outputs with `python -m analytics.research_outputs` **after**
+the existing baseline pipeline has produced `data/processed/prices_clean.csv`,
+`returns_simple.csv`, and the full-precision `summary_stats.json`. The command
+reruns the shared validated backtest and stops *before writing public outputs*
+if cumulative return, CAGR, volatility, Sharpe, maximum drawdown, or first investable date differs
+from that full-precision checkpoint. It does not overwrite baseline outputs.
+The processed market snapshot and downloaded Treasury XML are git-ignored;
+public research JSON files are checked in. A fresh market-data refresh may
+legitimately differ and must be reviewed against a new documented checkpoint,
+not silently accepted as the same baseline.
+
+Treasury source: [U.S. Treasury daily rates](https://home.treasury.gov/resource-center/data-chart-center/interest-rates).
+
+---
+
 ## Reproducibility
 
 ### Prerequisites
@@ -203,11 +260,13 @@ npm run dev
 Visit http://localhost:3000
 
 ### Refresh data
-Re-run steps 1–6 (or `python run_pipeline.py`) then refresh the browser.
+Re-run steps 1–6 (or `python run_pipeline.py`), then run
+`python -m analytics.research_outputs` after reviewing any baseline checkpoint
+difference, and refresh the browser.
 
 ### Run tests
 ```bash
-pytest tests/test_analytics.py -v
+pytest -q
 ```
 
 ---

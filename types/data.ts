@@ -279,20 +279,118 @@ export interface ReferencesData {
   references: ReferenceItem[];
 }
 
+export interface CurvePoint {
+  date: string;
+  two_year?: number;
+  five_year?: number;
+  ten_year?: number;
+  level: number;
+  slope_2s10s: number;
+  slope_5s10s?: number;
+  curvature: number;
+  SHY?: number;
+  IEF?: number;
+  TLT?: number;
+}
+
+export interface YieldCurveData {
+  methodology: { source: string; source_url: string; convention: string; alignment: string; research_limit: string; units: string };
+  first_date: string;
+  last_date: string;
+  daily_observations: number;
+  latest: CurvePoint;
+  monthly_series: CurvePoint[];
+  allocation_context: CurvePoint[];
+  regime_context: Array<{ id: string; label: string; average_10y_yield: number; average_2s10s: number; ending_2s10s: number; average_allocation: Record<string, number>; strategy_annualized_volatility: number }>;
+}
+
+export interface HoldoutMetrics {
+  cumulative_return: number;
+  cagr: number;
+  annualized_volatility: number;
+  sharpe_ratio: number;
+  maximum_drawdown: number;
+  monthly_win_rate: number;
+  one_way_turnover: number;
+  number_of_rebalances: number;
+}
+
+export interface HoldoutPeriod {
+  start_date: string;
+  end_date: string;
+  trading_days: number;
+  strategy: HoldoutMetrics;
+  benchmark: HoldoutMetrics;
+}
+
+export interface HoldoutData {
+  methodology: { label: string; note: string; split_rule: string };
+  periods: Record<"full" | "development" | "holdout", HoldoutPeriod>;
+}
+
+export interface RateShockScenario { shock_bps: number; asset_impact: Record<string, number>; portfolio_impact: number }
+export interface RateShockAllocation { as_of: string; weights: Record<string, number>; scenarios: RateShockScenario[] }
+export interface RateShockData {
+  methodology: { label: string; formula: string; duration_as_of: string; limitations: string };
+  durations: Record<string, { years: number; source: string }>;
+  allocations: { current_model_target: RateShockAllocation; latest_effective: RateShockAllocation };
+}
+
+export interface DecisionRecord {
+  signal_date: string;
+  previous_signal_date: string | null;
+  effective_date: string;
+  previous_allocation: Record<string, number>;
+  new_allocation: Record<string, number>;
+  momentum: Record<string, number>;
+  eligibility: Record<string, boolean>;
+  realized_volatility: Record<string, number>;
+  weight_change: Record<string, number>;
+  trading_notional: number;
+  transaction_cost: number;
+  explanations: string[];
+}
+export interface SignalDiagnosticsData {
+  methodology: { meaningful_change_gross_notional: number; note: string };
+  total_observable_rebalances: number;
+  records: DecisionRecord[];
+}
+
+export interface FailureEvent {
+  start_date: string;
+  trough_date: string;
+  recovery_date: string | null;
+  drawdown: number;
+  strategy_return: number;
+  benchmark_return: number;
+  average_allocation: Record<string, number>;
+  allocation_at_trough: Record<string, number>;
+  signal_state_at_trough: { signal_date: string; momentum: Record<string, number>; eligibility: Record<string, boolean>; realized_volatility: Record<string, number> } | null;
+}
+export interface FailurePeriod { period: string; strategy_return: number; benchmark_return: number; active_return: number }
+export interface FailureModesData {
+  methodology: { drawdown: string; worst_periods: string; underperformance: string };
+  events: FailureEvent[];
+  worst_months: FailurePeriod[];
+  worst_quarters: FailurePeriod[];
+  underperformance_windows: Array<{ start_date: string; end_date: string; strategy_return: number; benchmark_return: number; active_return: number }>;
+  drawdown_series: Array<{ date: string; strategy_drawdown: number }>;
+}
+
 
 export interface DashboardData {
   summary: SummaryStats;
   nav: NavDataPoint[];
-  annualReturns: AnnualReturn[];
-  monthlyReturns: MonthlyReturn[];
   rollingMetrics: RollingMetricsPoint[];
-  signals: SignalPoint[];
   weights: WeightPoint[];
-  rebalanceLog: RebalanceEvent[];
-  volatility: VolatilityPoint[];
   meta: MetaData;
   sensitivity: SensitivityData;
   regimeAnalysis: RegimeAnalysisData;
   researcherView: ResearcherViewData;
   references: ReferencesData;
+  yieldCurve: YieldCurveData;
+  holdout: HoldoutData;
+  rateShock: RateShockData;
+  signalDiagnostics: SignalDiagnosticsData;
+  failureModes: FailureModesData;
 }
