@@ -1,0 +1,95 @@
+{
+  "methodology": {
+    "label": "Holdout evaluation",
+    "split_rule": "Development before 2020-01-01; holdout from 2020-01-01",
+    "fixed_parameters": {
+      "momentum_window": 60,
+      "volatility_window": 20,
+      "annualization_factor": 252,
+      "transaction_cost_rate": 0.0002,
+      "signal_to_weight_lag": 1,
+      "min_realized_volatility": 1e-06
+    },
+    "note": "Pre-specified parameters were not fitted or tuned. Full-history warm-up is retained for later-period signals; each period NAV is rebased to one at the preceding trading date."
+  },
+  "periods": {
+    "full": {
+      "start_date": "2004-01-02",
+      "end_date": "2026-09-25",
+      "nav_base_date": "2003-12-31",
+      "trading_days": 5719,
+      "strategy": {
+        "cumulative_return": 0.6635845043493718,
+        "cagr": 0.022680660063817415,
+        "annualized_volatility": 0.02543960436682316,
+        "sharpe_ratio": 0.8943412974952794,
+        "maximum_drawdown": -0.07075803707930117,
+        "monthly_win_rate": 0.6153846153846154,
+        "one_way_turnover": 20.842597196612353,
+        "number_of_rebalances": 273
+      },
+      "benchmark": {
+        "cumulative_return": 0.9273977592069336,
+        "cagr": 0.029335324611632574,
+        "annualized_volatility": 0.0516901704860718,
+        "sharpe_ratio": 0.5853349674910582,
+        "maximum_drawdown": -0.18432930635062472,
+        "monthly_win_rate": 0.5860805860805861,
+        "one_way_turnover": 0.0,
+        "number_of_rebalances": 0
+      }
+    },
+    "development": {
+      "start_date": "2004-01-02",
+      "end_date": "2019-12-31",
+      "nav_base_date": "2003-12-31",
+      "trading_days": 4027,
+      "strategy": {
+        "cumulative_return": 0.516323484632595,
+        "cagr": 0.026392620700265157,
+        "annualized_volatility": 0.02454776696970264,
+        "sharpe_ratio": 1.0735314712755577,
+        "maximum_drawdown": -0.033426169496651115,
+        "monthly_win_rate": 0.6197916666666666,
+        "one_way_turnover": 14.180477223745083,
+        "number_of_rebalances": 192
+      },
+      "benchmark": {
+        "cumulative_return": 0.8701428840421852,
+        "cagr": 0.03995194648238476,
+        "annualized_volatility": 0.04612461052439606,
+        "sharpe_ratio": 0.8725605327418519,
+        "maximum_drawdown": -0.12835330778504528,
+        "monthly_win_rate": 0.6145833333333334,
+        "one_way_turnover": 0.0,
+        "number_of_rebalances": 0
+      }
+    },
+    "holdout": {
+      "start_date": "2020-01-02",
+      "end_date": "2026-09-25",
+      "nav_base_date": "2019-12-31",
+      "trading_days": 1692,
+      "strategy": {
+        "cumulative_return": 0.09711715290913725,
+        "cagr": 0.013900012523863081,
+        "annualized_volatility": 0.027445969622503702,
+        "sharpe_ratio": 0.516686354954365,
+        "maximum_drawdown": -0.07075803707930206,
+        "monthly_win_rate": 0.6049382716049383,
+        "one_way_turnover": 6.662119972867274,
+        "number_of_rebalances": 81
+      },
+      "benchmark": {
+        "cumulative_return": 0.030615241034955165,
+        "cagr": 0.004501412057439591,
+        "annualized_volatility": 0.0629792080918982,
+        "sharpe_ratio": 0.10286817120208537,
+        "maximum_drawdown": -0.18432930635062172,
+        "monthly_win_rate": 0.5185185185185185,
+        "one_way_turnover": 0.0,
+        "number_of_rebalances": 0
+      }
+    }
+  }
+}

@@ -124,7 +124,6 @@ def load_all() -> dict:
     non_date_files = {
         "annual_returns": "annual_returns.csv",
         "monthly_returns": "monthly_returns.csv",
-        "rebalance_log": "rebalance_log.csv",
         "turnover": "turnover.csv",
     }
     json_files = {
@@ -155,7 +154,20 @@ def load_all() -> dict:
         data[key] = pd.read_csv(path, index_col=0)
         log.info("Loaded: %s", filename)
 
+    # The first CSV column is signal_date, not an index to discard.
+    data["rebalance_log"] = load_rebalance_log(DATA_PROCESSED_DIR / "rebalance_log.csv")
+
     return data
+
+
+def load_rebalance_log(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        raise FileNotFoundError(f"Required file not found: {path}\nRun the full analytics pipeline first.")
+    rebal = pd.read_csv(path)
+    if "signal_date" not in rebal.columns or rebal["signal_date"].isna().any():
+        raise ValueError(f"Rebalance log is missing signal_date: {path}")
+    log.info("Loaded: %s", path.name)
+    return rebal
 
 
 

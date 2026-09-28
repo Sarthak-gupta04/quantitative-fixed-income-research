@@ -1,0 +1,5648 @@
+{
+  "methodology": {
+    "source": "U.S. Department of the Treasury, daily par yield curve rates",
+    "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates",
+    "series": {
+      "2Y": "BC_2YEAR (FRED counterpart DGS2)",
+      "5Y": "BC_5YEAR (FRED counterpart DGS5)",
+      "10Y": "BC_10YEAR (FRED counterpart DGS10)"
+    },
+    "units": "percentage points, not decimal returns",
+    "convention": "Level = 10Y; 2s10s = 10Y \u2212 2Y; 5s10s = 10Y \u2212 5Y; curvature = 2\u00d75Y \u2212 2Y \u2212 10Y.",
+    "alignment": "Only dates with all three published tenors are used. Allocation context uses exact date intersections, with no missing-value imputation. Monthly charts use the last actual observation of each month.",
+    "research_limit": "Curve/allocation comparisons are historical co-occurrences, not causal estimates.",
+    "pandas_version": "3.0.1"
+  },
+  "source_files": [
+    {
+      "year": 2003,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2003",
+      "retrieved_at_utc": "2026-09-28T05:54:12.817811+00:00",
+      "sha256": "f463e337835e3f1fd3c04725e8ae12a64697efccd84aa1b279980a3fd820fadf",
+      "rows": 250,
+      "first_date": "2003-01-02",
+      "last_date": "2003-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2003.xml"
+    },
+    {
+      "year": 2004,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2004",
+      "retrieved_at_utc": "2026-09-28T05:54:30.806934+00:00",
+      "sha256": "92735a9b40c70fe33cc2dd766e25e0997a81506b8a881bf72aeec0f007b4e33b",
+      "rows": 250,
+      "first_date": "2004-01-02",
+      "last_date": "2004-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2004.xml"
+    },
+    {
+      "year": 2005,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2005",
+      "retrieved_at_utc": "2026-09-28T05:54:47.553047+00:00",
+      "sha256": "9733f6c5e1f8cc620e3ac24f5837d961a6fc4d7aee84059a1f2616ab974e7c63",
+      "rows": 250,
+      "first_date": "2005-01-03",
+      "last_date": "2005-12-30",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2005.xml"
+    },
+    {
+      "year": 2006,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2006",
+      "retrieved_at_utc": "2026-09-28T05:55:05.321260+00:00",
+      "sha256": "2dfcff2ceea6fa8176dbbe653ab06052dba39e137f3a69ee6b6dad5dcba2232c",
+      "rows": 250,
+      "first_date": "2006-01-03",
+      "last_date": "2006-12-29",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2006.xml"
+    },
+    {
+      "year": 2007,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2007",
+      "retrieved_at_utc": "2026-09-28T05:55:24.263154+00:00",
+      "sha256": "428fd3c08c36ed85eda819bbc5150420845756c378d6989f0d33f94fb545820e",
+      "rows": 251,
+      "first_date": "2007-01-02",
+      "last_date": "2007-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2007.xml"
+    },
+    {
+      "year": 2008,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2008",
+      "retrieved_at_utc": "2026-09-28T05:55:42.211061+00:00",
+      "sha256": "b85819bbf75170bbd2eb1ac140694ae5f16164ffae63f01f490ec4e86b1fd31d",
+      "rows": 251,
+      "first_date": "2008-01-02",
+      "last_date": "2008-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2008.xml"
+    },
+    {
+      "year": 2009,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2009",
+      "retrieved_at_utc": "2026-09-28T05:55:59.967047+00:00",
+      "sha256": "b48aad6f386192067ddc896fa8fe62c7b249a5b7377e41f936f47ea257c3f091",
+      "rows": 250,
+      "first_date": "2009-01-02",
+      "last_date": "2009-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2009.xml"
+    },
+    {
+      "year": 2010,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2010",
+      "retrieved_at_utc": "2026-09-28T05:56:19.733207+00:00",
+      "sha256": "bfe879489a81914089800db9223b27d401f26f97a901fb9d610031ab384c7d30",
+      "rows": 252,
+      "first_date": "2010-01-04",
+      "last_date": "2010-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2010.xml"
+    },
+    {
+      "year": 2011,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2011",
+      "retrieved_at_utc": "2026-09-28T05:57:16.809049+00:00",
+      "sha256": "29bef99a4c34194b14e4a0d7abe1a7457e2add1d3aa3f66d7299942b1806836d",
+      "rows": 250,
+      "first_date": "2011-01-03",
+      "last_date": "2011-12-30",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2011.xml"
+    },
+    {
+      "year": 2012,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2012",
+      "retrieved_at_utc": "2026-09-28T05:57:18.479989+00:00",
+      "sha256": "01fa38bbec0f3c23b77d3a1d460e11075c5253234620de15bb8bd1843b051ce5",
+      "rows": 250,
+      "first_date": "2012-01-03",
+      "last_date": "2012-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2012.xml"
+    },
+    {
+      "year": 2013,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2013",
+      "retrieved_at_utc": "2026-09-28T05:57:17.009758+00:00",
+      "sha256": "c74dd3849b8c36074f26ffd35e30190a2b2a550bdf3c3bb8c47617a7d339e0d7",
+      "rows": 250,
+      "first_date": "2013-01-02",
+      "last_date": "2013-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2013.xml"
+    },
+    {
+      "year": 2014,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2014",
+      "retrieved_at_utc": "2026-09-28T05:57:19.921757+00:00",
+      "sha256": "fec9bc425c232eea8532d033440ed40d64429304307bb018fbe9270dbe5962bf",
+      "rows": 250,
+      "first_date": "2014-01-02",
+      "last_date": "2014-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2014.xml"
+    },
+    {
+      "year": 2015,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2015",
+      "retrieved_at_utc": "2026-09-28T05:57:17.868087+00:00",
+      "sha256": "5e7877a921778422c32437826ee5c248209091b2c9c0af6183eb45b704cca93d",
+      "rows": 251,
+      "first_date": "2015-01-02",
+      "last_date": "2015-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2015.xml"
+    },
+    {
+      "year": 2016,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2016",
+      "retrieved_at_utc": "2026-09-28T05:57:17.785958+00:00",
+      "sha256": "3dbafa98c12df0263ad0721ca194e2934b57a23b64948e355b898f9b649249f2",
+      "rows": 250,
+      "first_date": "2016-01-04",
+      "last_date": "2016-12-30",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2016.xml"
+    },
+    {
+      "year": 2017,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2017",
+      "retrieved_at_utc": "2026-09-28T05:57:35.500915+00:00",
+      "sha256": "33c6ee315b46193c396fb25f6a5c92234ffc4965fc3d4ae60b47800a822e01a6",
+      "rows": 250,
+      "first_date": "2017-01-03",
+      "last_date": "2017-12-29",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2017.xml"
+    },
+    {
+      "year": 2018,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2018",
+      "retrieved_at_utc": "2026-09-28T05:57:34.858766+00:00",
+      "sha256": "1c73bd4c91b30f62fde453fc2800371b4a0737a5c7e146d1624f2109615d7c10",
+      "rows": 249,
+      "first_date": "2018-01-02",
+      "last_date": "2018-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2018.xml"
+    },
+    {
+      "year": 2019,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2019",
+      "retrieved_at_utc": "2026-09-28T05:57:38.570550+00:00",
+      "sha256": "99500b758fe54d9060bfeecf38153a634b157c7322cda34bfb75eb0cd9f44fa2",
+      "rows": 250,
+      "first_date": "2019-01-02",
+      "last_date": "2019-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2019.xml"
+    },
+    {
+      "year": 2020,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2020",
+      "retrieved_at_utc": "2026-09-28T05:57:37.949140+00:00",
+      "sha256": "b33bfc9367a4da365831218ae4c4420542d9d521cbab64bab814a2a61586eb14",
+      "rows": 251,
+      "first_date": "2020-01-02",
+      "last_date": "2020-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2020.xml"
+    },
+    {
+      "year": 2021,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2021",
+      "retrieved_at_utc": "2026-09-28T05:57:37.277685+00:00",
+      "sha256": "8a30d3ea3b733efb303fe854767aefdc6991d44237e8da7dd15ba2655e5bf39f",
+      "rows": 251,
+      "first_date": "2021-01-04",
+      "last_date": "2021-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2021.xml"
+    },
+    {
+      "year": 2022,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2022",
+      "retrieved_at_utc": "2026-09-28T05:57:41.029423+00:00",
+      "sha256": "78586e2f3e009b1c7b72c5ae98f29d9bb5763fcc0610884f3753931b30c13cc6",
+      "rows": 249,
+      "first_date": "2022-01-03",
+      "last_date": "2022-12-30",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2022.xml"
+    },
+    {
+      "year": 2023,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2023",
+      "retrieved_at_utc": "2026-09-28T05:57:52.632192+00:00",
+      "sha256": "17cac37828c003778c61255c3e21b4636dd3c46259087b13d0872a4fdfdb7df9",
+      "rows": 250,
+      "first_date": "2023-01-03",
+      "last_date": "2023-12-29",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2023.xml"
+    },
+    {
+      "year": 2024,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2024",
+      "retrieved_at_utc": "2026-09-28T05:57:54.233564+00:00",
+      "sha256": "8fad964ccf07da8fd259dd66e4b67d8d631d89c3ee1fd70e82cc90201644a8dd",
+      "rows": 250,
+      "first_date": "2024-01-02",
+      "last_date": "2024-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2024.xml"
+    },
+    {
+      "year": 2025,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2025",
+      "retrieved_at_utc": "2026-09-28T05:57:56.004041+00:00",
+      "sha256": "0ed3275d16dd7f991ed893d2382ad961ac3abc5656c744067f62cd90d1e2f5c1",
+      "rows": 249,
+      "first_date": "2025-01-02",
+      "last_date": "2025-12-31",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2025.xml"
+    },
+    {
+      "year": 2026,
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+      "retrieved_at_utc": "2026-09-28T05:57:57.608389+00:00",
+      "sha256": "4743d9954b92116967de6e96a14635ca16edce6e11842ea7653c2d2fde407933",
+      "rows": 185,
+      "first_date": "2026-01-02",
+      "last_date": "2026-09-25",
+      "local_file": "data\\raw\\treasury_curve\\treasury_curve_2026.xml"
+    }
+  ],
+  "first_date": "2003-01-02",
+  "last_date": "2026-09-25",
+  "daily_observations": 5938,
+  "latest": {
+    "date": "2026-09-25",
+    "two_year": 4.81,
+    "five_year": 4.98,
+    "ten_year": 5.17,
+    "level": 5.17,
+    "slope_2s10s": 0.3600000000000003,
+    "slope_5s10s": 0.1899999999999995,
+    "curvature": -0.019999999999998685,
+    "change_level": -0.009999999999999787,
+    "change_slope_2s10s": 0.05000000000000071,
+    "change_slope_5s10s": 0.040000000000000036,
+    "change_curvature": -0.02999999999999936
+  },
+  "monthly_series": [
+    {
+      "date": "2003-01-31",
+      "two_year": 1.72,
+      "five_year": 3.02,
+      "ten_year": 4.0,
+      "level": 4.0,
+      "slope_2s10s": 2.2800000000000002,
+      "slope_5s10s": 0.98,
+      "curvature": 0.3200000000000003
+    },
+    {
+      "date": "2003-02-28",
+      "two_year": 1.53,
+      "five_year": 2.69,
+      "ten_year": 3.71,
+      "level": 3.71,
+      "slope_2s10s": 2.1799999999999997,
+      "slope_5s10s": 1.02,
+      "curvature": 0.13999999999999968
+    },
+    {
+      "date": "2003-03-31",
+      "two_year": 1.51,
+      "five_year": 2.78,
+      "ten_year": 3.83,
+      "level": 3.83,
+      "slope_2s10s": 2.3200000000000003,
+      "slope_5s10s": 1.0500000000000003,
+      "curvature": 0.21999999999999975
+    },
+    {
+      "date": "2003-04-30",
+      "two_year": 1.51,
+      "five_year": 2.85,
+      "ten_year": 3.89,
+      "level": 3.89,
+      "slope_2s10s": 2.38,
+      "slope_5s10s": 1.04,
+      "curvature": 0.30000000000000027
+    },
+    {
+      "date": "2003-05-30",
+      "two_year": 1.33,
+      "five_year": 2.3,
+      "ten_year": 3.37,
+      "level": 3.37,
+      "slope_2s10s": 2.04,
+      "slope_5s10s": 1.0700000000000003,
+      "curvature": -0.10000000000000053
+    },
+    {
+      "date": "2003-06-30",
+      "two_year": 1.32,
+      "five_year": 2.46,
+      "ten_year": 3.54,
+      "level": 3.54,
+      "slope_2s10s": 2.2199999999999998,
+      "slope_5s10s": 1.08,
+      "curvature": 0.05999999999999961
+    },
+    {
+      "date": "2003-07-31",
+      "two_year": 1.8,
+      "five_year": 3.38,
+      "ten_year": 4.49,
+      "level": 4.49,
+      "slope_2s10s": 2.6900000000000004,
+      "slope_5s10s": 1.1100000000000003,
+      "curvature": 0.46999999999999975
+    },
+    {
+      "date": "2003-08-29",
+      "two_year": 1.95,
+      "five_year": 3.46,
+      "ten_year": 4.45,
+      "level": 4.45,
+      "slope_2s10s": 2.5,
+      "slope_5s10s": 0.9900000000000002,
+      "curvature": 0.5199999999999996
+    },
+    {
+      "date": "2003-09-30",
+      "two_year": 1.5,
+      "five_year": 2.85,
+      "ten_year": 3.96,
+      "level": 3.96,
+      "slope_2s10s": 2.46,
+      "slope_5s10s": 1.1099999999999999,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2003-10-31",
+      "two_year": 1.85,
+      "five_year": 3.27,
+      "ten_year": 4.33,
+      "level": 4.33,
+      "slope_2s10s": 2.48,
+      "slope_5s10s": 1.06,
+      "curvature": 0.35999999999999943
+    },
+    {
+      "date": "2003-11-28",
+      "two_year": 2.06,
+      "five_year": 3.38,
+      "ten_year": 4.34,
+      "level": 4.34,
+      "slope_2s10s": 2.28,
+      "slope_5s10s": 0.96,
+      "curvature": 0.35999999999999943
+    },
+    {
+      "date": "2003-12-31",
+      "two_year": 1.84,
+      "five_year": 3.25,
+      "ten_year": 4.27,
+      "level": 4.27,
+      "slope_2s10s": 2.4299999999999997,
+      "slope_5s10s": 1.0199999999999996,
+      "curvature": 0.39000000000000057
+    },
+    {
+      "date": "2004-01-30",
+      "two_year": 1.84,
+      "five_year": 3.17,
+      "ten_year": 4.16,
+      "level": 4.16,
+      "slope_2s10s": 2.3200000000000003,
+      "slope_5s10s": 0.9900000000000002,
+      "curvature": 0.33999999999999986
+    },
+    {
+      "date": "2004-02-27",
+      "two_year": 1.66,
+      "five_year": 3.01,
+      "ten_year": 3.99,
+      "level": 3.99,
+      "slope_2s10s": 2.33,
+      "slope_5s10s": 0.9800000000000004,
+      "curvature": 0.3699999999999992
+    },
+    {
+      "date": "2004-03-31",
+      "two_year": 1.6,
+      "five_year": 2.8,
+      "ten_year": 3.86,
+      "level": 3.86,
+      "slope_2s10s": 2.26,
+      "slope_5s10s": 1.06,
+      "curvature": 0.13999999999999968
+    },
+    {
+      "date": "2004-04-30",
+      "two_year": 2.31,
+      "five_year": 3.63,
+      "ten_year": 4.53,
+      "level": 4.53,
+      "slope_2s10s": 2.22,
+      "slope_5s10s": 0.9000000000000004,
+      "curvature": 0.41999999999999904
+    },
+    {
+      "date": "2004-05-28",
+      "two_year": 2.54,
+      "five_year": 3.81,
+      "ten_year": 4.66,
+      "level": 4.66,
+      "slope_2s10s": 2.12,
+      "slope_5s10s": 0.8500000000000001,
+      "curvature": 0.41999999999999993
+    },
+    {
+      "date": "2004-06-30",
+      "two_year": 2.7,
+      "five_year": 3.81,
+      "ten_year": 4.62,
+      "level": 4.62,
+      "slope_2s10s": 1.92,
+      "slope_5s10s": 0.81,
+      "curvature": 0.2999999999999998
+    },
+    {
+      "date": "2004-07-30",
+      "two_year": 2.68,
+      "five_year": 3.71,
+      "ten_year": 4.5,
+      "level": 4.5,
+      "slope_2s10s": 1.8199999999999998,
+      "slope_5s10s": 0.79,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2004-08-31",
+      "two_year": 2.41,
+      "five_year": 3.33,
+      "ten_year": 4.13,
+      "level": 4.13,
+      "slope_2s10s": 1.7199999999999998,
+      "slope_5s10s": 0.7999999999999998,
+      "curvature": 0.1200000000000001
+    },
+    {
+      "date": "2004-09-30",
+      "two_year": 2.63,
+      "five_year": 3.38,
+      "ten_year": 4.14,
+      "level": 4.14,
+      "slope_2s10s": 1.5099999999999998,
+      "slope_5s10s": 0.7599999999999998,
+      "curvature": -0.009999999999999787
+    },
+    {
+      "date": "2004-10-29",
+      "two_year": 2.56,
+      "five_year": 3.3,
+      "ten_year": 4.05,
+      "level": 4.05,
+      "slope_2s10s": 1.4899999999999998,
+      "slope_5s10s": 0.75,
+      "curvature": -0.010000000000000675
+    },
+    {
+      "date": "2004-11-30",
+      "two_year": 3.02,
+      "five_year": 3.72,
+      "ten_year": 4.36,
+      "level": 4.36,
+      "slope_2s10s": 1.3400000000000003,
+      "slope_5s10s": 0.6400000000000001,
+      "curvature": 0.05999999999999961
+    },
+    {
+      "date": "2004-12-31",
+      "two_year": 3.08,
+      "five_year": 3.63,
+      "ten_year": 4.24,
+      "level": 4.24,
+      "slope_2s10s": 1.1600000000000001,
+      "slope_5s10s": 0.6100000000000003,
+      "curvature": -0.0600000000000005
+    },
+    {
+      "date": "2005-01-31",
+      "two_year": 3.29,
+      "five_year": 3.71,
+      "ten_year": 4.14,
+      "level": 4.14,
+      "slope_2s10s": 0.8499999999999996,
+      "slope_5s10s": 0.4299999999999997,
+      "curvature": -0.009999999999999787
+    },
+    {
+      "date": "2005-02-28",
+      "two_year": 3.59,
+      "five_year": 4.0,
+      "ten_year": 4.36,
+      "level": 4.36,
+      "slope_2s10s": 0.7700000000000005,
+      "slope_5s10s": 0.3600000000000003,
+      "curvature": 0.04999999999999982
+    },
+    {
+      "date": "2005-03-31",
+      "two_year": 3.8,
+      "five_year": 4.18,
+      "ten_year": 4.5,
+      "level": 4.5,
+      "slope_2s10s": 0.7000000000000002,
+      "slope_5s10s": 0.3200000000000003,
+      "curvature": 0.05999999999999961
+    },
+    {
+      "date": "2005-04-29",
+      "two_year": 3.66,
+      "five_year": 3.9,
+      "ten_year": 4.21,
+      "level": 4.21,
+      "slope_2s10s": 0.5499999999999998,
+      "slope_5s10s": 0.31000000000000005,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2005-05-31",
+      "two_year": 3.6,
+      "five_year": 3.76,
+      "ten_year": 4.0,
+      "level": 4.0,
+      "slope_2s10s": 0.3999999999999999,
+      "slope_5s10s": 0.2400000000000002,
+      "curvature": -0.08000000000000052
+    },
+    {
+      "date": "2005-06-30",
+      "two_year": 3.66,
+      "five_year": 3.72,
+      "ten_year": 3.94,
+      "level": 3.94,
+      "slope_2s10s": 0.2799999999999998,
+      "slope_5s10s": 0.21999999999999975,
+      "curvature": -0.1599999999999997
+    },
+    {
+      "date": "2005-07-29",
+      "two_year": 4.02,
+      "five_year": 4.12,
+      "ten_year": 4.28,
+      "level": 4.28,
+      "slope_2s10s": 0.2600000000000007,
+      "slope_5s10s": 0.16000000000000014,
+      "curvature": -0.05999999999999961
+    },
+    {
+      "date": "2005-08-31",
+      "two_year": 3.84,
+      "five_year": 3.87,
+      "ten_year": 4.02,
+      "level": 4.02,
+      "slope_2s10s": 0.17999999999999972,
+      "slope_5s10s": 0.14999999999999947,
+      "curvature": -0.11999999999999922
+    },
+    {
+      "date": "2005-09-30",
+      "two_year": 4.18,
+      "five_year": 4.18,
+      "ten_year": 4.34,
+      "level": 4.34,
+      "slope_2s10s": 0.16000000000000014,
+      "slope_5s10s": 0.16000000000000014,
+      "curvature": -0.16000000000000014
+    },
+    {
+      "date": "2005-10-31",
+      "two_year": 4.4,
+      "five_year": 4.45,
+      "ten_year": 4.57,
+      "level": 4.57,
+      "slope_2s10s": 0.16999999999999993,
+      "slope_5s10s": 0.1200000000000001,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2005-11-30",
+      "two_year": 4.42,
+      "five_year": 4.42,
+      "ten_year": 4.49,
+      "level": 4.49,
+      "slope_2s10s": 0.07000000000000028,
+      "slope_5s10s": 0.07000000000000028,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2005-12-30",
+      "two_year": 4.41,
+      "five_year": 4.35,
+      "ten_year": 4.39,
+      "level": 4.39,
+      "slope_2s10s": -0.020000000000000462,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.10000000000000053
+    },
+    {
+      "date": "2006-01-31",
+      "two_year": 4.54,
+      "five_year": 4.47,
+      "ten_year": 4.53,
+      "level": 4.53,
+      "slope_2s10s": -0.009999999999999787,
+      "slope_5s10s": 0.0600000000000005,
+      "curvature": -0.13000000000000078
+    },
+    {
+      "date": "2006-02-28",
+      "two_year": 4.69,
+      "five_year": 4.61,
+      "ten_year": 4.55,
+      "level": 4.55,
+      "slope_2s10s": -0.14000000000000057,
+      "slope_5s10s": -0.0600000000000005,
+      "curvature": -0.019999999999999574
+    },
+    {
+      "date": "2006-03-31",
+      "two_year": 4.82,
+      "five_year": 4.82,
+      "ten_year": 4.86,
+      "level": 4.86,
+      "slope_2s10s": 0.040000000000000036,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.040000000000000036
+    },
+    {
+      "date": "2006-04-28",
+      "two_year": 4.87,
+      "five_year": 4.92,
+      "ten_year": 5.07,
+      "level": 5.07,
+      "slope_2s10s": 0.20000000000000018,
+      "slope_5s10s": 0.15000000000000036,
+      "curvature": -0.10000000000000053
+    },
+    {
+      "date": "2006-05-31",
+      "two_year": 5.04,
+      "five_year": 5.04,
+      "ten_year": 5.12,
+      "level": 5.12,
+      "slope_2s10s": 0.08000000000000007,
+      "slope_5s10s": 0.08000000000000007,
+      "curvature": -0.08000000000000007
+    },
+    {
+      "date": "2006-06-30",
+      "two_year": 5.16,
+      "five_year": 5.1,
+      "ten_year": 5.15,
+      "level": 5.15,
+      "slope_2s10s": -0.009999999999999787,
+      "slope_5s10s": 0.05000000000000071,
+      "curvature": -0.11000000000000121
+    },
+    {
+      "date": "2006-07-31",
+      "two_year": 4.97,
+      "five_year": 4.91,
+      "ten_year": 4.99,
+      "level": 4.99,
+      "slope_2s10s": 0.020000000000000462,
+      "slope_5s10s": 0.08000000000000007,
+      "curvature": -0.13999999999999968
+    },
+    {
+      "date": "2006-08-31",
+      "two_year": 4.79,
+      "five_year": 4.7,
+      "ten_year": 4.74,
+      "level": 4.74,
+      "slope_2s10s": -0.04999999999999982,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.1299999999999999
+    },
+    {
+      "date": "2006-09-29",
+      "two_year": 4.71,
+      "five_year": 4.59,
+      "ten_year": 4.64,
+      "level": 4.64,
+      "slope_2s10s": -0.07000000000000028,
+      "slope_5s10s": 0.04999999999999982,
+      "curvature": -0.16999999999999993
+    },
+    {
+      "date": "2006-10-31",
+      "two_year": 4.71,
+      "five_year": 4.57,
+      "ten_year": 4.61,
+      "level": 4.61,
+      "slope_2s10s": -0.09999999999999964,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.17999999999999972
+    },
+    {
+      "date": "2006-11-30",
+      "two_year": 4.62,
+      "five_year": 4.45,
+      "ten_year": 4.46,
+      "level": 4.46,
+      "slope_2s10s": -0.16000000000000014,
+      "slope_5s10s": 0.009999999999999787,
+      "curvature": -0.17999999999999972
+    },
+    {
+      "date": "2006-12-29",
+      "two_year": 4.82,
+      "five_year": 4.7,
+      "ten_year": 4.71,
+      "level": 4.71,
+      "slope_2s10s": -0.11000000000000032,
+      "slope_5s10s": 0.009999999999999787,
+      "curvature": -0.1299999999999999
+    },
+    {
+      "date": "2007-01-31",
+      "two_year": 4.94,
+      "five_year": 4.82,
+      "ten_year": 4.83,
+      "level": 4.83,
+      "slope_2s10s": -0.11000000000000032,
+      "slope_5s10s": 0.009999999999999787,
+      "curvature": -0.1299999999999999
+    },
+    {
+      "date": "2007-02-28",
+      "two_year": 4.65,
+      "five_year": 4.52,
+      "ten_year": 4.56,
+      "level": 4.56,
+      "slope_2s10s": -0.09000000000000075,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.17000000000000082
+    },
+    {
+      "date": "2007-03-30",
+      "two_year": 4.58,
+      "five_year": 4.54,
+      "ten_year": 4.65,
+      "level": 4.65,
+      "slope_2s10s": 0.07000000000000028,
+      "slope_5s10s": 0.11000000000000032,
+      "curvature": -0.15000000000000036
+    },
+    {
+      "date": "2007-04-30",
+      "two_year": 4.6,
+      "five_year": 4.51,
+      "ten_year": 4.63,
+      "level": 4.63,
+      "slope_2s10s": 0.03000000000000025,
+      "slope_5s10s": 0.1200000000000001,
+      "curvature": -0.20999999999999996
+    },
+    {
+      "date": "2007-05-31",
+      "two_year": 4.92,
+      "five_year": 4.86,
+      "ten_year": 4.9,
+      "level": 4.9,
+      "slope_2s10s": -0.019999999999999574,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.09999999999999964
+    },
+    {
+      "date": "2007-06-29",
+      "two_year": 4.87,
+      "five_year": 4.92,
+      "ten_year": 5.03,
+      "level": 5.03,
+      "slope_2s10s": 0.16000000000000014,
+      "slope_5s10s": 0.11000000000000032,
+      "curvature": -0.0600000000000005
+    },
+    {
+      "date": "2007-07-31",
+      "two_year": 4.56,
+      "five_year": 4.6,
+      "ten_year": 4.78,
+      "level": 4.78,
+      "slope_2s10s": 0.22000000000000064,
+      "slope_5s10s": 0.1800000000000006,
+      "curvature": -0.14000000000000057
+    },
+    {
+      "date": "2007-08-31",
+      "two_year": 4.15,
+      "five_year": 4.25,
+      "ten_year": 4.54,
+      "level": 4.54,
+      "slope_2s10s": 0.3899999999999997,
+      "slope_5s10s": 0.29000000000000004,
+      "curvature": -0.1900000000000004
+    },
+    {
+      "date": "2007-09-28",
+      "two_year": 3.97,
+      "five_year": 4.23,
+      "ten_year": 4.59,
+      "level": 4.59,
+      "slope_2s10s": 0.6199999999999997,
+      "slope_5s10s": 0.35999999999999943,
+      "curvature": -0.09999999999999964
+    },
+    {
+      "date": "2007-10-31",
+      "two_year": 3.94,
+      "five_year": 4.16,
+      "ten_year": 4.48,
+      "level": 4.48,
+      "slope_2s10s": 0.5400000000000005,
+      "slope_5s10s": 0.3200000000000003,
+      "curvature": -0.09999999999999964
+    },
+    {
+      "date": "2007-11-30",
+      "two_year": 3.04,
+      "five_year": 3.41,
+      "ten_year": 3.97,
+      "level": 3.97,
+      "slope_2s10s": 0.9300000000000002,
+      "slope_5s10s": 0.56,
+      "curvature": -0.18999999999999995
+    },
+    {
+      "date": "2007-12-31",
+      "two_year": 3.05,
+      "five_year": 3.45,
+      "ten_year": 4.04,
+      "level": 4.04,
+      "slope_2s10s": 0.9900000000000002,
+      "slope_5s10s": 0.5899999999999999,
+      "curvature": -0.1899999999999995
+    },
+    {
+      "date": "2008-01-31",
+      "two_year": 2.17,
+      "five_year": 2.82,
+      "ten_year": 3.67,
+      "level": 3.67,
+      "slope_2s10s": 1.5,
+      "slope_5s10s": 0.8500000000000001,
+      "curvature": -0.20000000000000018
+    },
+    {
+      "date": "2008-02-29",
+      "two_year": 1.65,
+      "five_year": 2.5,
+      "ten_year": 3.53,
+      "level": 3.53,
+      "slope_2s10s": 1.88,
+      "slope_5s10s": 1.0299999999999998,
+      "curvature": -0.17999999999999972
+    },
+    {
+      "date": "2008-03-31",
+      "two_year": 1.62,
+      "five_year": 2.46,
+      "ten_year": 3.45,
+      "level": 3.45,
+      "slope_2s10s": 1.83,
+      "slope_5s10s": 0.9900000000000002,
+      "curvature": -0.15000000000000036
+    },
+    {
+      "date": "2008-04-30",
+      "two_year": 2.29,
+      "five_year": 3.03,
+      "ten_year": 3.77,
+      "level": 3.77,
+      "slope_2s10s": 1.48,
+      "slope_5s10s": 0.7400000000000002,
+      "curvature": -4.440892098500626e-16
+    },
+    {
+      "date": "2008-05-30",
+      "two_year": 2.66,
+      "five_year": 3.41,
+      "ten_year": 4.06,
+      "level": 4.06,
+      "slope_2s10s": 1.3999999999999995,
+      "slope_5s10s": 0.6499999999999995,
+      "curvature": 0.10000000000000053
+    },
+    {
+      "date": "2008-06-30",
+      "two_year": 2.63,
+      "five_year": 3.34,
+      "ten_year": 3.99,
+      "level": 3.99,
+      "slope_2s10s": 1.3600000000000003,
+      "slope_5s10s": 0.6500000000000004,
+      "curvature": 0.05999999999999961
+    },
+    {
+      "date": "2008-07-31",
+      "two_year": 2.52,
+      "five_year": 3.25,
+      "ten_year": 3.99,
+      "level": 3.99,
+      "slope_2s10s": 1.4700000000000002,
+      "slope_5s10s": 0.7400000000000002,
+      "curvature": -0.010000000000000231
+    },
+    {
+      "date": "2008-08-29",
+      "two_year": 2.36,
+      "five_year": 3.1,
+      "ten_year": 3.83,
+      "level": 3.83,
+      "slope_2s10s": 1.4700000000000002,
+      "slope_5s10s": 0.73,
+      "curvature": 0.010000000000000231
+    },
+    {
+      "date": "2008-09-30",
+      "two_year": 2.0,
+      "five_year": 2.98,
+      "ten_year": 3.85,
+      "level": 3.85,
+      "slope_2s10s": 1.85,
+      "slope_5s10s": 0.8700000000000001,
+      "curvature": 0.10999999999999988
+    },
+    {
+      "date": "2008-10-31",
+      "two_year": 1.56,
+      "five_year": 2.8,
+      "ten_year": 4.01,
+      "level": 4.01,
+      "slope_2s10s": 2.4499999999999997,
+      "slope_5s10s": 1.21,
+      "curvature": 0.02999999999999936
+    },
+    {
+      "date": "2008-11-28",
+      "two_year": 1.0,
+      "five_year": 1.93,
+      "ten_year": 2.93,
+      "level": 2.93,
+      "slope_2s10s": 1.9300000000000002,
+      "slope_5s10s": 1.0000000000000002,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2008-12-31",
+      "two_year": 0.76,
+      "five_year": 1.55,
+      "ten_year": 2.25,
+      "level": 2.25,
+      "slope_2s10s": 1.49,
+      "slope_5s10s": 0.7,
+      "curvature": 0.08999999999999986
+    },
+    {
+      "date": "2009-01-30",
+      "two_year": 0.94,
+      "five_year": 1.85,
+      "ten_year": 2.87,
+      "level": 2.87,
+      "slope_2s10s": 1.9300000000000002,
+      "slope_5s10s": 1.02,
+      "curvature": -0.10999999999999988
+    },
+    {
+      "date": "2009-02-27",
+      "two_year": 1.0,
+      "five_year": 1.99,
+      "ten_year": 3.02,
+      "level": 3.02,
+      "slope_2s10s": 2.02,
+      "slope_5s10s": 1.03,
+      "curvature": -0.040000000000000036
+    },
+    {
+      "date": "2009-03-31",
+      "two_year": 0.81,
+      "five_year": 1.67,
+      "ten_year": 2.71,
+      "level": 2.71,
+      "slope_2s10s": 1.9,
+      "slope_5s10s": 1.04,
+      "curvature": -0.18000000000000016
+    },
+    {
+      "date": "2009-04-30",
+      "two_year": 0.91,
+      "five_year": 2.02,
+      "ten_year": 3.16,
+      "level": 3.16,
+      "slope_2s10s": 2.25,
+      "slope_5s10s": 1.1400000000000001,
+      "curvature": -0.03000000000000025
+    },
+    {
+      "date": "2009-05-29",
+      "two_year": 0.92,
+      "five_year": 2.34,
+      "ten_year": 3.47,
+      "level": 3.47,
+      "slope_2s10s": 2.5500000000000003,
+      "slope_5s10s": 1.1300000000000003,
+      "curvature": 0.2899999999999996
+    },
+    {
+      "date": "2009-06-30",
+      "two_year": 1.11,
+      "five_year": 2.54,
+      "ten_year": 3.53,
+      "level": 3.53,
+      "slope_2s10s": 2.42,
+      "slope_5s10s": 0.9899999999999998,
+      "curvature": 0.43999999999999995
+    },
+    {
+      "date": "2009-07-31",
+      "two_year": 1.13,
+      "five_year": 2.53,
+      "ten_year": 3.52,
+      "level": 3.52,
+      "slope_2s10s": 2.39,
+      "slope_5s10s": 0.9900000000000002,
+      "curvature": 0.4099999999999997
+    },
+    {
+      "date": "2009-08-31",
+      "two_year": 0.97,
+      "five_year": 2.39,
+      "ten_year": 3.4,
+      "level": 3.4,
+      "slope_2s10s": 2.4299999999999997,
+      "slope_5s10s": 1.0099999999999998,
+      "curvature": 0.4100000000000006
+    },
+    {
+      "date": "2009-09-30",
+      "two_year": 0.95,
+      "five_year": 2.31,
+      "ten_year": 3.31,
+      "level": 3.31,
+      "slope_2s10s": 2.3600000000000003,
+      "slope_5s10s": 1.0,
+      "curvature": 0.3599999999999999
+    },
+    {
+      "date": "2009-10-30",
+      "two_year": 0.9,
+      "five_year": 2.31,
+      "ten_year": 3.41,
+      "level": 3.41,
+      "slope_2s10s": 2.5100000000000002,
+      "slope_5s10s": 1.1,
+      "curvature": 0.31000000000000005
+    },
+    {
+      "date": "2009-11-30",
+      "two_year": 0.67,
+      "five_year": 2.01,
+      "ten_year": 3.21,
+      "level": 3.21,
+      "slope_2s10s": 2.54,
+      "slope_5s10s": 1.2000000000000002,
+      "curvature": 0.13999999999999968
+    },
+    {
+      "date": "2009-12-31",
+      "two_year": 1.14,
+      "five_year": 2.69,
+      "ten_year": 3.85,
+      "level": 3.85,
+      "slope_2s10s": 2.71,
+      "slope_5s10s": 1.1600000000000001,
+      "curvature": 0.3900000000000001
+    },
+    {
+      "date": "2010-01-29",
+      "two_year": 0.82,
+      "five_year": 2.34,
+      "ten_year": 3.63,
+      "level": 3.63,
+      "slope_2s10s": 2.81,
+      "slope_5s10s": 1.29,
+      "curvature": 0.22999999999999998
+    },
+    {
+      "date": "2010-02-26",
+      "two_year": 0.81,
+      "five_year": 2.3,
+      "ten_year": 3.61,
+      "level": 3.61,
+      "slope_2s10s": 2.8,
+      "slope_5s10s": 1.31,
+      "curvature": 0.17999999999999972
+    },
+    {
+      "date": "2010-03-31",
+      "two_year": 1.02,
+      "five_year": 2.55,
+      "ten_year": 3.84,
+      "level": 3.84,
+      "slope_2s10s": 2.82,
+      "slope_5s10s": 1.29,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2010-04-30",
+      "two_year": 0.97,
+      "five_year": 2.43,
+      "ten_year": 3.69,
+      "level": 3.69,
+      "slope_2s10s": 2.7199999999999998,
+      "slope_5s10s": 1.2599999999999998,
+      "curvature": 0.20000000000000062
+    },
+    {
+      "date": "2010-05-28",
+      "two_year": 0.76,
+      "five_year": 2.1,
+      "ten_year": 3.31,
+      "level": 3.31,
+      "slope_2s10s": 2.55,
+      "slope_5s10s": 1.21,
+      "curvature": 0.13000000000000034
+    },
+    {
+      "date": "2010-06-30",
+      "two_year": 0.61,
+      "five_year": 1.79,
+      "ten_year": 2.97,
+      "level": 2.97,
+      "slope_2s10s": 2.3600000000000003,
+      "slope_5s10s": 1.1800000000000002,
+      "curvature": 0.0
+    },
+    {
+      "date": "2010-07-30",
+      "two_year": 0.55,
+      "five_year": 1.6,
+      "ten_year": 2.94,
+      "level": 2.94,
+      "slope_2s10s": 2.3899999999999997,
+      "slope_5s10s": 1.3399999999999999,
+      "curvature": -0.2899999999999996
+    },
+    {
+      "date": "2010-08-31",
+      "two_year": 0.47,
+      "five_year": 1.33,
+      "ten_year": 2.47,
+      "level": 2.47,
+      "slope_2s10s": 2.0,
+      "slope_5s10s": 1.1400000000000001,
+      "curvature": -0.2799999999999998
+    },
+    {
+      "date": "2010-09-30",
+      "two_year": 0.42,
+      "five_year": 1.27,
+      "ten_year": 2.53,
+      "level": 2.53,
+      "slope_2s10s": 2.11,
+      "slope_5s10s": 1.2599999999999998,
+      "curvature": -0.4099999999999997
+    },
+    {
+      "date": "2010-10-29",
+      "two_year": 0.34,
+      "five_year": 1.17,
+      "ten_year": 2.63,
+      "level": 2.63,
+      "slope_2s10s": 2.29,
+      "slope_5s10s": 1.46,
+      "curvature": -0.6300000000000001
+    },
+    {
+      "date": "2010-11-30",
+      "two_year": 0.45,
+      "five_year": 1.47,
+      "ten_year": 2.81,
+      "level": 2.81,
+      "slope_2s10s": 2.36,
+      "slope_5s10s": 1.34,
+      "curvature": -0.3200000000000003
+    },
+    {
+      "date": "2010-12-31",
+      "two_year": 0.61,
+      "five_year": 2.01,
+      "ten_year": 3.3,
+      "level": 3.3,
+      "slope_2s10s": 2.69,
+      "slope_5s10s": 1.29,
+      "curvature": 0.10999999999999988
+    },
+    {
+      "date": "2011-01-31",
+      "two_year": 0.58,
+      "five_year": 1.95,
+      "ten_year": 3.42,
+      "level": 3.42,
+      "slope_2s10s": 2.84,
+      "slope_5s10s": 1.47,
+      "curvature": -0.10000000000000009
+    },
+    {
+      "date": "2011-02-28",
+      "two_year": 0.69,
+      "five_year": 2.13,
+      "ten_year": 3.42,
+      "level": 3.42,
+      "slope_2s10s": 2.73,
+      "slope_5s10s": 1.29,
+      "curvature": 0.1499999999999999
+    },
+    {
+      "date": "2011-03-31",
+      "two_year": 0.8,
+      "five_year": 2.24,
+      "ten_year": 3.47,
+      "level": 3.47,
+      "slope_2s10s": 2.67,
+      "slope_5s10s": 1.23,
+      "curvature": 0.2100000000000004
+    },
+    {
+      "date": "2011-04-29",
+      "two_year": 0.61,
+      "five_year": 1.97,
+      "ten_year": 3.32,
+      "level": 3.32,
+      "slope_2s10s": 2.71,
+      "slope_5s10s": 1.3499999999999999,
+      "curvature": 0.010000000000000231
+    },
+    {
+      "date": "2011-05-31",
+      "two_year": 0.45,
+      "five_year": 1.68,
+      "ten_year": 3.05,
+      "level": 3.05,
+      "slope_2s10s": 2.5999999999999996,
+      "slope_5s10s": 1.3699999999999999,
+      "curvature": -0.14000000000000012
+    },
+    {
+      "date": "2011-06-30",
+      "two_year": 0.45,
+      "five_year": 1.76,
+      "ten_year": 3.18,
+      "level": 3.18,
+      "slope_2s10s": 2.73,
+      "slope_5s10s": 1.4200000000000002,
+      "curvature": -0.11000000000000032
+    },
+    {
+      "date": "2011-07-29",
+      "two_year": 0.36,
+      "five_year": 1.35,
+      "ten_year": 2.82,
+      "level": 2.82,
+      "slope_2s10s": 2.46,
+      "slope_5s10s": 1.4699999999999998,
+      "curvature": -0.47999999999999954
+    },
+    {
+      "date": "2011-08-31",
+      "two_year": 0.2,
+      "five_year": 0.96,
+      "ten_year": 2.23,
+      "level": 2.23,
+      "slope_2s10s": 2.03,
+      "slope_5s10s": 1.27,
+      "curvature": -0.51
+    },
+    {
+      "date": "2011-09-30",
+      "two_year": 0.25,
+      "five_year": 0.96,
+      "ten_year": 1.92,
+      "level": 1.92,
+      "slope_2s10s": 1.67,
+      "slope_5s10s": 0.96,
+      "curvature": -0.25
+    },
+    {
+      "date": "2011-10-31",
+      "two_year": 0.25,
+      "five_year": 0.99,
+      "ten_year": 2.17,
+      "level": 2.17,
+      "slope_2s10s": 1.92,
+      "slope_5s10s": 1.18,
+      "curvature": -0.43999999999999995
+    },
+    {
+      "date": "2011-11-30",
+      "two_year": 0.25,
+      "five_year": 0.96,
+      "ten_year": 2.08,
+      "level": 2.08,
+      "slope_2s10s": 1.83,
+      "slope_5s10s": 1.12,
+      "curvature": -0.41000000000000014
+    },
+    {
+      "date": "2011-12-30",
+      "two_year": 0.25,
+      "five_year": 0.83,
+      "ten_year": 1.89,
+      "level": 1.89,
+      "slope_2s10s": 1.64,
+      "slope_5s10s": 1.06,
+      "curvature": -0.48
+    },
+    {
+      "date": "2012-01-31",
+      "two_year": 0.22,
+      "five_year": 0.71,
+      "ten_year": 1.83,
+      "level": 1.83,
+      "slope_2s10s": 1.61,
+      "slope_5s10s": 1.12,
+      "curvature": -0.6300000000000001
+    },
+    {
+      "date": "2012-02-29",
+      "two_year": 0.3,
+      "five_year": 0.87,
+      "ten_year": 1.98,
+      "level": 1.98,
+      "slope_2s10s": 1.68,
+      "slope_5s10s": 1.1099999999999999,
+      "curvature": -0.54
+    },
+    {
+      "date": "2012-03-30",
+      "two_year": 0.33,
+      "five_year": 1.04,
+      "ten_year": 2.23,
+      "level": 2.23,
+      "slope_2s10s": 1.9,
+      "slope_5s10s": 1.19,
+      "curvature": -0.48
+    },
+    {
+      "date": "2012-04-30",
+      "two_year": 0.27,
+      "five_year": 0.82,
+      "ten_year": 1.95,
+      "level": 1.95,
+      "slope_2s10s": 1.68,
+      "slope_5s10s": 1.13,
+      "curvature": -0.5800000000000001
+    },
+    {
+      "date": "2012-05-31",
+      "two_year": 0.27,
+      "five_year": 0.67,
+      "ten_year": 1.59,
+      "level": 1.59,
+      "slope_2s10s": 1.32,
+      "slope_5s10s": 0.92,
+      "curvature": -0.52
+    },
+    {
+      "date": "2012-06-29",
+      "two_year": 0.33,
+      "five_year": 0.72,
+      "ten_year": 1.67,
+      "level": 1.67,
+      "slope_2s10s": 1.3399999999999999,
+      "slope_5s10s": 0.95,
+      "curvature": -0.56
+    },
+    {
+      "date": "2012-07-31",
+      "two_year": 0.23,
+      "five_year": 0.6,
+      "ten_year": 1.51,
+      "level": 1.51,
+      "slope_2s10s": 1.28,
+      "slope_5s10s": 0.91,
+      "curvature": -0.54
+    },
+    {
+      "date": "2012-08-31",
+      "two_year": 0.22,
+      "five_year": 0.59,
+      "ten_year": 1.57,
+      "level": 1.57,
+      "slope_2s10s": 1.35,
+      "slope_5s10s": 0.9800000000000001,
+      "curvature": -0.6100000000000001
+    },
+    {
+      "date": "2012-09-28",
+      "two_year": 0.23,
+      "five_year": 0.62,
+      "ten_year": 1.65,
+      "level": 1.65,
+      "slope_2s10s": 1.42,
+      "slope_5s10s": 1.0299999999999998,
+      "curvature": -0.6399999999999999
+    },
+    {
+      "date": "2012-10-31",
+      "two_year": 0.3,
+      "five_year": 0.72,
+      "ten_year": 1.72,
+      "level": 1.72,
+      "slope_2s10s": 1.42,
+      "slope_5s10s": 1.0,
+      "curvature": -0.5800000000000001
+    },
+    {
+      "date": "2012-11-30",
+      "two_year": 0.25,
+      "five_year": 0.61,
+      "ten_year": 1.62,
+      "level": 1.62,
+      "slope_2s10s": 1.37,
+      "slope_5s10s": 1.0100000000000002,
+      "curvature": -0.6500000000000001
+    },
+    {
+      "date": "2012-12-31",
+      "two_year": 0.25,
+      "five_year": 0.72,
+      "ten_year": 1.78,
+      "level": 1.78,
+      "slope_2s10s": 1.53,
+      "slope_5s10s": 1.06,
+      "curvature": -0.5900000000000001
+    },
+    {
+      "date": "2013-01-31",
+      "two_year": 0.27,
+      "five_year": 0.88,
+      "ten_year": 2.02,
+      "level": 2.02,
+      "slope_2s10s": 1.75,
+      "slope_5s10s": 1.1400000000000001,
+      "curvature": -0.53
+    },
+    {
+      "date": "2013-02-28",
+      "two_year": 0.25,
+      "five_year": 0.77,
+      "ten_year": 1.89,
+      "level": 1.89,
+      "slope_2s10s": 1.64,
+      "slope_5s10s": 1.1199999999999999,
+      "curvature": -0.5999999999999999
+    },
+    {
+      "date": "2013-03-28",
+      "two_year": 0.25,
+      "five_year": 0.77,
+      "ten_year": 1.87,
+      "level": 1.87,
+      "slope_2s10s": 1.62,
+      "slope_5s10s": 1.1,
+      "curvature": -0.5800000000000001
+    },
+    {
+      "date": "2013-04-30",
+      "two_year": 0.22,
+      "five_year": 0.68,
+      "ten_year": 1.7,
+      "level": 1.7,
+      "slope_2s10s": 1.48,
+      "slope_5s10s": 1.02,
+      "curvature": -0.5599999999999998
+    },
+    {
+      "date": "2013-05-31",
+      "two_year": 0.3,
+      "five_year": 1.05,
+      "ten_year": 2.16,
+      "level": 2.16,
+      "slope_2s10s": 1.86,
+      "slope_5s10s": 1.11,
+      "curvature": -0.3600000000000001
+    },
+    {
+      "date": "2013-06-28",
+      "two_year": 0.36,
+      "five_year": 1.41,
+      "ten_year": 2.52,
+      "level": 2.52,
+      "slope_2s10s": 2.16,
+      "slope_5s10s": 1.11,
+      "curvature": -0.06000000000000005
+    },
+    {
+      "date": "2013-07-31",
+      "two_year": 0.31,
+      "five_year": 1.38,
+      "ten_year": 2.6,
+      "level": 2.6,
+      "slope_2s10s": 2.29,
+      "slope_5s10s": 1.2200000000000002,
+      "curvature": -0.15000000000000036
+    },
+    {
+      "date": "2013-08-30",
+      "two_year": 0.39,
+      "five_year": 1.62,
+      "ten_year": 2.78,
+      "level": 2.78,
+      "slope_2s10s": 2.3899999999999997,
+      "slope_5s10s": 1.1599999999999997,
+      "curvature": 0.07000000000000028
+    },
+    {
+      "date": "2013-09-30",
+      "two_year": 0.33,
+      "five_year": 1.39,
+      "ten_year": 2.64,
+      "level": 2.64,
+      "slope_2s10s": 2.31,
+      "slope_5s10s": 1.2500000000000002,
+      "curvature": -0.1900000000000004
+    },
+    {
+      "date": "2013-10-31",
+      "two_year": 0.31,
+      "five_year": 1.31,
+      "ten_year": 2.57,
+      "level": 2.57,
+      "slope_2s10s": 2.26,
+      "slope_5s10s": 1.2599999999999998,
+      "curvature": -0.2599999999999998
+    },
+    {
+      "date": "2013-11-29",
+      "two_year": 0.28,
+      "five_year": 1.37,
+      "ten_year": 2.75,
+      "level": 2.75,
+      "slope_2s10s": 2.4699999999999998,
+      "slope_5s10s": 1.38,
+      "curvature": -0.29000000000000004
+    },
+    {
+      "date": "2013-12-31",
+      "two_year": 0.38,
+      "five_year": 1.75,
+      "ten_year": 3.04,
+      "level": 3.04,
+      "slope_2s10s": 2.66,
+      "slope_5s10s": 1.29,
+      "curvature": 0.08000000000000007
+    },
+    {
+      "date": "2014-01-31",
+      "two_year": 0.34,
+      "five_year": 1.49,
+      "ten_year": 2.67,
+      "level": 2.67,
+      "slope_2s10s": 2.33,
+      "slope_5s10s": 1.18,
+      "curvature": -0.029999999999999805
+    },
+    {
+      "date": "2014-02-28",
+      "two_year": 0.33,
+      "five_year": 1.51,
+      "ten_year": 2.66,
+      "level": 2.66,
+      "slope_2s10s": 2.33,
+      "slope_5s10s": 1.1500000000000001,
+      "curvature": 0.029999999999999805
+    },
+    {
+      "date": "2014-03-31",
+      "two_year": 0.44,
+      "five_year": 1.73,
+      "ten_year": 2.73,
+      "level": 2.73,
+      "slope_2s10s": 2.29,
+      "slope_5s10s": 1.0,
+      "curvature": 0.29000000000000004
+    },
+    {
+      "date": "2014-04-30",
+      "two_year": 0.42,
+      "five_year": 1.69,
+      "ten_year": 2.67,
+      "level": 2.67,
+      "slope_2s10s": 2.25,
+      "slope_5s10s": 0.98,
+      "curvature": 0.29000000000000004
+    },
+    {
+      "date": "2014-05-30",
+      "two_year": 0.37,
+      "five_year": 1.54,
+      "ten_year": 2.48,
+      "level": 2.48,
+      "slope_2s10s": 2.11,
+      "slope_5s10s": 0.94,
+      "curvature": 0.22999999999999998
+    },
+    {
+      "date": "2014-06-30",
+      "two_year": 0.47,
+      "five_year": 1.62,
+      "ten_year": 2.53,
+      "level": 2.53,
+      "slope_2s10s": 2.0599999999999996,
+      "slope_5s10s": 0.9099999999999997,
+      "curvature": 0.24000000000000066
+    },
+    {
+      "date": "2014-07-31",
+      "two_year": 0.53,
+      "five_year": 1.76,
+      "ten_year": 2.58,
+      "level": 2.58,
+      "slope_2s10s": 2.05,
+      "slope_5s10s": 0.8200000000000001,
+      "curvature": 0.41000000000000014
+    },
+    {
+      "date": "2014-08-29",
+      "two_year": 0.48,
+      "five_year": 1.63,
+      "ten_year": 2.35,
+      "level": 2.35,
+      "slope_2s10s": 1.87,
+      "slope_5s10s": 0.7200000000000002,
+      "curvature": 0.4299999999999997
+    },
+    {
+      "date": "2014-09-30",
+      "two_year": 0.58,
+      "five_year": 1.78,
+      "ten_year": 2.52,
+      "level": 2.52,
+      "slope_2s10s": 1.94,
+      "slope_5s10s": 0.74,
+      "curvature": 0.45999999999999996
+    },
+    {
+      "date": "2014-10-31",
+      "two_year": 0.5,
+      "five_year": 1.62,
+      "ten_year": 2.35,
+      "level": 2.35,
+      "slope_2s10s": 1.85,
+      "slope_5s10s": 0.73,
+      "curvature": 0.3900000000000001
+    },
+    {
+      "date": "2014-11-28",
+      "two_year": 0.47,
+      "five_year": 1.49,
+      "ten_year": 2.18,
+      "level": 2.18,
+      "slope_2s10s": 1.7100000000000002,
+      "slope_5s10s": 0.6900000000000002,
+      "curvature": 0.3299999999999996
+    },
+    {
+      "date": "2014-12-31",
+      "two_year": 0.67,
+      "five_year": 1.65,
+      "ten_year": 2.17,
+      "level": 2.17,
+      "slope_2s10s": 1.5,
+      "slope_5s10s": 0.52,
+      "curvature": 0.45999999999999996
+    },
+    {
+      "date": "2015-01-30",
+      "two_year": 0.47,
+      "five_year": 1.18,
+      "ten_year": 1.68,
+      "level": 1.68,
+      "slope_2s10s": 1.21,
+      "slope_5s10s": 0.5,
+      "curvature": 0.20999999999999996
+    },
+    {
+      "date": "2015-02-27",
+      "two_year": 0.63,
+      "five_year": 1.5,
+      "ten_year": 2.0,
+      "level": 2.0,
+      "slope_2s10s": 1.37,
+      "slope_5s10s": 0.5,
+      "curvature": 0.3700000000000001
+    },
+    {
+      "date": "2015-03-31",
+      "two_year": 0.56,
+      "five_year": 1.37,
+      "ten_year": 1.94,
+      "level": 1.94,
+      "slope_2s10s": 1.38,
+      "slope_5s10s": 0.5699999999999998,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2015-04-30",
+      "two_year": 0.58,
+      "five_year": 1.43,
+      "ten_year": 2.05,
+      "level": 2.05,
+      "slope_2s10s": 1.4699999999999998,
+      "slope_5s10s": 0.6199999999999999,
+      "curvature": 0.22999999999999998
+    },
+    {
+      "date": "2015-05-29",
+      "two_year": 0.61,
+      "five_year": 1.49,
+      "ten_year": 2.12,
+      "level": 2.12,
+      "slope_2s10s": 1.5100000000000002,
+      "slope_5s10s": 0.6300000000000001,
+      "curvature": 0.25
+    },
+    {
+      "date": "2015-06-30",
+      "two_year": 0.64,
+      "five_year": 1.63,
+      "ten_year": 2.35,
+      "level": 2.35,
+      "slope_2s10s": 1.71,
+      "slope_5s10s": 0.7200000000000002,
+      "curvature": 0.2699999999999996
+    },
+    {
+      "date": "2015-07-31",
+      "two_year": 0.67,
+      "five_year": 1.54,
+      "ten_year": 2.2,
+      "level": 2.2,
+      "slope_2s10s": 1.5300000000000002,
+      "slope_5s10s": 0.6600000000000001,
+      "curvature": 0.20999999999999996
+    },
+    {
+      "date": "2015-08-31",
+      "two_year": 0.74,
+      "five_year": 1.54,
+      "ten_year": 2.21,
+      "level": 2.21,
+      "slope_2s10s": 1.47,
+      "slope_5s10s": 0.6699999999999999,
+      "curvature": 0.1299999999999999
+    },
+    {
+      "date": "2015-09-30",
+      "two_year": 0.64,
+      "five_year": 1.37,
+      "ten_year": 2.06,
+      "level": 2.06,
+      "slope_2s10s": 1.42,
+      "slope_5s10s": 0.69,
+      "curvature": 0.040000000000000036
+    },
+    {
+      "date": "2015-10-30",
+      "two_year": 0.75,
+      "five_year": 1.52,
+      "ten_year": 2.16,
+      "level": 2.16,
+      "slope_2s10s": 1.4100000000000001,
+      "slope_5s10s": 0.6400000000000001,
+      "curvature": 0.1299999999999999
+    },
+    {
+      "date": "2015-11-30",
+      "two_year": 0.94,
+      "five_year": 1.65,
+      "ten_year": 2.21,
+      "level": 2.21,
+      "slope_2s10s": 1.27,
+      "slope_5s10s": 0.56,
+      "curvature": 0.1499999999999999
+    },
+    {
+      "date": "2015-12-31",
+      "two_year": 1.06,
+      "five_year": 1.76,
+      "ten_year": 2.27,
+      "level": 2.27,
+      "slope_2s10s": 1.21,
+      "slope_5s10s": 0.51,
+      "curvature": 0.18999999999999995
+    },
+    {
+      "date": "2016-01-29",
+      "two_year": 0.76,
+      "five_year": 1.33,
+      "ten_year": 1.94,
+      "level": 1.94,
+      "slope_2s10s": 1.18,
+      "slope_5s10s": 0.6099999999999999,
+      "curvature": -0.039999999999999813
+    },
+    {
+      "date": "2016-02-29",
+      "two_year": 0.78,
+      "five_year": 1.22,
+      "ten_year": 1.74,
+      "level": 1.74,
+      "slope_2s10s": 0.96,
+      "slope_5s10s": 0.52,
+      "curvature": -0.08000000000000007
+    },
+    {
+      "date": "2016-03-31",
+      "two_year": 0.73,
+      "five_year": 1.21,
+      "ten_year": 1.78,
+      "level": 1.78,
+      "slope_2s10s": 1.05,
+      "slope_5s10s": 0.5700000000000001,
+      "curvature": -0.09000000000000008
+    },
+    {
+      "date": "2016-04-29",
+      "two_year": 0.77,
+      "five_year": 1.28,
+      "ten_year": 1.83,
+      "level": 1.83,
+      "slope_2s10s": 1.06,
+      "slope_5s10s": 0.55,
+      "curvature": -0.040000000000000036
+    },
+    {
+      "date": "2016-05-31",
+      "two_year": 0.87,
+      "five_year": 1.37,
+      "ten_year": 1.84,
+      "level": 1.84,
+      "slope_2s10s": 0.9700000000000001,
+      "slope_5s10s": 0.47,
+      "curvature": 0.030000000000000027
+    },
+    {
+      "date": "2016-06-30",
+      "two_year": 0.58,
+      "five_year": 1.01,
+      "ten_year": 1.49,
+      "level": 1.49,
+      "slope_2s10s": 0.91,
+      "slope_5s10s": 0.48,
+      "curvature": -0.050000000000000044
+    },
+    {
+      "date": "2016-07-29",
+      "two_year": 0.67,
+      "five_year": 1.03,
+      "ten_year": 1.46,
+      "level": 1.46,
+      "slope_2s10s": 0.7899999999999999,
+      "slope_5s10s": 0.42999999999999994,
+      "curvature": -0.06999999999999984
+    },
+    {
+      "date": "2016-08-31",
+      "two_year": 0.8,
+      "five_year": 1.19,
+      "ten_year": 1.58,
+      "level": 1.58,
+      "slope_2s10s": 0.78,
+      "slope_5s10s": 0.3900000000000001,
+      "curvature": -2.220446049250313e-16
+    },
+    {
+      "date": "2016-09-30",
+      "two_year": 0.77,
+      "five_year": 1.14,
+      "ten_year": 1.6,
+      "level": 1.6,
+      "slope_2s10s": 0.8300000000000001,
+      "slope_5s10s": 0.4600000000000002,
+      "curvature": -0.0900000000000003
+    },
+    {
+      "date": "2016-10-31",
+      "two_year": 0.86,
+      "five_year": 1.31,
+      "ten_year": 1.84,
+      "level": 1.84,
+      "slope_2s10s": 0.9800000000000001,
+      "slope_5s10s": 0.53,
+      "curvature": -0.07999999999999985
+    },
+    {
+      "date": "2016-11-30",
+      "two_year": 1.11,
+      "five_year": 1.83,
+      "ten_year": 2.37,
+      "level": 2.37,
+      "slope_2s10s": 1.26,
+      "slope_5s10s": 0.54,
+      "curvature": 0.17999999999999972
+    },
+    {
+      "date": "2016-12-30",
+      "two_year": 1.2,
+      "five_year": 1.93,
+      "ten_year": 2.45,
+      "level": 2.45,
+      "slope_2s10s": 1.2500000000000002,
+      "slope_5s10s": 0.5200000000000002,
+      "curvature": 0.20999999999999996
+    },
+    {
+      "date": "2017-01-31",
+      "two_year": 1.19,
+      "five_year": 1.9,
+      "ten_year": 2.45,
+      "level": 2.45,
+      "slope_2s10s": 1.2600000000000002,
+      "slope_5s10s": 0.5500000000000003,
+      "curvature": 0.1599999999999997
+    },
+    {
+      "date": "2017-02-28",
+      "two_year": 1.22,
+      "five_year": 1.89,
+      "ten_year": 2.36,
+      "level": 2.36,
+      "slope_2s10s": 1.14,
+      "slope_5s10s": 0.47,
+      "curvature": 0.19999999999999973
+    },
+    {
+      "date": "2017-03-31",
+      "two_year": 1.27,
+      "five_year": 1.93,
+      "ten_year": 2.4,
+      "level": 2.4,
+      "slope_2s10s": 1.13,
+      "slope_5s10s": 0.47,
+      "curvature": 0.18999999999999995
+    },
+    {
+      "date": "2017-04-28",
+      "two_year": 1.28,
+      "five_year": 1.81,
+      "ten_year": 2.29,
+      "level": 2.29,
+      "slope_2s10s": 1.01,
+      "slope_5s10s": 0.48,
+      "curvature": 0.04999999999999982
+    },
+    {
+      "date": "2017-05-31",
+      "two_year": 1.28,
+      "five_year": 1.75,
+      "ten_year": 2.21,
+      "level": 2.21,
+      "slope_2s10s": 0.9299999999999999,
+      "slope_5s10s": 0.45999999999999996,
+      "curvature": 0.009999999999999787
+    },
+    {
+      "date": "2017-06-30",
+      "two_year": 1.38,
+      "five_year": 1.89,
+      "ten_year": 2.31,
+      "level": 2.31,
+      "slope_2s10s": 0.9300000000000002,
+      "slope_5s10s": 0.42000000000000015,
+      "curvature": 0.08999999999999986
+    },
+    {
+      "date": "2017-07-31",
+      "two_year": 1.34,
+      "five_year": 1.84,
+      "ten_year": 2.3,
+      "level": 2.3,
+      "slope_2s10s": 0.9599999999999997,
+      "slope_5s10s": 0.45999999999999974,
+      "curvature": 0.040000000000000036
+    },
+    {
+      "date": "2017-08-31",
+      "two_year": 1.33,
+      "five_year": 1.7,
+      "ten_year": 2.12,
+      "level": 2.12,
+      "slope_2s10s": 0.79,
+      "slope_5s10s": 0.42000000000000015,
+      "curvature": -0.050000000000000266
+    },
+    {
+      "date": "2017-09-29",
+      "two_year": 1.47,
+      "five_year": 1.92,
+      "ten_year": 2.33,
+      "level": 2.33,
+      "slope_2s10s": 0.8600000000000001,
+      "slope_5s10s": 0.41000000000000014,
+      "curvature": 0.040000000000000036
+    },
+    {
+      "date": "2017-10-31",
+      "two_year": 1.6,
+      "five_year": 2.01,
+      "ten_year": 2.38,
+      "level": 2.38,
+      "slope_2s10s": 0.7799999999999998,
+      "slope_5s10s": 0.3700000000000001,
+      "curvature": 0.03999999999999959
+    },
+    {
+      "date": "2017-11-30",
+      "two_year": 1.78,
+      "five_year": 2.14,
+      "ten_year": 2.42,
+      "level": 2.42,
+      "slope_2s10s": 0.6399999999999999,
+      "slope_5s10s": 0.2799999999999998,
+      "curvature": 0.08000000000000007
+    },
+    {
+      "date": "2017-12-29",
+      "two_year": 1.89,
+      "five_year": 2.2,
+      "ten_year": 2.4,
+      "level": 2.4,
+      "slope_2s10s": 0.51,
+      "slope_5s10s": 0.19999999999999973,
+      "curvature": 0.11000000000000076
+    },
+    {
+      "date": "2018-01-31",
+      "two_year": 2.14,
+      "five_year": 2.52,
+      "ten_year": 2.72,
+      "level": 2.72,
+      "slope_2s10s": 0.5800000000000001,
+      "slope_5s10s": 0.20000000000000018,
+      "curvature": 0.17999999999999972
+    },
+    {
+      "date": "2018-02-28",
+      "two_year": 2.25,
+      "five_year": 2.65,
+      "ten_year": 2.87,
+      "level": 2.87,
+      "slope_2s10s": 0.6200000000000001,
+      "slope_5s10s": 0.2200000000000002,
+      "curvature": 0.17999999999999972
+    },
+    {
+      "date": "2018-03-29",
+      "two_year": 2.27,
+      "five_year": 2.56,
+      "ten_year": 2.74,
+      "level": 2.74,
+      "slope_2s10s": 0.4700000000000002,
+      "slope_5s10s": 0.18000000000000016,
+      "curvature": 0.10999999999999988
+    },
+    {
+      "date": "2018-04-30",
+      "two_year": 2.49,
+      "five_year": 2.79,
+      "ten_year": 2.95,
+      "level": 2.95,
+      "slope_2s10s": 0.45999999999999996,
+      "slope_5s10s": 0.16000000000000014,
+      "curvature": 0.13999999999999968
+    },
+    {
+      "date": "2018-05-31",
+      "two_year": 2.4,
+      "five_year": 2.68,
+      "ten_year": 2.83,
+      "level": 2.83,
+      "slope_2s10s": 0.43000000000000016,
+      "slope_5s10s": 0.1499999999999999,
+      "curvature": 0.13000000000000034
+    },
+    {
+      "date": "2018-06-29",
+      "two_year": 2.52,
+      "five_year": 2.73,
+      "ten_year": 2.85,
+      "level": 2.85,
+      "slope_2s10s": 0.33000000000000007,
+      "slope_5s10s": 0.1200000000000001,
+      "curvature": 0.08999999999999986
+    },
+    {
+      "date": "2018-07-31",
+      "two_year": 2.67,
+      "five_year": 2.85,
+      "ten_year": 2.96,
+      "level": 2.96,
+      "slope_2s10s": 0.29000000000000004,
+      "slope_5s10s": 0.10999999999999988,
+      "curvature": 0.07000000000000028
+    },
+    {
+      "date": "2018-08-31",
+      "two_year": 2.62,
+      "five_year": 2.74,
+      "ten_year": 2.86,
+      "level": 2.86,
+      "slope_2s10s": 0.23999999999999977,
+      "slope_5s10s": 0.11999999999999966,
+      "curvature": 4.440892098500626e-16
+    },
+    {
+      "date": "2018-09-28",
+      "two_year": 2.81,
+      "five_year": 2.94,
+      "ten_year": 3.05,
+      "level": 3.05,
+      "slope_2s10s": 0.23999999999999977,
+      "slope_5s10s": 0.10999999999999988,
+      "curvature": 0.020000000000000018
+    },
+    {
+      "date": "2018-10-31",
+      "two_year": 2.87,
+      "five_year": 2.98,
+      "ten_year": 3.15,
+      "level": 3.15,
+      "slope_2s10s": 0.2799999999999998,
+      "slope_5s10s": 0.16999999999999993,
+      "curvature": -0.06000000000000005
+    },
+    {
+      "date": "2018-11-30",
+      "two_year": 2.8,
+      "five_year": 2.84,
+      "ten_year": 3.01,
+      "level": 3.01,
+      "slope_2s10s": 0.20999999999999996,
+      "slope_5s10s": 0.16999999999999993,
+      "curvature": -0.1299999999999999
+    },
+    {
+      "date": "2018-12-31",
+      "two_year": 2.48,
+      "five_year": 2.51,
+      "ten_year": 2.69,
+      "level": 2.69,
+      "slope_2s10s": 0.20999999999999996,
+      "slope_5s10s": 0.18000000000000016,
+      "curvature": -0.15000000000000036
+    },
+    {
+      "date": "2019-01-31",
+      "two_year": 2.45,
+      "five_year": 2.43,
+      "ten_year": 2.63,
+      "level": 2.63,
+      "slope_2s10s": 0.17999999999999972,
+      "slope_5s10s": 0.19999999999999973,
+      "curvature": -0.21999999999999975
+    },
+    {
+      "date": "2019-02-28",
+      "two_year": 2.52,
+      "five_year": 2.52,
+      "ten_year": 2.73,
+      "level": 2.73,
+      "slope_2s10s": 0.20999999999999996,
+      "slope_5s10s": 0.20999999999999996,
+      "curvature": -0.20999999999999996
+    },
+    {
+      "date": "2019-03-29",
+      "two_year": 2.27,
+      "five_year": 2.23,
+      "ten_year": 2.41,
+      "level": 2.41,
+      "slope_2s10s": 0.14000000000000012,
+      "slope_5s10s": 0.18000000000000016,
+      "curvature": -0.2200000000000002
+    },
+    {
+      "date": "2019-04-30",
+      "two_year": 2.27,
+      "five_year": 2.28,
+      "ten_year": 2.51,
+      "level": 2.51,
+      "slope_2s10s": 0.23999999999999977,
+      "slope_5s10s": 0.22999999999999998,
+      "curvature": -0.2200000000000002
+    },
+    {
+      "date": "2019-05-31",
+      "two_year": 1.95,
+      "five_year": 1.93,
+      "ten_year": 2.14,
+      "level": 2.14,
+      "slope_2s10s": 0.19000000000000017,
+      "slope_5s10s": 0.2100000000000002,
+      "curvature": -0.2300000000000002
+    },
+    {
+      "date": "2019-06-28",
+      "two_year": 1.75,
+      "five_year": 1.76,
+      "ten_year": 2.0,
+      "level": 2.0,
+      "slope_2s10s": 0.25,
+      "slope_5s10s": 0.24,
+      "curvature": -0.22999999999999998
+    },
+    {
+      "date": "2019-07-31",
+      "two_year": 1.89,
+      "five_year": 1.84,
+      "ten_year": 2.02,
+      "level": 2.02,
+      "slope_2s10s": 0.13000000000000012,
+      "slope_5s10s": 0.17999999999999994,
+      "curvature": -0.22999999999999976
+    },
+    {
+      "date": "2019-08-30",
+      "two_year": 1.5,
+      "five_year": 1.39,
+      "ten_year": 1.5,
+      "level": 1.5,
+      "slope_2s10s": 0.0,
+      "slope_5s10s": 0.1100000000000001,
+      "curvature": -0.2200000000000002
+    },
+    {
+      "date": "2019-09-30",
+      "two_year": 1.63,
+      "five_year": 1.55,
+      "ten_year": 1.68,
+      "level": 1.68,
+      "slope_2s10s": 0.050000000000000044,
+      "slope_5s10s": 0.1299999999999999,
+      "curvature": -0.20999999999999974
+    },
+    {
+      "date": "2019-10-31",
+      "two_year": 1.52,
+      "five_year": 1.51,
+      "ten_year": 1.69,
+      "level": 1.69,
+      "slope_2s10s": 0.16999999999999993,
+      "slope_5s10s": 0.17999999999999994,
+      "curvature": -0.18999999999999995
+    },
+    {
+      "date": "2019-11-29",
+      "two_year": 1.61,
+      "five_year": 1.62,
+      "ten_year": 1.78,
+      "level": 1.78,
+      "slope_2s10s": 0.16999999999999993,
+      "slope_5s10s": 0.15999999999999992,
+      "curvature": -0.1499999999999999
+    },
+    {
+      "date": "2019-12-31",
+      "two_year": 1.58,
+      "five_year": 1.69,
+      "ten_year": 1.92,
+      "level": 1.92,
+      "slope_2s10s": 0.33999999999999986,
+      "slope_5s10s": 0.22999999999999998,
+      "curvature": -0.1200000000000001
+    },
+    {
+      "date": "2020-01-31",
+      "two_year": 1.33,
+      "five_year": 1.32,
+      "ten_year": 1.51,
+      "level": 1.51,
+      "slope_2s10s": 0.17999999999999994,
+      "slope_5s10s": 0.18999999999999995,
+      "curvature": -0.19999999999999996
+    },
+    {
+      "date": "2020-02-28",
+      "two_year": 0.86,
+      "five_year": 0.89,
+      "ten_year": 1.13,
+      "level": 1.13,
+      "slope_2s10s": 0.2699999999999999,
+      "slope_5s10s": 0.23999999999999988,
+      "curvature": -0.20999999999999985
+    },
+    {
+      "date": "2020-03-31",
+      "two_year": 0.23,
+      "five_year": 0.37,
+      "ten_year": 0.7,
+      "level": 0.7,
+      "slope_2s10s": 0.47,
+      "slope_5s10s": 0.32999999999999996,
+      "curvature": -0.18999999999999995
+    },
+    {
+      "date": "2020-04-30",
+      "two_year": 0.2,
+      "five_year": 0.36,
+      "ten_year": 0.64,
+      "level": 0.64,
+      "slope_2s10s": 0.44,
+      "slope_5s10s": 0.28,
+      "curvature": -0.12
+    },
+    {
+      "date": "2020-05-29",
+      "two_year": 0.16,
+      "five_year": 0.3,
+      "ten_year": 0.65,
+      "level": 0.65,
+      "slope_2s10s": 0.49,
+      "slope_5s10s": 0.35000000000000003,
+      "curvature": -0.21000000000000008
+    },
+    {
+      "date": "2020-06-30",
+      "two_year": 0.16,
+      "five_year": 0.29,
+      "ten_year": 0.66,
+      "level": 0.66,
+      "slope_2s10s": 0.5,
+      "slope_5s10s": 0.37000000000000005,
+      "curvature": -0.2400000000000001
+    },
+    {
+      "date": "2020-07-31",
+      "two_year": 0.11,
+      "five_year": 0.21,
+      "ten_year": 0.55,
+      "level": 0.55,
+      "slope_2s10s": 0.44000000000000006,
+      "slope_5s10s": 0.3400000000000001,
+      "curvature": -0.24000000000000005
+    },
+    {
+      "date": "2020-08-31",
+      "two_year": 0.14,
+      "five_year": 0.28,
+      "ten_year": 0.72,
+      "level": 0.72,
+      "slope_2s10s": 0.58,
+      "slope_5s10s": 0.43999999999999995,
+      "curvature": -0.29999999999999993
+    },
+    {
+      "date": "2020-09-30",
+      "two_year": 0.13,
+      "five_year": 0.28,
+      "ten_year": 0.69,
+      "level": 0.69,
+      "slope_2s10s": 0.5599999999999999,
+      "slope_5s10s": 0.4099999999999999,
+      "curvature": -0.2599999999999999
+    },
+    {
+      "date": "2020-10-30",
+      "two_year": 0.14,
+      "five_year": 0.38,
+      "ten_year": 0.88,
+      "level": 0.88,
+      "slope_2s10s": 0.74,
+      "slope_5s10s": 0.5,
+      "curvature": -0.26
+    },
+    {
+      "date": "2020-11-30",
+      "two_year": 0.16,
+      "five_year": 0.36,
+      "ten_year": 0.84,
+      "level": 0.84,
+      "slope_2s10s": 0.6799999999999999,
+      "slope_5s10s": 0.48,
+      "curvature": -0.28
+    },
+    {
+      "date": "2020-12-31",
+      "two_year": 0.13,
+      "five_year": 0.36,
+      "ten_year": 0.93,
+      "level": 0.93,
+      "slope_2s10s": 0.8,
+      "slope_5s10s": 0.5700000000000001,
+      "curvature": -0.3400000000000001
+    },
+    {
+      "date": "2021-01-29",
+      "two_year": 0.11,
+      "five_year": 0.45,
+      "ten_year": 1.11,
+      "level": 1.11,
+      "slope_2s10s": 1.0,
+      "slope_5s10s": 0.6600000000000001,
+      "curvature": -0.32000000000000006
+    },
+    {
+      "date": "2021-02-26",
+      "two_year": 0.14,
+      "five_year": 0.75,
+      "ten_year": 1.44,
+      "level": 1.44,
+      "slope_2s10s": 1.2999999999999998,
+      "slope_5s10s": 0.69,
+      "curvature": -0.08000000000000007
+    },
+    {
+      "date": "2021-03-31",
+      "two_year": 0.16,
+      "five_year": 0.92,
+      "ten_year": 1.74,
+      "level": 1.74,
+      "slope_2s10s": 1.58,
+      "slope_5s10s": 0.82,
+      "curvature": -0.05999999999999983
+    },
+    {
+      "date": "2021-04-30",
+      "two_year": 0.16,
+      "five_year": 0.86,
+      "ten_year": 1.65,
+      "level": 1.65,
+      "slope_2s10s": 1.49,
+      "slope_5s10s": 0.7899999999999999,
+      "curvature": -0.08999999999999986
+    },
+    {
+      "date": "2021-05-28",
+      "two_year": 0.14,
+      "five_year": 0.79,
+      "ten_year": 1.58,
+      "level": 1.58,
+      "slope_2s10s": 1.44,
+      "slope_5s10s": 0.79,
+      "curvature": -0.14000000000000012
+    },
+    {
+      "date": "2021-06-30",
+      "two_year": 0.25,
+      "five_year": 0.87,
+      "ten_year": 1.45,
+      "level": 1.45,
+      "slope_2s10s": 1.2,
+      "slope_5s10s": 0.58,
+      "curvature": 0.040000000000000036
+    },
+    {
+      "date": "2021-07-30",
+      "two_year": 0.19,
+      "five_year": 0.69,
+      "ten_year": 1.24,
+      "level": 1.24,
+      "slope_2s10s": 1.05,
+      "slope_5s10s": 0.55,
+      "curvature": -0.050000000000000044
+    },
+    {
+      "date": "2021-08-31",
+      "two_year": 0.2,
+      "five_year": 0.77,
+      "ten_year": 1.3,
+      "level": 1.3,
+      "slope_2s10s": 1.1,
+      "slope_5s10s": 0.53,
+      "curvature": 0.040000000000000036
+    },
+    {
+      "date": "2021-09-30",
+      "two_year": 0.28,
+      "five_year": 0.98,
+      "ten_year": 1.52,
+      "level": 1.52,
+      "slope_2s10s": 1.24,
+      "slope_5s10s": 0.54,
+      "curvature": 0.15999999999999992
+    },
+    {
+      "date": "2021-10-29",
+      "two_year": 0.48,
+      "five_year": 1.18,
+      "ten_year": 1.55,
+      "level": 1.55,
+      "slope_2s10s": 1.07,
+      "slope_5s10s": 0.3700000000000001,
+      "curvature": 0.32999999999999985
+    },
+    {
+      "date": "2021-11-30",
+      "two_year": 0.52,
+      "five_year": 1.14,
+      "ten_year": 1.43,
+      "level": 1.43,
+      "slope_2s10s": 0.9099999999999999,
+      "slope_5s10s": 0.29000000000000004,
+      "curvature": 0.32999999999999985
+    },
+    {
+      "date": "2021-12-31",
+      "two_year": 0.73,
+      "five_year": 1.26,
+      "ten_year": 1.52,
+      "level": 1.52,
+      "slope_2s10s": 0.79,
+      "slope_5s10s": 0.26,
+      "curvature": 0.27
+    },
+    {
+      "date": "2022-01-31",
+      "two_year": 1.18,
+      "five_year": 1.62,
+      "ten_year": 1.79,
+      "level": 1.79,
+      "slope_2s10s": 0.6100000000000001,
+      "slope_5s10s": 0.16999999999999993,
+      "curvature": 0.27000000000000046
+    },
+    {
+      "date": "2022-02-28",
+      "two_year": 1.44,
+      "five_year": 1.71,
+      "ten_year": 1.83,
+      "level": 1.83,
+      "slope_2s10s": 0.3900000000000001,
+      "slope_5s10s": 0.1200000000000001,
+      "curvature": 0.1499999999999999
+    },
+    {
+      "date": "2022-03-31",
+      "two_year": 2.28,
+      "five_year": 2.42,
+      "ten_year": 2.32,
+      "level": 2.32,
+      "slope_2s10s": 0.040000000000000036,
+      "slope_5s10s": -0.10000000000000009,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2022-04-29",
+      "two_year": 2.7,
+      "five_year": 2.92,
+      "ten_year": 2.89,
+      "level": 2.89,
+      "slope_2s10s": 0.18999999999999995,
+      "slope_5s10s": -0.029999999999999805,
+      "curvature": 0.24999999999999956
+    },
+    {
+      "date": "2022-05-31",
+      "two_year": 2.53,
+      "five_year": 2.81,
+      "ten_year": 2.85,
+      "level": 2.85,
+      "slope_2s10s": 0.3200000000000003,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": 0.2400000000000002
+    },
+    {
+      "date": "2022-06-30",
+      "two_year": 2.92,
+      "five_year": 3.01,
+      "ten_year": 2.98,
+      "level": 2.98,
+      "slope_2s10s": 0.06000000000000005,
+      "slope_5s10s": -0.029999999999999805,
+      "curvature": 0.11999999999999966
+    },
+    {
+      "date": "2022-07-29",
+      "two_year": 2.89,
+      "five_year": 2.7,
+      "ten_year": 2.67,
+      "level": 2.67,
+      "slope_2s10s": -0.2200000000000002,
+      "slope_5s10s": -0.03000000000000025,
+      "curvature": -0.1599999999999997
+    },
+    {
+      "date": "2022-08-31",
+      "two_year": 3.45,
+      "five_year": 3.3,
+      "ten_year": 3.15,
+      "level": 3.15,
+      "slope_2s10s": -0.30000000000000027,
+      "slope_5s10s": -0.1499999999999999,
+      "curvature": -4.440892098500626e-16
+    },
+    {
+      "date": "2022-09-30",
+      "two_year": 4.22,
+      "five_year": 4.06,
+      "ten_year": 3.83,
+      "level": 3.83,
+      "slope_2s10s": -0.3899999999999997,
+      "slope_5s10s": -0.22999999999999954,
+      "curvature": 0.0699999999999994
+    },
+    {
+      "date": "2022-10-31",
+      "two_year": 4.51,
+      "five_year": 4.27,
+      "ten_year": 4.1,
+      "level": 4.1,
+      "slope_2s10s": -0.41000000000000014,
+      "slope_5s10s": -0.16999999999999993,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2022-11-30",
+      "two_year": 4.38,
+      "five_year": 3.82,
+      "ten_year": 3.68,
+      "level": 3.68,
+      "slope_2s10s": -0.6999999999999997,
+      "slope_5s10s": -0.13999999999999968,
+      "curvature": -0.4200000000000004
+    },
+    {
+      "date": "2022-12-30",
+      "two_year": 4.41,
+      "five_year": 3.99,
+      "ten_year": 3.88,
+      "level": 3.88,
+      "slope_2s10s": -0.5300000000000002,
+      "slope_5s10s": -0.11000000000000032,
+      "curvature": -0.3099999999999996
+    },
+    {
+      "date": "2023-01-31",
+      "two_year": 4.21,
+      "five_year": 3.63,
+      "ten_year": 3.52,
+      "level": 3.52,
+      "slope_2s10s": -0.69,
+      "slope_5s10s": -0.10999999999999988,
+      "curvature": -0.4700000000000002
+    },
+    {
+      "date": "2023-02-28",
+      "two_year": 4.81,
+      "five_year": 4.18,
+      "ten_year": 3.92,
+      "level": 3.92,
+      "slope_2s10s": -0.8899999999999997,
+      "slope_5s10s": -0.2599999999999998,
+      "curvature": -0.3700000000000001
+    },
+    {
+      "date": "2023-03-31",
+      "two_year": 4.06,
+      "five_year": 3.6,
+      "ten_year": 3.48,
+      "level": 3.48,
+      "slope_2s10s": -0.5799999999999996,
+      "slope_5s10s": -0.1200000000000001,
+      "curvature": -0.3399999999999994
+    },
+    {
+      "date": "2023-04-28",
+      "two_year": 4.04,
+      "five_year": 3.51,
+      "ten_year": 3.44,
+      "level": 3.44,
+      "slope_2s10s": -0.6000000000000001,
+      "slope_5s10s": -0.06999999999999984,
+      "curvature": -0.4600000000000004
+    },
+    {
+      "date": "2023-05-31",
+      "two_year": 4.4,
+      "five_year": 3.74,
+      "ten_year": 3.64,
+      "level": 3.64,
+      "slope_2s10s": -0.7600000000000002,
+      "slope_5s10s": -0.10000000000000009,
+      "curvature": -0.56
+    },
+    {
+      "date": "2023-06-30",
+      "two_year": 4.87,
+      "five_year": 4.13,
+      "ten_year": 3.81,
+      "level": 3.81,
+      "slope_2s10s": -1.06,
+      "slope_5s10s": -0.31999999999999984,
+      "curvature": -0.4200000000000004
+    },
+    {
+      "date": "2023-07-31",
+      "two_year": 4.88,
+      "five_year": 4.18,
+      "ten_year": 3.97,
+      "level": 3.97,
+      "slope_2s10s": -0.9099999999999997,
+      "slope_5s10s": -0.20999999999999952,
+      "curvature": -0.49000000000000066
+    },
+    {
+      "date": "2023-08-31",
+      "two_year": 4.85,
+      "five_year": 4.23,
+      "ten_year": 4.09,
+      "level": 4.09,
+      "slope_2s10s": -0.7599999999999998,
+      "slope_5s10s": -0.14000000000000057,
+      "curvature": -0.47999999999999865
+    },
+    {
+      "date": "2023-09-29",
+      "two_year": 5.03,
+      "five_year": 4.6,
+      "ten_year": 4.59,
+      "level": 4.59,
+      "slope_2s10s": -0.4400000000000004,
+      "slope_5s10s": -0.009999999999999787,
+      "curvature": -0.4200000000000008
+    },
+    {
+      "date": "2023-10-31",
+      "two_year": 5.07,
+      "five_year": 4.82,
+      "ten_year": 4.88,
+      "level": 4.88,
+      "slope_2s10s": -0.1900000000000004,
+      "slope_5s10s": 0.05999999999999961,
+      "curvature": -0.3099999999999996
+    },
+    {
+      "date": "2023-11-30",
+      "two_year": 4.73,
+      "five_year": 4.31,
+      "ten_year": 4.37,
+      "level": 4.37,
+      "slope_2s10s": -0.3600000000000003,
+      "slope_5s10s": 0.0600000000000005,
+      "curvature": -0.4800000000000013
+    },
+    {
+      "date": "2023-12-29",
+      "two_year": 4.23,
+      "five_year": 3.84,
+      "ten_year": 3.88,
+      "level": 3.88,
+      "slope_2s10s": -0.35000000000000053,
+      "slope_5s10s": 0.040000000000000036,
+      "curvature": -0.4300000000000006
+    },
+    {
+      "date": "2024-01-31",
+      "two_year": 4.27,
+      "five_year": 3.91,
+      "ten_year": 3.99,
+      "level": 3.99,
+      "slope_2s10s": -0.27999999999999936,
+      "slope_5s10s": 0.08000000000000007,
+      "curvature": -0.4399999999999995
+    },
+    {
+      "date": "2024-02-29",
+      "two_year": 4.64,
+      "five_year": 4.26,
+      "ten_year": 4.25,
+      "level": 4.25,
+      "slope_2s10s": -0.3899999999999997,
+      "slope_5s10s": -0.009999999999999787,
+      "curvature": -0.3700000000000001
+    },
+    {
+      "date": "2024-03-28",
+      "two_year": 4.59,
+      "five_year": 4.21,
+      "ten_year": 4.2,
+      "level": 4.2,
+      "slope_2s10s": -0.3899999999999997,
+      "slope_5s10s": -0.009999999999999787,
+      "curvature": -0.3700000000000001
+    },
+    {
+      "date": "2024-04-30",
+      "two_year": 5.04,
+      "five_year": 4.72,
+      "ten_year": 4.69,
+      "level": 4.69,
+      "slope_2s10s": -0.34999999999999964,
+      "slope_5s10s": -0.02999999999999936,
+      "curvature": -0.2900000000000009
+    },
+    {
+      "date": "2024-05-31",
+      "two_year": 4.89,
+      "five_year": 4.52,
+      "ten_year": 4.51,
+      "level": 4.51,
+      "slope_2s10s": -0.3799999999999999,
+      "slope_5s10s": -0.009999999999999787,
+      "curvature": -0.3600000000000003
+    },
+    {
+      "date": "2024-06-28",
+      "two_year": 4.71,
+      "five_year": 4.33,
+      "ten_year": 4.36,
+      "level": 4.36,
+      "slope_2s10s": -0.34999999999999964,
+      "slope_5s10s": 0.03000000000000025,
+      "curvature": -0.41000000000000014
+    },
+    {
+      "date": "2024-07-31",
+      "two_year": 4.29,
+      "five_year": 3.97,
+      "ten_year": 4.09,
+      "level": 4.09,
+      "slope_2s10s": -0.20000000000000018,
+      "slope_5s10s": 0.11999999999999966,
+      "curvature": -0.4399999999999995
+    },
+    {
+      "date": "2024-08-30",
+      "two_year": 3.91,
+      "five_year": 3.71,
+      "ten_year": 3.91,
+      "level": 3.91,
+      "slope_2s10s": 0.0,
+      "slope_5s10s": 0.20000000000000018,
+      "curvature": -0.40000000000000036
+    },
+    {
+      "date": "2024-09-30",
+      "two_year": 3.66,
+      "five_year": 3.58,
+      "ten_year": 3.81,
+      "level": 3.81,
+      "slope_2s10s": 0.1499999999999999,
+      "slope_5s10s": 0.22999999999999998,
+      "curvature": -0.31000000000000005
+    },
+    {
+      "date": "2024-10-31",
+      "two_year": 4.16,
+      "five_year": 4.15,
+      "ten_year": 4.28,
+      "level": 4.28,
+      "slope_2s10s": 0.1200000000000001,
+      "slope_5s10s": 0.1299999999999999,
+      "curvature": -0.13999999999999968
+    },
+    {
+      "date": "2024-11-29",
+      "two_year": 4.13,
+      "five_year": 4.05,
+      "ten_year": 4.18,
+      "level": 4.18,
+      "slope_2s10s": 0.04999999999999982,
+      "slope_5s10s": 0.1299999999999999,
+      "curvature": -0.20999999999999996
+    },
+    {
+      "date": "2024-12-31",
+      "two_year": 4.25,
+      "five_year": 4.38,
+      "ten_year": 4.58,
+      "level": 4.58,
+      "slope_2s10s": 0.33000000000000007,
+      "slope_5s10s": 0.20000000000000018,
+      "curvature": -0.07000000000000028
+    },
+    {
+      "date": "2025-01-31",
+      "two_year": 4.22,
+      "five_year": 4.36,
+      "ten_year": 4.58,
+      "level": 4.58,
+      "slope_2s10s": 0.3600000000000003,
+      "slope_5s10s": 0.21999999999999975,
+      "curvature": -0.07999999999999918
+    },
+    {
+      "date": "2025-02-28",
+      "two_year": 3.99,
+      "five_year": 4.03,
+      "ten_year": 4.24,
+      "level": 4.24,
+      "slope_2s10s": 0.25,
+      "slope_5s10s": 0.20999999999999996,
+      "curvature": -0.16999999999999993
+    },
+    {
+      "date": "2025-03-31",
+      "two_year": 3.89,
+      "five_year": 3.96,
+      "ten_year": 4.23,
+      "level": 4.23,
+      "slope_2s10s": 0.3400000000000003,
+      "slope_5s10s": 0.27000000000000046,
+      "curvature": -0.20000000000000107
+    },
+    {
+      "date": "2025-04-30",
+      "two_year": 3.6,
+      "five_year": 3.72,
+      "ten_year": 4.17,
+      "level": 4.17,
+      "slope_2s10s": 0.5699999999999998,
+      "slope_5s10s": 0.44999999999999973,
+      "curvature": -0.3299999999999996
+    },
+    {
+      "date": "2025-05-30",
+      "two_year": 3.89,
+      "five_year": 3.96,
+      "ten_year": 4.41,
+      "level": 4.41,
+      "slope_2s10s": 0.52,
+      "slope_5s10s": 0.4500000000000002,
+      "curvature": -0.3800000000000008
+    },
+    {
+      "date": "2025-06-30",
+      "two_year": 3.72,
+      "five_year": 3.79,
+      "ten_year": 4.24,
+      "level": 4.24,
+      "slope_2s10s": 0.52,
+      "slope_5s10s": 0.4500000000000002,
+      "curvature": -0.38000000000000034
+    },
+    {
+      "date": "2025-07-31",
+      "two_year": 3.94,
+      "five_year": 3.96,
+      "ten_year": 4.37,
+      "level": 4.37,
+      "slope_2s10s": 0.43000000000000016,
+      "slope_5s10s": 0.41000000000000014,
+      "curvature": -0.3900000000000001
+    },
+    {
+      "date": "2025-08-29",
+      "two_year": 3.59,
+      "five_year": 3.68,
+      "ten_year": 4.23,
+      "level": 4.23,
+      "slope_2s10s": 0.6400000000000006,
+      "slope_5s10s": 0.5500000000000003,
+      "curvature": -0.45999999999999996
+    },
+    {
+      "date": "2025-09-30",
+      "two_year": 3.6,
+      "five_year": 3.74,
+      "ten_year": 4.16,
+      "level": 4.16,
+      "slope_2s10s": 0.56,
+      "slope_5s10s": 0.41999999999999993,
+      "curvature": -0.2799999999999998
+    },
+    {
+      "date": "2025-10-31",
+      "two_year": 3.6,
+      "five_year": 3.71,
+      "ten_year": 4.11,
+      "level": 4.11,
+      "slope_2s10s": 0.5100000000000002,
+      "slope_5s10s": 0.40000000000000036,
+      "curvature": -0.2900000000000005
+    },
+    {
+      "date": "2025-11-28",
+      "two_year": 3.47,
+      "five_year": 3.59,
+      "ten_year": 4.02,
+      "level": 4.02,
+      "slope_2s10s": 0.5499999999999994,
+      "slope_5s10s": 0.4299999999999997,
+      "curvature": -0.31000000000000005
+    },
+    {
+      "date": "2025-12-31",
+      "two_year": 3.47,
+      "five_year": 3.73,
+      "ten_year": 4.18,
+      "level": 4.18,
+      "slope_2s10s": 0.7099999999999995,
+      "slope_5s10s": 0.44999999999999973,
+      "curvature": -0.18999999999999995
+    },
+    {
+      "date": "2026-01-30",
+      "two_year": 3.52,
+      "five_year": 3.79,
+      "ten_year": 4.26,
+      "level": 4.26,
+      "slope_2s10s": 0.7399999999999998,
+      "slope_5s10s": 0.46999999999999975,
+      "curvature": -0.1999999999999993
+    },
+    {
+      "date": "2026-02-27",
+      "two_year": 3.38,
+      "five_year": 3.51,
+      "ten_year": 3.97,
+      "level": 3.97,
+      "slope_2s10s": 0.5900000000000003,
+      "slope_5s10s": 0.4600000000000004,
+      "curvature": -0.3300000000000005
+    },
+    {
+      "date": "2026-03-31",
+      "two_year": 3.79,
+      "five_year": 3.92,
+      "ten_year": 4.3,
+      "level": 4.3,
+      "slope_2s10s": 0.5099999999999998,
+      "slope_5s10s": 0.3799999999999999,
+      "curvature": -0.25
+    },
+    {
+      "date": "2026-04-30",
+      "two_year": 3.88,
+      "five_year": 4.02,
+      "ten_year": 4.4,
+      "level": 4.4,
+      "slope_2s10s": 0.5200000000000005,
+      "slope_5s10s": 0.3800000000000008,
+      "curvature": -0.2400000000000011
+    },
+    {
+      "date": "2026-05-29",
+      "two_year": 3.98,
+      "five_year": 4.13,
+      "ten_year": 4.45,
+      "level": 4.45,
+      "slope_2s10s": 0.4700000000000002,
+      "slope_5s10s": 0.3200000000000003,
+      "curvature": -0.17000000000000082
+    },
+    {
+      "date": "2026-06-30",
+      "two_year": 4.14,
+      "five_year": 4.19,
+      "ten_year": 4.44,
+      "level": 4.44,
+      "slope_2s10s": 0.3000000000000007,
+      "slope_5s10s": 0.25,
+      "curvature": -0.1999999999999993
+    },
+    {
+      "date": "2026-07-31",
+      "two_year": 4.28,
+      "five_year": 4.45,
+      "ten_year": 4.75,
+      "level": 4.75,
+      "slope_2s10s": 0.46999999999999975,
+      "slope_5s10s": 0.2999999999999998,
+      "curvature": -0.1299999999999999
+    },
+    {
+      "date": "2026-08-31",
+      "two_year": 4.34,
+      "five_year": 4.49,
+      "ten_year": 4.75,
+      "level": 4.75,
+      "slope_2s10s": 0.41000000000000014,
+      "slope_5s10s": 0.2599999999999998,
+      "curvature": -0.10999999999999943
+    },
+    {
+      "date": "2026-09-25",
+      "two_year": 4.81,
+      "five_year": 4.98,
+      "ten_year": 5.17,
+      "level": 5.17,
+      "slope_2s10s": 0.3600000000000003,
+      "slope_5s10s": 0.1899999999999995,
+      "curvature": -0.019999999999998685
+    }
+  ],
+  "allocation_context": [
+    {
+      "date": "2004-01-30",
+      "level": 4.16,
+      "slope_2s10s": 2.3200000000000003,
+      "curvature": 0.33999999999999986,
+      "SHY": 0.6520028882761,
+      "IEF": 0.1974136356548623,
+      "TLT": 0.15058347606903785
+    },
+    {
+      "date": "2004-02-27",
+      "level": 3.99,
+      "slope_2s10s": 2.33,
+      "curvature": 0.3699999999999992,
+      "SHY": 0.7137728844249778,
+      "IEF": 0.17103981551670958,
+      "TLT": 0.11518730005831267
+    },
+    {
+      "date": "2004-03-31",
+      "level": 3.86,
+      "slope_2s10s": 2.26,
+      "curvature": 0.13999999999999968,
+      "SHY": 0.6818611863243975,
+      "IEF": 0.20167022175240057,
+      "TLT": 0.11646859192320189
+    },
+    {
+      "date": "2004-04-30",
+      "level": 4.53,
+      "slope_2s10s": 2.22,
+      "curvature": 0.41999999999999904,
+      "SHY": 0.7607296091711605,
+      "IEF": 0.14673801071675951,
+      "TLT": 0.09253238011207998
+    },
+    {
+      "date": "2004-05-28",
+      "level": 4.66,
+      "slope_2s10s": 2.12,
+      "curvature": 0.41999999999999993,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2004-06-30",
+      "level": 4.62,
+      "slope_2s10s": 1.92,
+      "curvature": 0.2999999999999998,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2004-07-30",
+      "level": 4.5,
+      "slope_2s10s": 1.8199999999999998,
+      "curvature": 0.2400000000000002,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2004-08-31",
+      "level": 4.13,
+      "slope_2s10s": 1.7199999999999998,
+      "curvature": 0.1200000000000001,
+      "SHY": 0.7145037651472324,
+      "IEF": 0.1701099461859551,
+      "TLT": 0.11538628866681255
+    },
+    {
+      "date": "2004-09-30",
+      "level": 4.14,
+      "slope_2s10s": 1.5099999999999998,
+      "curvature": -0.009999999999999787,
+      "SHY": 0.6579135891403435,
+      "IEF": 0.19015706286383866,
+      "TLT": 0.15192934799581773
+    },
+    {
+      "date": "2004-10-29",
+      "level": 4.05,
+      "slope_2s10s": 1.4899999999999998,
+      "curvature": -0.010000000000000675,
+      "SHY": 0.6780483858944145,
+      "IEF": 0.2026664528349845,
+      "TLT": 0.11928516127060089
+    },
+    {
+      "date": "2004-11-30",
+      "level": 4.36,
+      "slope_2s10s": 1.3400000000000003,
+      "curvature": 0.05999999999999961,
+      "SHY": 0.6916109699469395,
+      "IEF": 0.18442806522379504,
+      "TLT": 0.12396096482926544
+    },
+    {
+      "date": "2004-12-31",
+      "level": 4.24,
+      "slope_2s10s": 1.1600000000000001,
+      "curvature": -0.0600000000000005,
+      "SHY": 0.6897090187493162,
+      "IEF": 0.19994569513088778,
+      "TLT": 0.11034528611979601
+    },
+    {
+      "date": "2005-01-31",
+      "level": 4.14,
+      "slope_2s10s": 0.8499999999999996,
+      "curvature": -0.009999999999999787,
+      "SHY": 0.7871096476825407,
+      "IEF": 0.13950483701704866,
+      "TLT": 0.07338551530041063
+    },
+    {
+      "date": "2005-02-28",
+      "level": 4.36,
+      "slope_2s10s": 0.7700000000000005,
+      "curvature": 0.04999999999999982,
+      "SHY": 0.6921356548256556,
+      "IEF": 0.20513824416232848,
+      "TLT": 0.10272610101201592
+    },
+    {
+      "date": "2005-03-31",
+      "level": 4.5,
+      "slope_2s10s": 0.7000000000000002,
+      "curvature": 0.05999999999999961,
+      "SHY": 0.754628356752337,
+      "IEF": 0.16641242084787228,
+      "TLT": 0.07895922239979082
+    },
+    {
+      "date": "2005-04-29",
+      "level": 4.21,
+      "slope_2s10s": 0.5499999999999998,
+      "curvature": -0.07000000000000028,
+      "SHY": 0.9118011425366573,
+      "IEF": 0.0,
+      "TLT": 0.08819885746334269
+    },
+    {
+      "date": "2005-05-31",
+      "level": 4.0,
+      "slope_2s10s": 0.3999999999999999,
+      "curvature": -0.08000000000000052,
+      "SHY": 0.7334708672035599,
+      "IEF": 0.16641206488434765,
+      "TLT": 0.10011706791209257
+    },
+    {
+      "date": "2005-06-30",
+      "level": 3.94,
+      "slope_2s10s": 0.2799999999999998,
+      "curvature": -0.1599999999999997,
+      "SHY": 0.6904497586148558,
+      "IEF": 0.1992107082991383,
+      "TLT": 0.11033953308600597
+    },
+    {
+      "date": "2005-07-29",
+      "level": 4.28,
+      "slope_2s10s": 0.2600000000000007,
+      "curvature": -0.05999999999999961,
+      "SHY": 0.7442193937231961,
+      "IEF": 0.16722610849220249,
+      "TLT": 0.08855449778460131
+    },
+    {
+      "date": "2005-08-31",
+      "level": 4.02,
+      "slope_2s10s": 0.17999999999999972,
+      "curvature": -0.11999999999999922,
+      "SHY": 0.8890410765110298,
+      "IEF": 0.0,
+      "TLT": 0.11095892348897021
+    },
+    {
+      "date": "2005-09-30",
+      "level": 4.34,
+      "slope_2s10s": 0.16000000000000014,
+      "curvature": -0.16000000000000014,
+      "SHY": 0.8487631465843759,
+      "IEF": 0.0,
+      "TLT": 0.15123685341562412
+    },
+    {
+      "date": "2005-10-31",
+      "level": 4.57,
+      "slope_2s10s": 0.16999999999999993,
+      "curvature": -0.07000000000000028,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2005-11-30",
+      "level": 4.49,
+      "slope_2s10s": 0.07000000000000028,
+      "curvature": -0.07000000000000028,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2005-12-30",
+      "level": 4.39,
+      "slope_2s10s": -0.020000000000000462,
+      "curvature": -0.10000000000000053,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2006-01-31",
+      "level": 4.53,
+      "slope_2s10s": -0.009999999999999787,
+      "curvature": -0.13000000000000078,
+      "SHY": 0.715703186919979,
+      "IEF": 0.1804727515044308,
+      "TLT": 0.10382406157559013
+    },
+    {
+      "date": "2006-02-28",
+      "level": 4.55,
+      "slope_2s10s": -0.14000000000000057,
+      "curvature": -0.019999999999999574,
+      "SHY": 0.6689440076904293,
+      "IEF": 0.2088633339165246,
+      "TLT": 0.12219265839304619
+    },
+    {
+      "date": "2006-03-31",
+      "level": 4.86,
+      "slope_2s10s": 0.040000000000000036,
+      "curvature": -0.040000000000000036,
+      "SHY": 0.6887939040805857,
+      "IEF": 0.20130536126302603,
+      "TLT": 0.10990073465638821
+    },
+    {
+      "date": "2006-04-28",
+      "level": 5.07,
+      "slope_2s10s": 0.20000000000000018,
+      "curvature": -0.10000000000000053,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2006-05-31",
+      "level": 5.12,
+      "slope_2s10s": 0.08000000000000007,
+      "curvature": -0.08000000000000007,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2006-06-30",
+      "level": 5.15,
+      "slope_2s10s": -0.009999999999999787,
+      "curvature": -0.11000000000000121,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2006-07-31",
+      "level": 4.99,
+      "slope_2s10s": 0.020000000000000462,
+      "curvature": -0.13999999999999968,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2006-08-31",
+      "level": 4.74,
+      "slope_2s10s": -0.04999999999999982,
+      "curvature": -0.1299999999999999,
+      "SHY": 0.690446562252212,
+      "IEF": 0.20327013290779897,
+      "TLT": 0.10628330483998909
+    },
+    {
+      "date": "2006-09-29",
+      "level": 4.64,
+      "slope_2s10s": -0.07000000000000028,
+      "curvature": -0.16999999999999993,
+      "SHY": 0.678881025279647,
+      "IEF": 0.1951539250939659,
+      "TLT": 0.12596504962638705
+    },
+    {
+      "date": "2006-10-31",
+      "level": 4.61,
+      "slope_2s10s": -0.09999999999999964,
+      "curvature": -0.17999999999999972,
+      "SHY": 0.6789094567408521,
+      "IEF": 0.1990840461359088,
+      "TLT": 0.12200649712323897
+    },
+    {
+      "date": "2006-11-30",
+      "level": 4.46,
+      "slope_2s10s": -0.16000000000000014,
+      "curvature": -0.17999999999999972,
+      "SHY": 0.6912733918986376,
+      "IEF": 0.19753148161699535,
+      "TLT": 0.11119512648436715
+    },
+    {
+      "date": "2006-12-29",
+      "level": 4.71,
+      "slope_2s10s": -0.11000000000000032,
+      "curvature": -0.1299999999999999,
+      "SHY": 0.7058997865917225,
+      "IEF": 0.1786394029489063,
+      "TLT": 0.1154608104593713
+    },
+    {
+      "date": "2007-01-31",
+      "level": 4.83,
+      "slope_2s10s": -0.11000000000000032,
+      "curvature": -0.1299999999999999,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-02-28",
+      "level": 4.56,
+      "slope_2s10s": -0.09000000000000075,
+      "curvature": -0.17000000000000082,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-03-30",
+      "level": 4.65,
+      "slope_2s10s": 0.07000000000000028,
+      "curvature": -0.15000000000000036,
+      "SHY": 0.6786208337152001,
+      "IEF": 0.20371706126136058,
+      "TLT": 0.11766210502343928
+    },
+    {
+      "date": "2007-04-30",
+      "level": 4.63,
+      "slope_2s10s": 0.03000000000000025,
+      "curvature": -0.20999999999999996,
+      "SHY": 0.7128134366691175,
+      "IEF": 0.2871865633308826,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-05-31",
+      "level": 4.9,
+      "slope_2s10s": -0.019999999999999574,
+      "curvature": -0.09999999999999964,
+      "SHY": 0.6364510052339978,
+      "IEF": 0.2394715574440518,
+      "TLT": 0.12407743732195044
+    },
+    {
+      "date": "2007-06-29",
+      "level": 5.03,
+      "slope_2s10s": 0.16000000000000014,
+      "curvature": -0.0600000000000005,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-07-31",
+      "level": 4.78,
+      "slope_2s10s": 0.22000000000000064,
+      "curvature": -0.14000000000000057,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-08-31",
+      "level": 4.54,
+      "slope_2s10s": 0.3899999999999997,
+      "curvature": -0.1900000000000004,
+      "SHY": 0.772978848985331,
+      "IEF": 0.227021151014669,
+      "TLT": 0.0
+    },
+    {
+      "date": "2007-09-28",
+      "level": 4.59,
+      "slope_2s10s": 0.6199999999999997,
+      "curvature": -0.09999999999999964,
+      "SHY": 0.5966387799053398,
+      "IEF": 0.2415498857482154,
+      "TLT": 0.1618113343464447
+    },
+    {
+      "date": "2007-10-31",
+      "level": 4.48,
+      "slope_2s10s": 0.5400000000000005,
+      "curvature": -0.09999999999999964,
+      "SHY": 0.6650567585203243,
+      "IEF": 0.20946649044790205,
+      "TLT": 0.1254767510317736
+    },
+    {
+      "date": "2007-11-30",
+      "level": 3.97,
+      "slope_2s10s": 0.9300000000000002,
+      "curvature": -0.18999999999999995,
+      "SHY": 0.6584132653756074,
+      "IEF": 0.2022854920016318,
+      "TLT": 0.13930124262276095
+    },
+    {
+      "date": "2007-12-31",
+      "level": 4.04,
+      "slope_2s10s": 0.9900000000000002,
+      "curvature": -0.1899999999999995,
+      "SHY": 0.604092687390635,
+      "IEF": 0.22222772700354015,
+      "TLT": 0.1736795856058249
+    },
+    {
+      "date": "2008-01-31",
+      "level": 3.67,
+      "slope_2s10s": 1.5,
+      "curvature": -0.20000000000000018,
+      "SHY": 0.6750422084727383,
+      "IEF": 0.20337534825825135,
+      "TLT": 0.12158244326901023
+    },
+    {
+      "date": "2008-02-29",
+      "level": 3.53,
+      "slope_2s10s": 1.88,
+      "curvature": -0.17999999999999972,
+      "SHY": 0.6822185849781824,
+      "IEF": 0.2030912072297107,
+      "TLT": 0.11469020779210683
+    },
+    {
+      "date": "2008-03-31",
+      "level": 3.45,
+      "slope_2s10s": 1.83,
+      "curvature": -0.15000000000000036,
+      "SHY": 0.731630634898043,
+      "IEF": 0.16656307886574148,
+      "TLT": 0.1018062862362155
+    },
+    {
+      "date": "2008-04-30",
+      "level": 3.77,
+      "slope_2s10s": 1.48,
+      "curvature": -4.440892098500626e-16,
+      "SHY": 0.6545726487825606,
+      "IEF": 0.2017448538187533,
+      "TLT": 0.1436824973986861
+    },
+    {
+      "date": "2008-05-30",
+      "level": 4.06,
+      "slope_2s10s": 1.3999999999999995,
+      "curvature": 0.10000000000000053,
+      "SHY": 0.7465064626729463,
+      "IEF": 0.25349353732705376,
+      "TLT": 0.0
+    },
+    {
+      "date": "2008-06-30",
+      "level": 3.99,
+      "slope_2s10s": 1.3600000000000003,
+      "curvature": 0.05999999999999961,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2008-07-31",
+      "level": 3.99,
+      "slope_2s10s": 1.4700000000000002,
+      "curvature": -0.010000000000000231,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2008-08-29",
+      "level": 3.83,
+      "slope_2s10s": 1.4700000000000002,
+      "curvature": 0.010000000000000231,
+      "SHY": 0.6748037458410359,
+      "IEF": 0.19490205085910672,
+      "TLT": 0.13029420329985736
+    },
+    {
+      "date": "2008-09-30",
+      "level": 3.85,
+      "slope_2s10s": 1.85,
+      "curvature": 0.10999999999999988,
+      "SHY": 0.6958330615555479,
+      "IEF": 0.19033270149133277,
+      "TLT": 0.11383423695311923
+    },
+    {
+      "date": "2008-10-31",
+      "level": 4.01,
+      "slope_2s10s": 2.4499999999999997,
+      "curvature": 0.02999999999999936,
+      "SHY": 0.640491277981706,
+      "IEF": 0.228428428774456,
+      "TLT": 0.13108029324383796
+    },
+    {
+      "date": "2008-11-28",
+      "level": 2.93,
+      "slope_2s10s": 1.9300000000000002,
+      "curvature": -0.07000000000000028,
+      "SHY": 0.6819295859750827,
+      "IEF": 0.1905593672205734,
+      "TLT": 0.1275110468043438
+    },
+    {
+      "date": "2008-12-31",
+      "level": 2.25,
+      "slope_2s10s": 1.49,
+      "curvature": 0.08999999999999986,
+      "SHY": 0.7711127914110822,
+      "IEF": 0.1573782591383855,
+      "TLT": 0.07150894945053231
+    },
+    {
+      "date": "2009-01-30",
+      "level": 2.87,
+      "slope_2s10s": 1.9300000000000002,
+      "curvature": -0.10999999999999988,
+      "SHY": 0.7513115807676561,
+      "IEF": 0.16723279710486663,
+      "TLT": 0.08145562212747728
+    },
+    {
+      "date": "2009-02-27",
+      "level": 3.02,
+      "slope_2s10s": 2.02,
+      "curvature": -0.040000000000000036,
+      "SHY": 0.7372531710716734,
+      "IEF": 0.18723503238982445,
+      "TLT": 0.07551179653850207
+    },
+    {
+      "date": "2009-03-31",
+      "level": 2.71,
+      "slope_2s10s": 1.9,
+      "curvature": -0.18000000000000016,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-04-30",
+      "level": 3.16,
+      "slope_2s10s": 2.25,
+      "curvature": -0.03000000000000025,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-05-29",
+      "level": 3.47,
+      "slope_2s10s": 2.5500000000000003,
+      "curvature": 0.2899999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-06-30",
+      "level": 3.53,
+      "slope_2s10s": 2.42,
+      "curvature": 0.43999999999999995,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-07-31",
+      "level": 3.52,
+      "slope_2s10s": 2.39,
+      "curvature": 0.4099999999999997,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-08-31",
+      "level": 3.4,
+      "slope_2s10s": 2.4299999999999997,
+      "curvature": 0.4100000000000006,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2009-09-30",
+      "level": 3.31,
+      "slope_2s10s": 2.3600000000000003,
+      "curvature": 0.3599999999999999,
+      "SHY": 0.7860124143630005,
+      "IEF": 0.14488061679401734,
+      "TLT": 0.06910696884298208
+    },
+    {
+      "date": "2009-10-30",
+      "level": 3.41,
+      "slope_2s10s": 2.5100000000000002,
+      "curvature": 0.31000000000000005,
+      "SHY": 0.7724080680545178,
+      "IEF": 0.16004962904622233,
+      "TLT": 0.06754230289925982
+    },
+    {
+      "date": "2009-11-30",
+      "level": 3.21,
+      "slope_2s10s": 2.54,
+      "curvature": 0.13999999999999968,
+      "SHY": 0.7602259679551177,
+      "IEF": 0.1615436255423108,
+      "TLT": 0.07823040650257154
+    },
+    {
+      "date": "2009-12-31",
+      "level": 3.85,
+      "slope_2s10s": 2.71,
+      "curvature": 0.3900000000000001,
+      "SHY": 0.811254598610849,
+      "IEF": 0.12743491350739145,
+      "TLT": 0.061310487881759655
+    },
+    {
+      "date": "2010-01-29",
+      "level": 3.63,
+      "slope_2s10s": 2.81,
+      "curvature": 0.22999999999999998,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2010-02-26",
+      "level": 3.61,
+      "slope_2s10s": 2.8,
+      "curvature": 0.17999999999999972,
+      "SHY": 0.8249846545085872,
+      "IEF": 0.17501534549141282,
+      "TLT": 0.0
+    },
+    {
+      "date": "2010-03-31",
+      "level": 3.84,
+      "slope_2s10s": 2.82,
+      "curvature": 0.2400000000000002,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2010-04-30",
+      "level": 3.69,
+      "slope_2s10s": 2.7199999999999998,
+      "curvature": 0.20000000000000062,
+      "SHY": 0.7738714301912292,
+      "IEF": 0.15129133596546504,
+      "TLT": 0.07483723384330587
+    },
+    {
+      "date": "2010-05-28",
+      "level": 3.31,
+      "slope_2s10s": 2.55,
+      "curvature": 0.13000000000000034,
+      "SHY": 0.7260289195901277,
+      "IEF": 0.17351777720402708,
+      "TLT": 0.1004533032058452
+    },
+    {
+      "date": "2010-06-30",
+      "level": 2.97,
+      "slope_2s10s": 2.3600000000000003,
+      "curvature": 0.0,
+      "SHY": 0.7919199950321572,
+      "IEF": 0.14884505258428005,
+      "TLT": 0.059234952383562856
+    },
+    {
+      "date": "2010-07-30",
+      "level": 2.94,
+      "slope_2s10s": 2.3899999999999997,
+      "curvature": -0.2899999999999996,
+      "SHY": 0.8230793001460874,
+      "IEF": 0.11776413918879447,
+      "TLT": 0.059156560665118076
+    },
+    {
+      "date": "2010-08-31",
+      "level": 2.47,
+      "slope_2s10s": 2.0,
+      "curvature": -0.2799999999999998,
+      "SHY": 0.8344346646568362,
+      "IEF": 0.11518857877324881,
+      "TLT": 0.05037675656991485
+    },
+    {
+      "date": "2010-09-30",
+      "level": 2.53,
+      "slope_2s10s": 2.11,
+      "curvature": -0.4099999999999997,
+      "SHY": 0.8557956125248886,
+      "IEF": 0.09964884699909674,
+      "TLT": 0.04455554047601472
+    },
+    {
+      "date": "2010-10-29",
+      "level": 2.63,
+      "slope_2s10s": 2.29,
+      "curvature": -0.6300000000000001,
+      "SHY": 0.8703265338734144,
+      "IEF": 0.09032647973561331,
+      "TLT": 0.039346986390972456
+    },
+    {
+      "date": "2010-11-30",
+      "level": 2.81,
+      "slope_2s10s": 2.36,
+      "curvature": -0.3200000000000003,
+      "SHY": 0.8441126140034751,
+      "IEF": 0.10571999696851819,
+      "TLT": 0.05016738902800665
+    },
+    {
+      "date": "2010-12-31",
+      "level": 3.3,
+      "slope_2s10s": 2.69,
+      "curvature": 0.10999999999999988,
+      "SHY": 0.8806701109344985,
+      "IEF": 0.11932988906550145,
+      "TLT": 0.0
+    },
+    {
+      "date": "2011-01-31",
+      "level": 3.42,
+      "slope_2s10s": 2.84,
+      "curvature": -0.10000000000000009,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2011-02-28",
+      "level": 3.42,
+      "slope_2s10s": 2.73,
+      "curvature": 0.1499999999999999,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2011-03-31",
+      "level": 3.47,
+      "slope_2s10s": 2.67,
+      "curvature": 0.2100000000000004,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2011-04-29",
+      "level": 3.32,
+      "slope_2s10s": 2.71,
+      "curvature": 0.010000000000000231,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2011-05-31",
+      "level": 3.05,
+      "slope_2s10s": 2.5999999999999996,
+      "curvature": -0.14000000000000012,
+      "SHY": 0.7645474798239486,
+      "IEF": 0.15687059208603193,
+      "TLT": 0.0785819280900195
+    },
+    {
+      "date": "2011-06-30",
+      "level": 3.18,
+      "slope_2s10s": 2.73,
+      "curvature": -0.11000000000000032,
+      "SHY": 0.8209115870477767,
+      "IEF": 0.12350046204510193,
+      "TLT": 0.055587950907121396
+    },
+    {
+      "date": "2011-07-29",
+      "level": 2.82,
+      "slope_2s10s": 2.46,
+      "curvature": -0.47999999999999954,
+      "SHY": 0.8044026964647657,
+      "IEF": 0.12301410223430041,
+      "TLT": 0.07258320130093389
+    },
+    {
+      "date": "2011-08-31",
+      "level": 2.23,
+      "slope_2s10s": 2.03,
+      "curvature": -0.51,
+      "SHY": 0.8428873919772949,
+      "IEF": 0.10410485110546484,
+      "TLT": 0.0530077569172402
+    },
+    {
+      "date": "2011-09-30",
+      "level": 1.92,
+      "slope_2s10s": 1.67,
+      "curvature": -0.25,
+      "SHY": 0.9365861750617409,
+      "IEF": 0.046136936470658765,
+      "TLT": 0.017276888467600372
+    },
+    {
+      "date": "2011-10-31",
+      "level": 2.17,
+      "slope_2s10s": 1.92,
+      "curvature": -0.43999999999999995,
+      "SHY": 0.9097673723690183,
+      "IEF": 0.06909640237070436,
+      "TLT": 0.021136225260277287
+    },
+    {
+      "date": "2011-11-30",
+      "level": 2.08,
+      "slope_2s10s": 1.83,
+      "curvature": -0.41000000000000014,
+      "SHY": 0.9080908584460982,
+      "IEF": 0.06626813029848425,
+      "TLT": 0.025641011255417494
+    },
+    {
+      "date": "2011-12-30",
+      "level": 1.89,
+      "slope_2s10s": 1.64,
+      "curvature": -0.48,
+      "SHY": 0.980754789205033,
+      "IEF": 0.0,
+      "TLT": 0.019245210794967122
+    },
+    {
+      "date": "2012-01-31",
+      "level": 1.83,
+      "slope_2s10s": 1.61,
+      "curvature": -0.6300000000000001,
+      "SHY": 0.9241508744748286,
+      "IEF": 0.05654831282441016,
+      "TLT": 0.019300812700761196
+    },
+    {
+      "date": "2012-02-29",
+      "level": 1.98,
+      "slope_2s10s": 1.68,
+      "curvature": -0.54,
+      "SHY": 0.913047263407805,
+      "IEF": 0.062018396009793114,
+      "TLT": 0.02493434058240184
+    },
+    {
+      "date": "2012-03-30",
+      "level": 2.23,
+      "slope_2s10s": 1.9,
+      "curvature": -0.48,
+      "SHY": 0.901643017881373,
+      "IEF": 0.0706959145517698,
+      "TLT": 0.02766106756685719
+    },
+    {
+      "date": "2012-04-30",
+      "level": 1.95,
+      "slope_2s10s": 1.68,
+      "curvature": -0.5800000000000001,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2012-05-31",
+      "level": 1.59,
+      "slope_2s10s": 1.32,
+      "curvature": -0.52,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2012-06-29",
+      "level": 1.67,
+      "slope_2s10s": 1.3399999999999999,
+      "curvature": -0.56,
+      "SHY": 0.8832194711213718,
+      "IEF": 0.08621505668014107,
+      "TLT": 0.030565472198487254
+    },
+    {
+      "date": "2012-07-31",
+      "level": 1.51,
+      "slope_2s10s": 1.28,
+      "curvature": -0.54,
+      "SHY": 0.929124189892158,
+      "IEF": 0.0499652844787602,
+      "TLT": 0.020910525629081935
+    },
+    {
+      "date": "2012-08-31",
+      "level": 1.57,
+      "slope_2s10s": 1.35,
+      "curvature": -0.6100000000000001,
+      "SHY": 0.8831238442810857,
+      "IEF": 0.08565636533204816,
+      "TLT": 0.031219790386866068
+    },
+    {
+      "date": "2012-09-28",
+      "level": 1.65,
+      "slope_2s10s": 1.42,
+      "curvature": -0.6399999999999999,
+      "SHY": 0.897826527211846,
+      "IEF": 0.07279628999696516,
+      "TLT": 0.029377182791188918
+    },
+    {
+      "date": "2012-10-31",
+      "level": 1.72,
+      "slope_2s10s": 1.42,
+      "curvature": -0.5800000000000001,
+      "SHY": 0.9311889724320019,
+      "IEF": 0.06881102756799806,
+      "TLT": 0.0
+    },
+    {
+      "date": "2012-11-30",
+      "level": 1.62,
+      "slope_2s10s": 1.37,
+      "curvature": -0.6500000000000001,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2012-12-31",
+      "level": 1.78,
+      "slope_2s10s": 1.53,
+      "curvature": -0.5900000000000001,
+      "SHY": 0.9228315501289667,
+      "IEF": 0.0771684498710333,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-01-31",
+      "level": 2.02,
+      "slope_2s10s": 1.75,
+      "curvature": -0.53,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-02-28",
+      "level": 1.89,
+      "slope_2s10s": 1.64,
+      "curvature": -0.5999999999999999,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-03-28",
+      "level": 1.87,
+      "slope_2s10s": 1.62,
+      "curvature": -0.5800000000000001,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-04-30",
+      "level": 1.7,
+      "slope_2s10s": 1.48,
+      "curvature": -0.5599999999999998,
+      "SHY": 0.9384452574099315,
+      "IEF": 0.06155474259006852,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-05-31",
+      "level": 2.16,
+      "slope_2s10s": 1.86,
+      "curvature": -0.3600000000000001,
+      "SHY": 0.932172377847804,
+      "IEF": 0.05199163304106628,
+      "TLT": 0.015835989111129573
+    },
+    {
+      "date": "2013-06-28",
+      "level": 2.52,
+      "slope_2s10s": 2.16,
+      "curvature": -0.06000000000000005,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-07-31",
+      "level": 2.6,
+      "slope_2s10s": 2.29,
+      "curvature": -0.15000000000000036,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-08-30",
+      "level": 2.78,
+      "slope_2s10s": 2.3899999999999997,
+      "curvature": 0.07000000000000028,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-09-30",
+      "level": 2.64,
+      "slope_2s10s": 2.31,
+      "curvature": -0.1900000000000004,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2013-10-31",
+      "level": 2.57,
+      "slope_2s10s": 2.26,
+      "curvature": -0.2599999999999998,
+      "SHY": 0.8322452297052185,
+      "IEF": 0.10536955721191078,
+      "TLT": 0.06238521308287073
+    },
+    {
+      "date": "2013-11-29",
+      "level": 2.75,
+      "slope_2s10s": 2.4699999999999998,
+      "curvature": -0.29000000000000004,
+      "SHY": 0.8427849963226464,
+      "IEF": 0.10473049560511873,
+      "TLT": 0.052484508072234794
+    },
+    {
+      "date": "2013-12-31",
+      "level": 3.04,
+      "slope_2s10s": 2.66,
+      "curvature": 0.08000000000000007,
+      "SHY": 0.8977269168093248,
+      "IEF": 0.06998639861592043,
+      "TLT": 0.03228668457475474
+    },
+    {
+      "date": "2014-01-31",
+      "level": 2.67,
+      "slope_2s10s": 2.33,
+      "curvature": -0.029999999999999805,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2014-02-28",
+      "level": 2.66,
+      "slope_2s10s": 2.33,
+      "curvature": 0.029999999999999805,
+      "SHY": 0.8203156222123031,
+      "IEF": 0.10937147739985804,
+      "TLT": 0.07031290038783891
+    },
+    {
+      "date": "2014-03-31",
+      "level": 2.73,
+      "slope_2s10s": 2.29,
+      "curvature": 0.29000000000000004,
+      "SHY": 0.8648471328448667,
+      "IEF": 0.09160018430506235,
+      "TLT": 0.04355268285007103
+    },
+    {
+      "date": "2014-04-30",
+      "level": 2.67,
+      "slope_2s10s": 2.25,
+      "curvature": 0.29000000000000004,
+      "SHY": 0.8179064551289442,
+      "IEF": 0.11939264281242952,
+      "TLT": 0.06270090205862637
+    },
+    {
+      "date": "2014-05-30",
+      "level": 2.48,
+      "slope_2s10s": 2.11,
+      "curvature": 0.22999999999999998,
+      "SHY": 0.8291472520213061,
+      "IEF": 0.11305357345012589,
+      "TLT": 0.05779917452856794
+    },
+    {
+      "date": "2014-06-30",
+      "level": 2.53,
+      "slope_2s10s": 2.0599999999999996,
+      "curvature": 0.24000000000000066,
+      "SHY": 0.8813630268375839,
+      "IEF": 0.08612737052108171,
+      "TLT": 0.03250960264133437
+    },
+    {
+      "date": "2014-07-31",
+      "level": 2.58,
+      "slope_2s10s": 2.05,
+      "curvature": 0.41000000000000014,
+      "SHY": 0.8211637988071728,
+      "IEF": 0.12581254731413438,
+      "TLT": 0.053023653878692754
+    },
+    {
+      "date": "2014-08-29",
+      "level": 2.35,
+      "slope_2s10s": 1.87,
+      "curvature": 0.4299999999999997,
+      "SHY": 0.8373431522147541,
+      "IEF": 0.11283650496250587,
+      "TLT": 0.04982034282274001
+    },
+    {
+      "date": "2014-09-30",
+      "level": 2.52,
+      "slope_2s10s": 1.94,
+      "curvature": 0.45999999999999996,
+      "SHY": 0.8092157254464906,
+      "IEF": 0.13933300652235509,
+      "TLT": 0.0514512680311544
+    },
+    {
+      "date": "2014-10-31",
+      "level": 2.35,
+      "slope_2s10s": 1.85,
+      "curvature": 0.3900000000000001,
+      "SHY": 0.7961675936378948,
+      "IEF": 0.14760362434064095,
+      "TLT": 0.0562287820214642
+    },
+    {
+      "date": "2014-11-28",
+      "level": 2.18,
+      "slope_2s10s": 1.7100000000000002,
+      "curvature": 0.3299999999999996,
+      "SHY": 0.7658428059074674,
+      "IEF": 0.15449327444388639,
+      "TLT": 0.07966391964864615
+    },
+    {
+      "date": "2014-12-31",
+      "level": 2.17,
+      "slope_2s10s": 1.5,
+      "curvature": 0.45999999999999996,
+      "SHY": 0.8403800339440674,
+      "IEF": 0.10912796338576027,
+      "TLT": 0.05049200267017238
+    },
+    {
+      "date": "2015-01-30",
+      "level": 1.68,
+      "slope_2s10s": 1.21,
+      "curvature": 0.20999999999999996,
+      "SHY": 0.7970875163196303,
+      "IEF": 0.1378522186850359,
+      "TLT": 0.06506026499533371
+    },
+    {
+      "date": "2015-02-27",
+      "level": 2.0,
+      "slope_2s10s": 1.37,
+      "curvature": 0.3700000000000001,
+      "SHY": 0.839126811267014,
+      "IEF": 0.11061567040931185,
+      "TLT": 0.050257518323674116
+    },
+    {
+      "date": "2015-03-31",
+      "level": 1.94,
+      "slope_2s10s": 1.38,
+      "curvature": 0.2400000000000002,
+      "SHY": 0.8136961981855705,
+      "IEF": 0.12654182369885494,
+      "TLT": 0.05976197811557459
+    },
+    {
+      "date": "2015-04-30",
+      "level": 2.05,
+      "slope_2s10s": 1.4699999999999998,
+      "curvature": 0.22999999999999998,
+      "SHY": 0.8102469031241154,
+      "IEF": 0.13019263367070288,
+      "TLT": 0.05956046320518169
+    },
+    {
+      "date": "2015-05-29",
+      "level": 2.12,
+      "slope_2s10s": 1.5100000000000002,
+      "curvature": 0.25,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2015-06-30",
+      "level": 2.35,
+      "slope_2s10s": 1.71,
+      "curvature": 0.2699999999999996,
+      "SHY": 0.8897068787550597,
+      "IEF": 0.11029312124494021,
+      "TLT": 0.0
+    },
+    {
+      "date": "2015-07-31",
+      "level": 2.2,
+      "slope_2s10s": 1.5300000000000002,
+      "curvature": 0.20999999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2015-08-31",
+      "level": 2.21,
+      "slope_2s10s": 1.47,
+      "curvature": 0.1299999999999999,
+      "SHY": 0.8298238920907492,
+      "IEF": 0.12093516645236457,
+      "TLT": 0.04924094145688612
+    },
+    {
+      "date": "2015-09-30",
+      "level": 2.06,
+      "slope_2s10s": 1.42,
+      "curvature": 0.040000000000000036,
+      "SHY": 0.8010117873153559,
+      "IEF": 0.14278390074749114,
+      "TLT": 0.05620431193715302
+    },
+    {
+      "date": "2015-10-30",
+      "level": 2.16,
+      "slope_2s10s": 1.4100000000000001,
+      "curvature": 0.1299999999999999,
+      "SHY": 0.8049426728247203,
+      "IEF": 0.14122792155101144,
+      "TLT": 0.05382940562426814
+    },
+    {
+      "date": "2015-11-30",
+      "level": 2.21,
+      "slope_2s10s": 1.27,
+      "curvature": 0.1499999999999999,
+      "SHY": 0.8007007367802188,
+      "IEF": 0.13519020472498633,
+      "TLT": 0.064109058494795
+    },
+    {
+      "date": "2015-12-31",
+      "level": 2.27,
+      "slope_2s10s": 1.21,
+      "curvature": 0.18999999999999995,
+      "SHY": 0.7799578968451967,
+      "IEF": 0.15309109567837154,
+      "TLT": 0.06695100747643173
+    },
+    {
+      "date": "2016-01-29",
+      "level": 1.94,
+      "slope_2s10s": 1.18,
+      "curvature": -0.039999999999999813,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2016-02-29",
+      "level": 1.74,
+      "slope_2s10s": 0.96,
+      "curvature": -0.08000000000000007,
+      "SHY": 0.804946162146366,
+      "IEF": 0.14219808225018093,
+      "TLT": 0.052855755603453146
+    },
+    {
+      "date": "2016-03-31",
+      "level": 1.78,
+      "slope_2s10s": 1.05,
+      "curvature": -0.09000000000000008,
+      "SHY": 0.7891263797789244,
+      "IEF": 0.15064659210211792,
+      "TLT": 0.060227028118957644
+    },
+    {
+      "date": "2016-04-29",
+      "level": 1.83,
+      "slope_2s10s": 1.06,
+      "curvature": -0.040000000000000036,
+      "SHY": 0.7423365933844592,
+      "IEF": 0.17088930755670634,
+      "TLT": 0.08677409905883447
+    },
+    {
+      "date": "2016-05-31",
+      "level": 1.84,
+      "slope_2s10s": 0.9700000000000001,
+      "curvature": 0.030000000000000027,
+      "SHY": 0.8242305365061842,
+      "IEF": 0.1226752824201704,
+      "TLT": 0.05309418107364544
+    },
+    {
+      "date": "2016-06-30",
+      "level": 1.49,
+      "slope_2s10s": 0.91,
+      "curvature": -0.050000000000000044,
+      "SHY": 0.7671365242202012,
+      "IEF": 0.1569971575338854,
+      "TLT": 0.07586631824591336
+    },
+    {
+      "date": "2016-07-29",
+      "level": 1.46,
+      "slope_2s10s": 0.7899999999999999,
+      "curvature": -0.06999999999999984,
+      "SHY": 0.812155076169135,
+      "IEF": 0.1279033594681797,
+      "TLT": 0.05994156436268524
+    },
+    {
+      "date": "2016-08-31",
+      "level": 1.58,
+      "slope_2s10s": 0.78,
+      "curvature": -2.220446049250313e-16,
+      "SHY": 0.8000858645119344,
+      "IEF": 0.14634296698683194,
+      "TLT": 0.053571168501233606
+    },
+    {
+      "date": "2016-09-30",
+      "level": 1.6,
+      "slope_2s10s": 0.8300000000000001,
+      "curvature": -0.0900000000000003,
+      "SHY": 0.7691331025507658,
+      "IEF": 0.16128738136715898,
+      "TLT": 0.06957951608207524
+    },
+    {
+      "date": "2016-10-31",
+      "level": 1.84,
+      "slope_2s10s": 0.9800000000000001,
+      "curvature": -0.07999999999999985,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2016-11-30",
+      "level": 2.37,
+      "slope_2s10s": 1.26,
+      "curvature": 0.17999999999999972,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2016-12-30",
+      "level": 2.45,
+      "slope_2s10s": 1.2500000000000002,
+      "curvature": 0.20999999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2017-01-31",
+      "level": 2.45,
+      "slope_2s10s": 1.2600000000000002,
+      "curvature": 0.1599999999999997,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2017-02-28",
+      "level": 2.36,
+      "slope_2s10s": 1.14,
+      "curvature": 0.19999999999999973,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2017-03-31",
+      "level": 2.4,
+      "slope_2s10s": 1.13,
+      "curvature": 0.18999999999999995,
+      "SHY": 0.7862341462538875,
+      "IEF": 0.1456778015088746,
+      "TLT": 0.06808805223723782
+    },
+    {
+      "date": "2017-04-28",
+      "level": 2.29,
+      "slope_2s10s": 1.01,
+      "curvature": 0.04999999999999982,
+      "SHY": 0.7712096576242184,
+      "IEF": 0.15189732326266658,
+      "TLT": 0.07689301911311491
+    },
+    {
+      "date": "2017-05-31",
+      "level": 2.21,
+      "slope_2s10s": 0.9299999999999999,
+      "curvature": 0.009999999999999787,
+      "SHY": 0.7540810901097473,
+      "IEF": 0.16676851623372138,
+      "TLT": 0.07915039365653136
+    },
+    {
+      "date": "2017-06-30",
+      "level": 2.31,
+      "slope_2s10s": 0.9300000000000002,
+      "curvature": 0.08999999999999986,
+      "SHY": 0.7719452105715761,
+      "IEF": 0.14897474387850745,
+      "TLT": 0.07908004554991654
+    },
+    {
+      "date": "2017-07-31",
+      "level": 2.3,
+      "slope_2s10s": 0.9599999999999997,
+      "curvature": 0.040000000000000036,
+      "SHY": 0.8020063986965869,
+      "IEF": 0.1409452640235917,
+      "TLT": 0.05704833727982131
+    },
+    {
+      "date": "2017-08-31",
+      "level": 2.12,
+      "slope_2s10s": 0.79,
+      "curvature": -0.050000000000000266,
+      "SHY": 0.7950518772847049,
+      "IEF": 0.1442223191869829,
+      "TLT": 0.06072580352831229
+    },
+    {
+      "date": "2017-09-29",
+      "level": 2.33,
+      "slope_2s10s": 0.8600000000000001,
+      "curvature": 0.040000000000000036,
+      "SHY": 0.7246679726594032,
+      "IEF": 0.18989491366488429,
+      "TLT": 0.08543711367571262
+    },
+    {
+      "date": "2017-10-31",
+      "level": 2.38,
+      "slope_2s10s": 0.7799999999999998,
+      "curvature": 0.03999999999999959,
+      "SHY": 0.8229638530072161,
+      "IEF": 0.12379134225371134,
+      "TLT": 0.053244804739072664
+    },
+    {
+      "date": "2017-11-30",
+      "level": 2.42,
+      "slope_2s10s": 0.6399999999999999,
+      "curvature": 0.08000000000000007,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2017-12-29",
+      "level": 2.4,
+      "slope_2s10s": 0.51,
+      "curvature": 0.11000000000000076,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-01-31",
+      "level": 2.72,
+      "slope_2s10s": 0.5800000000000001,
+      "curvature": 0.17999999999999972,
+      "SHY": 0.9460629188102211,
+      "IEF": 0.0,
+      "TLT": 0.05393708118977887
+    },
+    {
+      "date": "2018-02-28",
+      "level": 2.87,
+      "slope_2s10s": 0.6200000000000001,
+      "curvature": 0.17999999999999972,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-03-29",
+      "level": 2.74,
+      "slope_2s10s": 0.4700000000000002,
+      "curvature": 0.10999999999999988,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-04-30",
+      "level": 2.95,
+      "slope_2s10s": 0.45999999999999996,
+      "curvature": 0.13999999999999968,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-05-31",
+      "level": 2.83,
+      "slope_2s10s": 0.43000000000000016,
+      "curvature": 0.13000000000000034,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-06-29",
+      "level": 2.85,
+      "slope_2s10s": 0.33000000000000007,
+      "curvature": 0.08999999999999986,
+      "SHY": 0.7487794746276658,
+      "IEF": 0.16944203702205046,
+      "TLT": 0.08177848835028373
+    },
+    {
+      "date": "2018-07-31",
+      "level": 2.96,
+      "slope_2s10s": 0.29000000000000004,
+      "curvature": 0.07000000000000028,
+      "SHY": 0.7749110347335788,
+      "IEF": 0.1551203588945709,
+      "TLT": 0.06996860637185026
+    },
+    {
+      "date": "2018-08-31",
+      "level": 2.86,
+      "slope_2s10s": 0.23999999999999977,
+      "curvature": 4.440892098500626e-16,
+      "SHY": 0.833567815976128,
+      "IEF": 0.12115768362043047,
+      "TLT": 0.04527450040344162
+    },
+    {
+      "date": "2018-09-28",
+      "level": 3.05,
+      "slope_2s10s": 0.23999999999999977,
+      "curvature": 0.020000000000000018,
+      "SHY": 0.763957449030581,
+      "IEF": 0.16506574432309784,
+      "TLT": 0.07097680664632104
+    },
+    {
+      "date": "2018-10-31",
+      "level": 3.15,
+      "slope_2s10s": 0.2799999999999998,
+      "curvature": -0.06000000000000005,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-11-30",
+      "level": 3.01,
+      "slope_2s10s": 0.20999999999999996,
+      "curvature": -0.1299999999999999,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2018-12-31",
+      "level": 2.69,
+      "slope_2s10s": 0.20999999999999996,
+      "curvature": -0.15000000000000036,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2019-01-31",
+      "level": 2.63,
+      "slope_2s10s": 0.17999999999999972,
+      "curvature": -0.21999999999999975,
+      "SHY": 0.7208448382197258,
+      "IEF": 0.19641740435621724,
+      "TLT": 0.08273775742405695
+    },
+    {
+      "date": "2019-02-28",
+      "level": 2.73,
+      "slope_2s10s": 0.20999999999999996,
+      "curvature": -0.20999999999999996,
+      "SHY": 0.7042408487866052,
+      "IEF": 0.18330157714772302,
+      "TLT": 0.11245757406567186
+    },
+    {
+      "date": "2019-03-29",
+      "level": 2.41,
+      "slope_2s10s": 0.14000000000000012,
+      "curvature": -0.2200000000000002,
+      "SHY": 0.7573618467446516,
+      "IEF": 0.16024146829919236,
+      "TLT": 0.08239668495615615
+    },
+    {
+      "date": "2019-04-30",
+      "level": 2.51,
+      "slope_2s10s": 0.23999999999999977,
+      "curvature": -0.2200000000000002,
+      "SHY": 0.750900678758986,
+      "IEF": 0.16754609054193048,
+      "TLT": 0.08155323069908357
+    },
+    {
+      "date": "2019-05-31",
+      "level": 2.14,
+      "slope_2s10s": 0.19000000000000017,
+      "curvature": -0.2300000000000002,
+      "SHY": 0.7726729837599255,
+      "IEF": 0.15261751590682446,
+      "TLT": 0.07470950033324994
+    },
+    {
+      "date": "2019-06-28",
+      "level": 2.0,
+      "slope_2s10s": 0.25,
+      "curvature": -0.22999999999999998,
+      "SHY": 0.7112773080356787,
+      "IEF": 0.186218972003,
+      "TLT": 0.10250371996132132
+    },
+    {
+      "date": "2019-07-31",
+      "level": 2.02,
+      "slope_2s10s": 0.13000000000000012,
+      "curvature": -0.22999999999999976,
+      "SHY": 0.6833562257716257,
+      "IEF": 0.21607309414513745,
+      "TLT": 0.10057068008323687
+    },
+    {
+      "date": "2019-08-30",
+      "level": 1.5,
+      "slope_2s10s": 0.0,
+      "curvature": -0.2200000000000002,
+      "SHY": 0.6981531648721613,
+      "IEF": 0.21396215663465706,
+      "TLT": 0.08788467849318168
+    },
+    {
+      "date": "2019-09-30",
+      "level": 1.68,
+      "slope_2s10s": 0.050000000000000044,
+      "curvature": -0.20999999999999974,
+      "SHY": 0.748769101490291,
+      "IEF": 0.18183706621154588,
+      "TLT": 0.06939383229816297
+    },
+    {
+      "date": "2019-10-31",
+      "level": 1.69,
+      "slope_2s10s": 0.16999999999999993,
+      "curvature": -0.18999999999999995,
+      "SHY": 0.7600279575083251,
+      "IEF": 0.17022811793922807,
+      "TLT": 0.06974392455244688
+    },
+    {
+      "date": "2019-11-29",
+      "level": 1.78,
+      "slope_2s10s": 0.16999999999999993,
+      "curvature": -0.1499999999999999,
+      "SHY": 0.7864774992186886,
+      "IEF": 0.14903921940383827,
+      "TLT": 0.06448328137747314
+    },
+    {
+      "date": "2019-12-31",
+      "level": 1.92,
+      "slope_2s10s": 0.33999999999999986,
+      "curvature": -0.1200000000000001,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2020-01-31",
+      "level": 1.51,
+      "slope_2s10s": 0.17999999999999994,
+      "curvature": -0.19999999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2020-02-28",
+      "level": 1.13,
+      "slope_2s10s": 0.2699999999999999,
+      "curvature": -0.20999999999999985,
+      "SHY": 0.8185432738320051,
+      "IEF": 0.1301779129609882,
+      "TLT": 0.05127881320700667
+    },
+    {
+      "date": "2020-03-31",
+      "level": 0.7,
+      "slope_2s10s": 0.47,
+      "curvature": -0.18999999999999995,
+      "SHY": 0.7328433639149335,
+      "IEF": 0.18322148312293843,
+      "TLT": 0.08393515296212799
+    },
+    {
+      "date": "2020-04-30",
+      "level": 0.64,
+      "slope_2s10s": 0.44,
+      "curvature": -0.12,
+      "SHY": 0.8255919026653713,
+      "IEF": 0.13154082720217877,
+      "TLT": 0.04286727013244991
+    },
+    {
+      "date": "2020-05-29",
+      "level": 0.65,
+      "slope_2s10s": 0.49,
+      "curvature": -0.21000000000000008,
+      "SHY": 0.8422126255199327,
+      "IEF": 0.12067229552204967,
+      "TLT": 0.03711507895801766
+    },
+    {
+      "date": "2020-06-30",
+      "level": 0.66,
+      "slope_2s10s": 0.5,
+      "curvature": -0.2400000000000001,
+      "SHY": 0.8188881150386642,
+      "IEF": 0.1409398403486732,
+      "TLT": 0.040172044612662654
+    },
+    {
+      "date": "2020-07-31",
+      "level": 0.55,
+      "slope_2s10s": 0.44000000000000006,
+      "curvature": -0.24000000000000005,
+      "SHY": 0.9026851438769147,
+      "IEF": 0.09731485612308524,
+      "TLT": 0.0
+    },
+    {
+      "date": "2020-08-31",
+      "level": 0.72,
+      "slope_2s10s": 0.58,
+      "curvature": -0.29999999999999993,
+      "SHY": 0.8467616225854593,
+      "IEF": 0.12372941494544133,
+      "TLT": 0.029508962469099394
+    },
+    {
+      "date": "2020-09-30",
+      "level": 0.69,
+      "slope_2s10s": 0.5599999999999999,
+      "curvature": -0.2599999999999999,
+      "SHY": 0.9066364335402448,
+      "IEF": 0.07276996380959504,
+      "TLT": 0.02059360265016019
+    },
+    {
+      "date": "2020-10-30",
+      "level": 0.88,
+      "slope_2s10s": 0.74,
+      "curvature": -0.26,
+      "SHY": 0.9166077671259864,
+      "IEF": 0.08339223287401357,
+      "TLT": 0.0
+    },
+    {
+      "date": "2020-11-30",
+      "level": 0.84,
+      "slope_2s10s": 0.6799999999999999,
+      "curvature": -0.28,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2020-12-31",
+      "level": 0.93,
+      "slope_2s10s": 0.8,
+      "curvature": -0.3400000000000001,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-01-29",
+      "level": 1.11,
+      "slope_2s10s": 1.0,
+      "curvature": -0.32000000000000006,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-02-26",
+      "level": 1.44,
+      "slope_2s10s": 1.2999999999999998,
+      "curvature": -0.08000000000000007,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-03-31",
+      "level": 1.74,
+      "slope_2s10s": 1.58,
+      "curvature": -0.05999999999999983,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-04-30",
+      "level": 1.65,
+      "slope_2s10s": 1.49,
+      "curvature": -0.08999999999999986,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-05-28",
+      "level": 1.58,
+      "slope_2s10s": 1.44,
+      "curvature": -0.14000000000000012,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-06-30",
+      "level": 1.45,
+      "slope_2s10s": 1.2,
+      "curvature": 0.040000000000000036,
+      "SHY": 0.9639372460788476,
+      "IEF": 0.0,
+      "TLT": 0.03606275392115253
+    },
+    {
+      "date": "2021-07-30",
+      "level": 1.24,
+      "slope_2s10s": 1.05,
+      "curvature": -0.050000000000000044,
+      "SHY": 0.8537276127983148,
+      "IEF": 0.10660971520946046,
+      "TLT": 0.039662671992224785
+    },
+    {
+      "date": "2021-08-31",
+      "level": 1.3,
+      "slope_2s10s": 1.1,
+      "curvature": 0.040000000000000036,
+      "SHY": 0.8804844079266477,
+      "IEF": 0.08634039735712097,
+      "TLT": 0.03317519471623123
+    },
+    {
+      "date": "2021-09-30",
+      "level": 1.52,
+      "slope_2s10s": 1.24,
+      "curvature": 0.15999999999999992,
+      "SHY": 0.8703821719884967,
+      "IEF": 0.09295903600768725,
+      "TLT": 0.036658792003816165
+    },
+    {
+      "date": "2021-10-29",
+      "level": 1.55,
+      "slope_2s10s": 1.07,
+      "curvature": 0.32999999999999985,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-11-30",
+      "level": 1.43,
+      "slope_2s10s": 0.9099999999999999,
+      "curvature": 0.32999999999999985,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2021-12-31",
+      "level": 1.52,
+      "slope_2s10s": 0.79,
+      "curvature": 0.27,
+      "SHY": 0.9310574659109667,
+      "IEF": 0.0,
+      "TLT": 0.06894253408903321
+    },
+    {
+      "date": "2022-01-31",
+      "level": 1.79,
+      "slope_2s10s": 0.6100000000000001,
+      "curvature": 0.27000000000000046,
+      "SHY": 0.8112798975333301,
+      "IEF": 0.1393282970955009,
+      "TLT": 0.049391805371169044
+    },
+    {
+      "date": "2022-02-28",
+      "level": 1.83,
+      "slope_2s10s": 0.3900000000000001,
+      "curvature": 0.1499999999999999,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-03-31",
+      "level": 2.32,
+      "slope_2s10s": 0.040000000000000036,
+      "curvature": 0.2400000000000002,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-04-29",
+      "level": 2.89,
+      "slope_2s10s": 0.18999999999999995,
+      "curvature": 0.24999999999999956,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-05-31",
+      "level": 2.85,
+      "slope_2s10s": 0.3200000000000003,
+      "curvature": 0.2400000000000002,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-06-30",
+      "level": 2.98,
+      "slope_2s10s": 0.06000000000000005,
+      "curvature": 0.11999999999999966,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-07-29",
+      "level": 2.67,
+      "slope_2s10s": -0.2200000000000002,
+      "curvature": -0.1599999999999997,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-08-31",
+      "level": 3.15,
+      "slope_2s10s": -0.30000000000000027,
+      "curvature": -4.440892098500626e-16,
+      "SHY": 0.806506248767767,
+      "IEF": 0.19349375123223303,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-09-30",
+      "level": 3.83,
+      "slope_2s10s": -0.3899999999999997,
+      "curvature": 0.0699999999999994,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-10-31",
+      "level": 4.1,
+      "slope_2s10s": -0.41000000000000014,
+      "curvature": -0.07000000000000028,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-11-30",
+      "level": 3.68,
+      "slope_2s10s": -0.6999999999999997,
+      "curvature": -0.4200000000000004,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2022-12-30",
+      "level": 3.88,
+      "slope_2s10s": -0.5300000000000002,
+      "curvature": -0.3099999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-01-31",
+      "level": 3.52,
+      "slope_2s10s": -0.69,
+      "curvature": -0.4700000000000002,
+      "SHY": 0.8168121275857079,
+      "IEF": 0.18318787241429216,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-02-28",
+      "level": 3.92,
+      "slope_2s10s": -0.8899999999999997,
+      "curvature": -0.3700000000000001,
+      "SHY": 0.7486683283509736,
+      "IEF": 0.1667071664543269,
+      "TLT": 0.08462450519469951
+    },
+    {
+      "date": "2023-03-31",
+      "level": 3.48,
+      "slope_2s10s": -0.5799999999999996,
+      "curvature": -0.3399999999999994,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-04-28",
+      "level": 3.44,
+      "slope_2s10s": -0.6000000000000001,
+      "curvature": -0.4600000000000004,
+      "SHY": 0.5745881932450261,
+      "IEF": 0.25566044817801725,
+      "TLT": 0.16975135857695672
+    },
+    {
+      "date": "2023-05-31",
+      "level": 3.64,
+      "slope_2s10s": -0.7600000000000002,
+      "curvature": -0.56,
+      "SHY": 0.7526181588502703,
+      "IEF": 0.24738184114972978,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-06-30",
+      "level": 3.81,
+      "slope_2s10s": -1.06,
+      "curvature": -0.4200000000000004,
+      "SHY": 0.6587764418887875,
+      "IEF": 0.2120467138793883,
+      "TLT": 0.1291768442318242
+    },
+    {
+      "date": "2023-07-31",
+      "level": 3.97,
+      "slope_2s10s": -0.9099999999999997,
+      "curvature": -0.49000000000000066,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-08-31",
+      "level": 4.09,
+      "slope_2s10s": -0.7599999999999998,
+      "curvature": -0.47999999999999865,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-09-29",
+      "level": 4.59,
+      "slope_2s10s": -0.4400000000000004,
+      "curvature": -0.4200000000000008,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-10-31",
+      "level": 4.88,
+      "slope_2s10s": -0.1900000000000004,
+      "curvature": -0.3099999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-11-30",
+      "level": 4.37,
+      "slope_2s10s": -0.3600000000000003,
+      "curvature": -0.4800000000000013,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2023-12-29",
+      "level": 3.88,
+      "slope_2s10s": -0.35000000000000053,
+      "curvature": -0.4300000000000006,
+      "SHY": 0.8042808725486192,
+      "IEF": 0.19571912745138087,
+      "TLT": 0.0
+    },
+    {
+      "date": "2024-01-31",
+      "level": 3.99,
+      "slope_2s10s": -0.27999999999999936,
+      "curvature": -0.4399999999999995,
+      "SHY": 0.7047428419092372,
+      "IEF": 0.2022436135270434,
+      "TLT": 0.09301354456371931
+    },
+    {
+      "date": "2024-02-29",
+      "level": 4.25,
+      "slope_2s10s": -0.3899999999999997,
+      "curvature": -0.3700000000000001,
+      "SHY": 0.7085669275840837,
+      "IEF": 0.19582438818348363,
+      "TLT": 0.0956086842324328
+    },
+    {
+      "date": "2024-03-28",
+      "level": 4.2,
+      "slope_2s10s": -0.3899999999999997,
+      "curvature": -0.3700000000000001,
+      "SHY": 0.7220932047694326,
+      "IEF": 0.18534809845807776,
+      "TLT": 0.09255869677248968
+    },
+    {
+      "date": "2024-04-30",
+      "level": 4.69,
+      "slope_2s10s": -0.34999999999999964,
+      "curvature": -0.2900000000000009,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2024-05-31",
+      "level": 4.51,
+      "slope_2s10s": -0.3799999999999999,
+      "curvature": -0.3600000000000003,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2024-06-28",
+      "level": 4.36,
+      "slope_2s10s": -0.34999999999999964,
+      "curvature": -0.41000000000000014,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2024-07-31",
+      "level": 4.09,
+      "slope_2s10s": -0.20000000000000018,
+      "curvature": -0.4399999999999995,
+      "SHY": 0.7640818639000772,
+      "IEF": 0.16222719309426623,
+      "TLT": 0.07369094300565657
+    },
+    {
+      "date": "2024-08-30",
+      "level": 3.91,
+      "slope_2s10s": 0.0,
+      "curvature": -0.40000000000000036,
+      "SHY": 0.7324420005371165,
+      "IEF": 0.18588578593702462,
+      "TLT": 0.08167221352585885
+    },
+    {
+      "date": "2024-09-30",
+      "level": 3.81,
+      "slope_2s10s": 0.1499999999999999,
+      "curvature": -0.31000000000000005,
+      "SHY": 0.7003579985928101,
+      "IEF": 0.2041284613487985,
+      "TLT": 0.09551354005839131
+    },
+    {
+      "date": "2024-10-31",
+      "level": 4.28,
+      "slope_2s10s": 0.1200000000000001,
+      "curvature": -0.13999999999999968,
+      "SHY": 0.6734029161983501,
+      "IEF": 0.2288929664080756,
+      "TLT": 0.09770411739357429
+    },
+    {
+      "date": "2024-11-29",
+      "level": 4.18,
+      "slope_2s10s": 0.04999999999999982,
+      "curvature": -0.20999999999999996,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2024-12-31",
+      "level": 4.58,
+      "slope_2s10s": 0.33000000000000007,
+      "curvature": -0.07000000000000028,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-01-31",
+      "level": 4.58,
+      "slope_2s10s": 0.3600000000000003,
+      "curvature": -0.07999999999999918,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-02-28",
+      "level": 4.24,
+      "slope_2s10s": 0.25,
+      "curvature": -0.16999999999999993,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-03-31",
+      "level": 4.23,
+      "slope_2s10s": 0.3400000000000003,
+      "curvature": -0.20000000000000107,
+      "SHY": 0.8176381076697017,
+      "IEF": 0.18236189233029831,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-04-30",
+      "level": 4.17,
+      "slope_2s10s": 0.5699999999999998,
+      "curvature": -0.3299999999999996,
+      "SHY": 0.7394677084858483,
+      "IEF": 0.1728817539268098,
+      "TLT": 0.0876505375873418
+    },
+    {
+      "date": "2025-05-30",
+      "level": 4.41,
+      "slope_2s10s": 0.52,
+      "curvature": -0.3800000000000008,
+      "SHY": 0.7523458876873839,
+      "IEF": 0.17403190499291973,
+      "TLT": 0.07362220731969646
+    },
+    {
+      "date": "2025-06-30",
+      "level": 4.24,
+      "slope_2s10s": 0.52,
+      "curvature": -0.38000000000000034,
+      "SHY": 0.799732781969578,
+      "IEF": 0.2002672180304221,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-07-31",
+      "level": 4.37,
+      "slope_2s10s": 0.43000000000000016,
+      "curvature": -0.3900000000000001,
+      "SHY": 0.8038251871914828,
+      "IEF": 0.19617481280851723,
+      "TLT": 0.0
+    },
+    {
+      "date": "2025-08-29",
+      "level": 4.23,
+      "slope_2s10s": 0.6400000000000006,
+      "curvature": -0.45999999999999996,
+      "SHY": 0.7560148949867913,
+      "IEF": 0.1689335201522428,
+      "TLT": 0.07505158486096587
+    },
+    {
+      "date": "2025-09-30",
+      "level": 4.16,
+      "slope_2s10s": 0.56,
+      "curvature": -0.2799999999999998,
+      "SHY": 0.6722528785133685,
+      "IEF": 0.22460706253180962,
+      "TLT": 0.1031400589548219
+    },
+    {
+      "date": "2025-10-31",
+      "level": 4.11,
+      "slope_2s10s": 0.5100000000000002,
+      "curvature": -0.2900000000000005,
+      "SHY": 0.7636953964178492,
+      "IEF": 0.17046683794168485,
+      "TLT": 0.06583776564046591
+    },
+    {
+      "date": "2025-11-28",
+      "level": 4.02,
+      "slope_2s10s": 0.5499999999999994,
+      "curvature": -0.31000000000000005,
+      "SHY": 0.6880736485946236,
+      "IEF": 0.2127615115771888,
+      "TLT": 0.09916483982818758
+    },
+    {
+      "date": "2025-12-31",
+      "level": 4.18,
+      "slope_2s10s": 0.7099999999999995,
+      "curvature": -0.18999999999999995,
+      "SHY": 0.7420075458063813,
+      "IEF": 0.175705623815201,
+      "TLT": 0.08228683037841768
+    },
+    {
+      "date": "2026-01-30",
+      "level": 4.26,
+      "slope_2s10s": 0.7399999999999998,
+      "curvature": -0.1999999999999993,
+      "SHY": 0.7817116117334822,
+      "IEF": 0.21828838826651775,
+      "TLT": 0.0
+    },
+    {
+      "date": "2026-02-27",
+      "level": 3.97,
+      "slope_2s10s": 0.5900000000000003,
+      "curvature": -0.3300000000000005,
+      "SHY": 0.8461882536623189,
+      "IEF": 0.15381174633768108,
+      "TLT": 0.0
+    },
+    {
+      "date": "2026-03-31",
+      "level": 4.3,
+      "slope_2s10s": 0.5099999999999998,
+      "curvature": -0.25,
+      "SHY": 0.7132045540273185,
+      "IEF": 0.19236425931902315,
+      "TLT": 0.09443118665365827
+    },
+    {
+      "date": "2026-04-30",
+      "level": 4.4,
+      "slope_2s10s": 0.5200000000000005,
+      "curvature": -0.2400000000000011,
+      "SHY": 0.8645415586622058,
+      "IEF": 0.0,
+      "TLT": 0.13545844133779428
+    },
+    {
+      "date": "2026-05-29",
+      "level": 4.45,
+      "slope_2s10s": 0.4700000000000002,
+      "curvature": -0.17000000000000082,
+      "SHY": 0.7524072543099056,
+      "IEF": 0.24759274569009443,
+      "TLT": 0.0
+    },
+    {
+      "date": "2026-06-30",
+      "level": 4.44,
+      "slope_2s10s": 0.3000000000000007,
+      "curvature": -0.1999999999999993,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2026-07-31",
+      "level": 4.75,
+      "slope_2s10s": 0.46999999999999975,
+      "curvature": -0.1299999999999999,
+      "SHY": 0.843096610682543,
+      "IEF": 0.0,
+      "TLT": 0.15690338931745684
+    },
+    {
+      "date": "2026-08-31",
+      "level": 4.75,
+      "slope_2s10s": 0.41000000000000014,
+      "curvature": -0.10999999999999943,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    },
+    {
+      "date": "2026-09-25",
+      "level": 5.17,
+      "slope_2s10s": 0.3600000000000003,
+      "curvature": -0.019999999999998685,
+      "SHY": 1.0,
+      "IEF": 0.0,
+      "TLT": 0.0
+    }
+  ],
+  "regime_context": [
+    {
+      "id": "2007_2009",
+      "label": "2007-2009 period",
+      "start_date": "2007-01-03",
+      "end_date": "2009-12-31",
+      "average_10y_yield": 3.8540346205059923,
+      "average_2s10s": 1.410319573901465,
+      "ending_2s10s": 2.71,
+      "average_allocation": {
+        "SHY": 0.8029876435888269,
+        "IEF": 0.1324969493821709,
+        "TLT": 0.06451540702900214
+      },
+      "strategy_annualized_volatility": 0.03903375126092913
+    },
+    {
+      "id": "2020",
+      "label": "2020 period",
+      "start_date": "2020-01-02",
+      "end_date": "2020-12-31",
+      "average_10y_yield": 0.889203187250996,
+      "average_2s10s": 0.5005577689243027,
+      "ending_2s10s": 0.8,
+      "average_allocation": {
+        "SHY": 0.8842604759955033,
+        "IEF": 0.09044575358147396,
+        "TLT": 0.02529377042302278
+      },
+      "strategy_annualized_volatility": 0.03279481397556157
+    },
+    {
+      "id": "2022",
+      "label": "2022 period",
+      "start_date": "2022-01-03",
+      "end_date": "2022-12-30",
+      "average_10y_yield": 2.950562248995984,
+      "average_2s10s": -0.035622489959839375,
+      "ending_2s10s": -0.5300000000000002,
+      "average_allocation": {
+        "SHY": 0.9672320385351604,
+        "IEF": 0.028832359443232577,
+        "TLT": 0.003935602021607092
+      },
+      "strategy_annualized_volatility": 0.02583306966604505
+    },
+    {
+      "id": "2025",
+      "label": "2025 period (most recent completed calendar year)",
+      "start_date": "2025-01-02",
+      "end_date": "2025-12-31",
+      "average_10y_yield": 4.293212851405621,
+      "average_2s10s": 0.48188755020080326,
+      "ending_2s10s": 0.7099999999999995,
+      "average_allocation": {
+        "SHY": 0.7925339129218316,
+        "IEF": 0.15811623508628506,
+        "TLT": 0.049349851991883235
+      },
+      "strategy_annualized_volatility": 0.02421081301576695
+    }
+  ]
+}
