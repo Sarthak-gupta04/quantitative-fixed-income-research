@@ -26,6 +26,7 @@ export const fmtBps = (v: number | null | undefined): string => {
 export const fmtDate = (dateStr: string): string => {
   if (!dateStr) return "—";
   return new Date(dateStr).toLocaleDateString("en-US", {
+    timeZone: "UTC",
     year: "numeric",
     month: "short",
     day: "numeric",

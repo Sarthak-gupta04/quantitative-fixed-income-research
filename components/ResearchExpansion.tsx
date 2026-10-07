@@ -2,6 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CurveComparison } from "@/components/ResearchWorkbench";
+import { ChartFrame } from "@/components/ResearchChrome";
+import { useResearch } from "@/components/ResearchExperience";
 import type { DashboardData } from "@/types/data";
 import { fmtDate, fmtNumber, fmtPct, fmtPctSigned } from "@/lib/formatters";
 
@@ -15,7 +18,7 @@ function Intro({ n, eyebrow, title, copy }: { n: string; eyebrow: string; title:
 }
 
 function Chart({ children, label }: { children: React.ReactNode; label: string }) {
-  return <div className="research-chart" role="img" aria-label={label}><ResponsiveContainer width="100%" height="100%">{children}</ResponsiveContainer></div>;
+  return <ChartFrame title={label} className="research-chart" dateSelection={false}><ResponsiveContainer width="100%" height="100%">{children}</ResponsiveContainer></ChartFrame>;
 }
 
 export function CurveSection({ data }: { data: DashboardData["yieldCurve"] }) {
@@ -39,6 +42,7 @@ export function CurveSection({ data }: { data: DashboardData["yieldCurve"] }) {
     <div className="research-stat"><span className="mini-label">Latest 2s10s slope · {fmtDate(data.latest.date)}</span><strong className="number">{data.latest.slope_2s10s.toFixed(2)} <small>pp</small></strong></div>
     <Chart label={`Historical Treasury yield curve ${mode}, ${window === "all" ? "full period" : `last ${window} years`}`}><LineChart data={chart} margin={{ left: 0, right: 14, top: 8, bottom: 0 }}><CartesianGrid vertical={false} stroke="#e2e1dc" /><XAxis dataKey="date" tick={tick} axisLine={false} tickLine={false} minTickGap={48} tickFormatter={value => String(value).slice(0, 4)} /><YAxis tick={tick} axisLine={false} tickLine={false} width={48} tickFormatter={value => `${Number(value).toFixed(1)}${mode === "level" ? "%" : "pp"}`} /><Tooltip formatter={(value, name) => [`${Number(value).toFixed(2)}${mode === "level" ? "%" : " pp"}`, String(name)]} labelFormatter={value => fmtDate(String(value))} />{series.map(line => <Line key={line.key} dataKey={line.key} name={line.label} stroke={line.color} strokeWidth={line.key === "ten_year" || series.length === 1 ? 2.3 : 1.4} dot={false} isAnimationActive={false} />)}</LineChart></Chart>
     <p className="research-caption">{data.methodology.convention} Values are percentage points. Monthly display uses the last published observation; no missing tenors are filled. {data.daily_observations.toLocaleString()} daily common observations from {fmtDate(data.first_date)} to {fmtDate(data.last_date)}.</p>
+    <CurveComparison />
     <div className="research-subhead"><div><span className="mini-label">Historical relationship</span><h3>Curve context &amp; observed allocation</h3></div><div className="segmented" role="group" aria-label="Allocation asset">{assets.map(value => <button key={value} type="button" className={asset === value ? "active" : ""} aria-pressed={asset === value} onClick={() => setAsset(value)}>{value}</button>)}</div></div>
     <Chart label={`Historical 2s10s slope alongside observed ${asset} allocation`}><LineChart data={relation} margin={{ left: 0, right: 0, top: 8, bottom: 0 }}><CartesianGrid vertical={false} stroke="#e2e1dc" /><XAxis dataKey="date" tick={tick} axisLine={false} tickLine={false} minTickGap={55} tickFormatter={value => String(value).slice(0, 4)} /><YAxis yAxisId="slope" tick={tick} axisLine={false} tickLine={false} width={48} tickFormatter={value => `${Number(value).toFixed(1)}pp`} /><YAxis yAxisId="weight" orientation="right" tick={tick} axisLine={false} tickLine={false} width={40} domain={[0, 1]} tickFormatter={value => `${Math.round(Number(value) * 100)}%`} /><Tooltip formatter={(value, name) => [String(name) === "2s10s" ? `${Number(value).toFixed(2)} pp` : fmtPct(Number(value)), String(name)]} labelFormatter={value => fmtDate(String(value))} /><Line yAxisId="slope" dataKey="slope_2s10s" name="2s10s" stroke={GREY} dot={false} isAnimationActive={false} /><Line yAxisId="weight" dataKey={asset} name={`${asset} weight`} stroke={BLUE} strokeWidth={2} dot={false} isAnimationActive={false} /></LineChart></Chart>
     <p className="research-caption">Exact-date Treasury and model-weight observations, sampled at each month’s last shared trading date. Co-movement does not imply the curve caused a model decision.</p>
@@ -74,27 +78,40 @@ export function HoldoutSection({ data }: { data: DashboardData["holdout"] }) {
 }
 
 export function RateShockSection({ data }: { data: DashboardData["rateShock"] }) {
-  const [basisPoints, setBasisPoints] = useState(50);
-  const [allocation, setAllocation] = useState<"current_model_target" | "latest_effective">("current_model_target");
+  const { view, update } = useResearch();
+  const basisPoints = view.shock;
+  const allocation = view.allocation;
+  const setBasisPoints = (shock: number) => update({ shock });
+  const setAllocation = (allocation: "current_model_target" | "latest_effective") => update({ allocation });
   const selected = data.allocations[allocation];
   const scenario = selected.scenarios.find(item => item.shock_bps === basisPoints) ?? selected.scenarios[2];
   return <section className="section dark" id="rate-shock"><div className="shell">
     <Intro n="14" eyebrow="Rate shock lab" title="What would a parallel yield shift imply?" copy="A transparent, duration-only price approximation applies an identical hypothetical Treasury-yield shift to each ETF at the displayed model allocation." />
     <div className="research-controls"><div className="segmented dark-segmented" role="group" aria-label="Hypothetical parallel yield shift">{selected.scenarios.map(item => <button key={item.shock_bps} type="button" aria-pressed={basisPoints === item.shock_bps} className={basisPoints === item.shock_bps ? "active" : ""} onClick={() => setBasisPoints(item.shock_bps)}>{item.shock_bps > 0 ? "+" : ""}{item.shock_bps}</button>)}</div><div className="segmented dark-segmented" role="group" aria-label="Model allocation">{(["current_model_target", "latest_effective"] as const).map(value => <button key={value} type="button" aria-pressed={allocation === value} className={allocation === value ? "active" : ""} onClick={() => setAllocation(value)}>{value === "current_model_target" ? "Current target" : "Latest effective"}</button>)}</div></div>
+    <label className="shock-slider"><span className="mini-label">Parallel yield shift · {basisPoints > 0 ? "+" : ""}{basisPoints} bps</span><input type="range" aria-label="Saved parallel rate-shock scenario" aria-valuetext={`${basisPoints} basis points`} min="0" max={selected.scenarios.length - 1} step="1" value={selected.scenarios.findIndex(s => s.shock_bps === basisPoints)} onChange={e => setBasisPoints(selected.scenarios[Number(e.target.value)].shock_bps)} /><span className="slider-labels"><span>−100 bps</span><span>0</span><span>+100 bps</span></span></label>
     <div className="shock-result"><div><span className="mini-label">Hypothetical portfolio price impact</span><strong className="number">{fmtPctSigned(scenario.portfolio_impact)}</strong><p>{basisPoints > 0 ? "+" : ""}{basisPoints} bps · allocation dated {fmtDate(selected.as_of)}</p></div><div className="shock-assets">{assets.map(asset => <div key={asset}><span>{asset} <small>{fmtPct(selected.weights[asset], 0)} weight · {data.durations[asset].years.toFixed(2)}y duration</small></span><strong className="number">{fmtPctSigned(scenario.asset_impact[asset])}</strong></div>)}</div></div>
+    <div className="shock-impact-bars" aria-label="Saved hypothetical price impacts around zero">{[...assets, "Portfolio"].map(asset => {
+      const impact = asset === "Portfolio" ? scenario.portfolio_impact : scenario.asset_impact[asset];
+      const maximum = Math.max(...selected.scenarios.flatMap(s => [...Object.values(s.asset_impact), s.portfolio_impact]).map(Math.abs), .0001);
+      const width = Math.abs(impact) / maximum * 48;
+      return <div className="impact-row" key={asset}><strong>{asset}</strong><div className="impact-track" aria-hidden="true"><i style={{ width: `${width}%`, left: `${impact < 0 ? 50 - width : 50}%`, background: impact < 0 ? "#db986d" : "#63a0ff" }} /></div><span>{fmtPctSigned(impact)}</span></div>;
+    })}<div className="impact-axis"><span>Negative price impact</span><span>0</span><span>Positive price impact</span></div></div>
+    <p className="research-caption">Controls select only the five saved scenarios. Asset impacts are standalone price approximations; the portfolio impact uses the displayed saved weights. Historical explorer dates do not alter these two fixed allocation snapshots.</p>
     <p className="research-caption">{data.methodology.label}. {data.methodology.formula}. Issuer-published effective durations dated {fmtDate(data.methodology.duration_as_of)}. {data.methodology.limitations}</p>
     <details><summary>Duration sources and definition</summary><div className="shock-sources">{assets.map(asset => <a key={asset} href={data.durations[asset].source} target="_blank" rel="noreferrer">{asset} · iShares effective duration ↗</a>)}</div></details>
   </div></section>;
 }
 
 export function FailureSection({ data }: { data: DashboardData["failureModes"] }) {
+  const { selectDate } = useResearch();
   const [selected, setSelected] = useState(0);
   const event = data.events[selected];
   const chart = data.drawdown_series;
   return <section className="section" id="pressure"><div className="shell">
     <Intro n="09" eyebrow="Failure modes" title="When the model was under pressure." copy="Adverse periods are part of the record. Episodes below are ranked by observed strategy drawdown, not filtered to favor the model." />
-    <Chart label="Net strategy drawdown through the full backtest"><LineChart data={chart} margin={{ left: 0, right: 10, top: 8, bottom: 0 }}><CartesianGrid vertical={false} stroke="#e2e1dc" /><XAxis dataKey="date" tick={tick} axisLine={false} tickLine={false} minTickGap={55} tickFormatter={value => String(value).slice(0, 4)} /><YAxis tick={tick} axisLine={false} tickLine={false} width={45} tickFormatter={value => fmtPct(Number(value), 0)} /><Tooltip formatter={value => [fmtPct(Number(value)), "Strategy drawdown"]} labelFormatter={value => fmtDate(String(value))} /><Line type="monotone" dataKey="strategy_drawdown" stroke={BLUE} strokeWidth={2} dot={false} isAnimationActive={false} /></LineChart></Chart>
+    <Chart label="Net strategy drawdown through the full backtest"><LineChart data={chart} margin={{ left: 0, right: 10, top: 8, bottom: 0 }}><CartesianGrid vertical={false} stroke="#e2e1dc" /><XAxis dataKey="date" tick={tick} axisLine={false} tickLine={false} minTickGap={55} tickFormatter={value => String(value).slice(0, 4)} /><YAxis tick={tick} axisLine={false} tickLine={false} width={45} tickFormatter={value => fmtPct(Number(value), 0)} /><Tooltip formatter={value => [fmtPct(Number(value)), "Strategy drawdown"]} labelFormatter={value => fmtDate(String(value))} /><Line type="linear" dataKey="strategy_drawdown" stroke={BLUE} strokeWidth={2} dot={false} isAnimationActive={false} /></LineChart></Chart>
     <div className="research-controls"><label className="date-select">Drawdown episode<select value={selected} onChange={event => setSelected(Number(event.target.value))}>{data.events.map((item, index) => <option key={`${item.start_date}-${index}`} value={index}>{fmtDate(item.start_date)} · {fmtPct(item.drawdown)}</option>)}</select></label></div>
+    {event && <a className="secondary-link" href="#decision" onClick={() => selectDate(event.trough_date)}>Inspect the model at this trough ↗</a>}
     {event && <><div className="failure-hero"><div><span className="mini-label">Peak-to-trough drawdown</span><strong className="number">{fmtPct(event.drawdown)}</strong></div><p>Peak {fmtDate(event.start_date)}<br />Trough {fmtDate(event.trough_date)}<br />{event.recovery_date ? `Recovered ${fmtDate(event.recovery_date)}` : "Not recovered by sample end"}</p></div><div className="research-footfacts"><span>Strategy peak-to-trough <strong>{fmtPct(event.strategy_return)}</strong></span><span>AGG, same dates <strong>{fmtPct(event.benchmark_return)}</strong></span></div><div className="failure-state"><h3>Observed during the drawdown</h3><div className="failure-weights">{assets.map(asset => <div key={asset}><span>{asset} average / trough weight</span><strong>{fmtPct(event.average_allocation[asset])} / {fmtPct(event.allocation_at_trough[asset])}</strong><small>Signal {event.signal_state_at_trough?.eligibility[asset] ? "eligible" : "not eligible"} · momentum {fmtPctSigned(event.signal_state_at_trough?.momentum[asset])} · realized vol. {fmtPct(event.signal_state_at_trough?.realized_volatility[asset])}</small></div>)}</div><p className="research-caption">Latest observable signal by the trough: {fmtDate(event.signal_state_at_trough?.signal_date ?? "")}. These are descriptive states, not an attributed cause.</p></div></>}
     <details><summary>Worst calendar months, quarters &amp; relative windows</summary><div className="failure-lists"><div><h3>Worst months</h3>{data.worst_months.map(item => <p key={item.period}>{item.period}<strong>{fmtPct(item.strategy_return)}</strong><small>AGG {fmtPct(item.benchmark_return)}</small></p>)}</div><div><h3>Worst quarters</h3>{data.worst_quarters.map(item => <p key={item.period}>{item.period}<strong>{fmtPct(item.strategy_return)}</strong><small>AGG {fmtPct(item.benchmark_return)}</small></p>)}</div><div><h3>Relative underperformance · 63 days</h3>{data.underperformance_windows.map(item => <p key={item.end_date}>{fmtDate(item.start_date)} – {fmtDate(item.end_date)}<strong>{fmtPct(item.active_return)}</strong><small>Strategy {fmtPct(item.strategy_return)} · AGG {fmtPct(item.benchmark_return)}</small></p>)}</div></div><p className="research-caption">{data.methodology.underperformance} Neighboring windows may describe the same episode.</p></details>
   </div></section>;

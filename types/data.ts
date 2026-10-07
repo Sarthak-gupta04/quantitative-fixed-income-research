@@ -379,6 +379,13 @@ export interface FailureModesData {
 
 
 export interface DashboardData {
+  signals: SignalPoint[];
+  rebalances: RebalanceEvent[];
+  monthlyReturns: MonthlyReturn[];
+  reproducibility: {
+    workflow_reproducibility_note: string;
+    data_source: { provider: string; download_timestamp_utc: string; raw_file_sha256: Record<string, string> };
+  };
   summary: SummaryStats;
   nav: NavDataPoint[];
   rollingMetrics: RollingMetricsPoint[];
