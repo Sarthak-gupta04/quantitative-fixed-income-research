@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useResearch } from "@/components/ResearchExperience";
 import type { RegimePeriod } from "@/types/data";
 import { fmtPct } from "@/lib/formatters";
 
 export default function RegimeSequence({ periods }: { periods: RegimePeriod[] }) {
-  const [selected, setSelected] = useState(0);
+  const { view, selectPeriod } = useResearch();
+  const selected = Math.max(0, periods.findIndex(p => p.id === view.period));
   const period = periods[selected];
 
   if (!period) return null;
@@ -20,7 +21,7 @@ export default function RegimeSequence({ periods }: { periods: RegimePeriod[] })
             type="button"
             key={item.id}
             aria-pressed={index === selected}
-            onClick={() => setSelected(index)}
+            onClick={() => selectPeriod(item.id)}
           >
             <span className="regime-choice-index">{String(index + 1).padStart(2, "0")}</span>
             {shortLabel(item)}
@@ -46,6 +47,8 @@ export default function RegimeSequence({ periods }: { periods: RegimePeriod[] })
           <div><dt>Average SHY allocation</dt><dd>{fmtPct(period.average_allocation.SHY)}</dd></div>
           <div><dt>Fully defensive trading days</dt><dd>{fmtPct(period.defensive_shy_allocation.fully_defensive_fraction)}</dd></div>
         </dl>
+        <div className="episode-actions"><button type="button" className="outline-button" onClick={() => selectPeriod(period.id)}>Focus connected charts on this period ↗</button><a className="secondary-link" href="#decision">Open historical explorer ↗</a>{view.period && <button type="button" className="text-button" onClick={() => selectPeriod("")}>Reset to full history</button>}</div>
+        <p className="research-caption">Period metrics above are saved whole-window results. Connected NAV, risk and allocation charts follow the selected period without recomputing these metrics.</p>
       </article>
     </div>
   );
